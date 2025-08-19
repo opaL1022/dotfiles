@@ -1,0 +1,32 @@
+# caches / runtime / histories
+**/.cache/
+**/Cache/
+**/cache/
+**/GPUCache/
+**/Local Storage*/
+**/shadercache*/
+**/sessions/
+**/history
+**/*.log
+
+# credentials / secrets
+**/*secret*
+**/*token*
+**/*password*
+**/*.pem
+**/*.key
+**/.env
+**/credentials.json
+**/Private.conf
+
+# package manager產物
+node_modules/
+
+# 大檔（若要放壁紙/截圖，移除下列副檔名或改用 Git LFS）
+*.png
+*.jpg
+*.jpeg
+*.webp
+*.mp4
+*.zip
+*.tar.*
