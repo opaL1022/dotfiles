@@ -5,4 +5,5 @@
 ^\.config/ibus/bus(/|$)
 ^\.config/.*/Cache(/|$)
 ^\.config/.*GPUCache(/|$)
-^\.config/systemd/user/.*\.wants(/|$)
+^\.config/systemd/
+^\.config/gtk-4\.0/(assets|gtk\.css|gtk-dark\.css)$
