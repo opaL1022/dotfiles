@@ -1,0 +1,17 @@
+# ===== 只忽略「包內路徑」的正則 =====
+# Discord 會生成的 runtime 檔（不要版控）
+^\.config/discord/Singleton.*$
+
+# PulseAudio cookie（機器特定）
+^\.config/pulse/.*$
+
+# dconf 二進位資料庫（機器特定、常變動）
+^\.config/dconf/.*$
+
+# 系統級 user units 的 wants 目錄（大多是指向 /usr/lib 的 symlink，不需版控）
+^\.config/systemd/user/.*\.wants/.*$
+
+# 其它雜項 cache
+^\.config/.*[/\\]Cache[/\\]
+^\.config/.*/cache/.*
+^\.config/.*[/\\]GPUCache[/\\].*

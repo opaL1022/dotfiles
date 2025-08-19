@@ -89,6 +89,10 @@ else
   export EDITOR='nvim'
 fi
 
+if ! pgrep -u "$USER" ssh-agent >/dev/null; then
+  eval "$(ssh-agent -s)"
+fi
+
 # Compilation flags
 # export ARCHFLAGS="-arch $(uname -m)"
 
