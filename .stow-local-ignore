@@ -2,6 +2,12 @@
 # Discord 會生成的 runtime 檔（不要版控）
 ^\.config/discord/Singleton.*$
 
+#fcitx
+^\.config/fcitx/dbus/.*
+
+#ibus
+^\.config/ibus/bus/.*
+
 # PulseAudio cookie（機器特定）
 ^\.config/pulse/.*$
 
