@@ -1,4 +1,5 @@
 {
+    "markup": "pango",
     "margin-top": 2,
     "margin-bottom": 0,   
     "margin-left": 1,
@@ -152,12 +153,16 @@
         "on-click": "pavucontrol"
     },
     "custom/media": {
-        "format": "{icon} {text}",
-        "return-type": "json",
-        "max-length": 60,
-        "escape": true,
-        "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null" // Script in resources folder
-        // "exec": "$HOME/.config/waybar/mediaplayer.py --player spotify 2> /dev/null" // Filter player based on name
+      "format": "{text}",
+      "return-type": "json",
+      "escape": true,
+      "tail": true,
+      "exec": "$HOME/.config/waybar/mediaplayer.py --player spotify,mpd,%any --max-length 60",
+      "on-click": "playerctl -p spotify,mpd,%any play-pause",
+      "on-click-right": "playerctl -p spotify,mpd,%any next",
+      "on-click-middle": "playerctl -p spotify,mpd,%any previous",
+      "on-scroll-up": "playerctl -p spotify,mpd,%any volume 0.02+",
+      "on-scroll-down": "playerctl -p spotify,mpd,%any volume 0.02-"
     },
     
     "custom/power": {
