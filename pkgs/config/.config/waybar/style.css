@@ -1,216 +1,104 @@
+/* ========= Daybreak Floating Buttons ========= */
 * {
-    font-family: FontAwesome, Roboto, Helvetica, Arial, sans-serif;
-    font-size: 14px;
+  font-family: FontAwesome, Roboto, Helvetica, Arial, sans-serif;
+  font-size: 14px;
 }
 
+/* ---- Palette ---- */
+@define-color db-bg        #1C1E26;
+@define-color db-surface   #2E303E;   /* 藍灰底 */
+@define-color db-border    #333543;
+
+@define-color db-orange    #FAB28E;   /* 主橘 */
+@define-color db-orange-2  #FAB795;   /* hover/次橘 */
+@define-color db-orange-3  #FAC29A;   /* active/更亮橘 */
+@define-color db-red       #E95678;
+
+/* ---- Bar (透明) ---- */
 window#waybar {
-    background-color: rgba(0, 0, 0, 0);
-    border-bottom: 0px rgba(100, 114, 125, 0);
-    color: #ffffff;
-
+  background: transparent;
+  border: none;
+  color: @db-orange;
 }
+window#waybar.hidden { opacity: .2; }
 
-window#waybar.hidden {
-    opacity: 0.2;
-}
-
-window#waybar.termite {
-    background-color: #3F3F3F;
-}
-
-window#waybar.chromium {
-    background-color: #000000;
-    border: none;
-}
-
-#pulseaudio:hover {
-    background-color: #763F37;
-}
-
-#workspaces {
-    padding: 0px 10px;
-    background-color: rgba(203, 159, 114, 0.5);
-    margin: 3px 3px 3px 3px;
-    border-radius: 20px;
-    border: 3px solid rgba(0, 0, 0, 0.5);
-    font-weight: normal;
-    font-style: normal;
-} 
-
-#workspaces button {
-    padding: 0px 0px 0px 0px;
-    margin: 0px 0px;
-    border-radius: 16px;
-    border: 1px ;
-    color: #000000;
-    transition: all 0.1s linear;
-}
-
-#workspaces button.active {
-    font-weight:900;
-    font-size: xx-large;
-    padding-bottom: 1px;
-    padding-left: 4px;
-    padding-right: 4px ;
-    transition: all 0.1s linear;
-}
-
-#workspaces button.urgent {
-    background-color: #f50b07;
-} 
-
-#clock  {
-    padding: 0px 10px;
-    background-color: rgba(203, 159, 114, 0.5);
-    margin: 3px 3px 3px 3px;
-    border-radius: 20px;
-    border: 3px solid rgba(0, 0, 0, 0.5);
-    font-weight: normal;
-    font-style: normal;
-    color: #000000;
-}
-
-#clock:hover {
-    background-color: #763F37;
-}
-
-/* If workspaces is the leftmost module, omit left margin */
-.modules-left > widget:first-child > #workspaces {
-    margin-left: 3px ;
-}
-
-/* If workspaces is the rightmost module, omit right margin */
-.modules-right > widget:last-child > #workspaces {
-    margin-right: 3px;
-}
-
- #battery {
-    padding: 0px 10px;
-    background-color: rgba(203, 159, 114, 0.5);
-    margin: 3px 3px 3px 3px;
-    border-radius: 20px;
-    border: 3px solid rgba(0, 0, 0, 0.5);
-    font-weight: normal;
-    font-style: normal;
-    color: #000000;
-}
-
-#battery:hover {
-      background-color: #763F37;
-}
-
-#power-profiles-daemon {
-    padding: 0px 14px;
-    background-color: rgba(203, 159, 114, 0.5);
-    margin: 3px 3px 3px 3px;
-    border-radius: 20px;
-    border: 3px solid rgba(0, 0, 0, 0.5);
-    font-weight: normal;
-    font-style: normal;
-    color: #000000;
-}
-#power-profiles-daemon:hover {
-    background-color: #763F37;
-} 
-
-#network {
-        padding: 0px 10px;
-    background-color: rgba(203, 159, 114, 0.5);
-    margin: 3px 3px 3px 3px;
-    border-radius: 20px;
-    border: 3px solid rgba(0, 0, 0, 0.5);
-    font-weight: normal;
-    font-style: normal;
-    color: #000000;
-}
-
-#network:hover
-{
-    background-color: #763F37;
-}
-
-#pulseaudio {
-    padding: 0px 10px;
-    background-color: rgba(203, 159, 114, 0.5);
-    margin: 3px 3px 3px 3px;
-    border-radius: 20px;
-    border: 3px solid rgba(0, 0, 0, 0.5);
-    font-weight: normal;
-    font-style: normal;
-    color: #000000;
-}
-
-#wireplumber {
-    padding: 0px 10px;
-    background-color: rgba(203, 159, 114, 0.5);
-    margin: 3px 3px 3px 3px;
-    border-radius: 17px;
-    border: 3px solid rgba(0, 0, 0, 0.5);
-    font-weight: normal;
-    font-style: normal;
-    color: #000000;
-}
-
-#custom-media {
-   padding: 0px 10px;
-    background-color: rgba(203, 159, 114, 0.5);
-    margin: 3px 3px 3px 3px;
-    border-radius: 20px;
-    border: 3px solid rgba(0, 0, 0, 0.5);
-    font-weight: normal;
-    font-style: normal;
-    color: #000000;
-} 
-
-#tray {
-   padding: 0px 13px;
-    background-color: rgba(203, 159, 114, 0.5);
-    margin: 3px 3px 3px 3px;
-    border-radius: 20px;
-    border: 3px solid rgba(0, 0, 0, 0.6);
-    font-weight: normal;
-    font-style: normal;
-    color: #000000;
-}
-
+/* ---- Module Pills ---- */
+#workspaces,
+#clock,
+#battery,
+#power-profiles-daemon,
+#network,
+#pulseaudio,
+#wireplumber,
+#custom-media,
+#tray,
 #custom-power {
-    padding: 0px 9px;
-    background-color: rgba(203, 159, 114, 0.5);
-    margin: 3px 3px 3px 3px;
-    border-radius: 20px;
-    border: 3px solid rgba(0, 0, 0, 0.5);
-    font-weight: bold;
-    font-style: normal;
-    font-size: x-large;
-    color: #000000;
+  padding: 0 10px;
+  margin: 3px;
+  border-radius: 18px;
+  background: @db-surface;       /* 藍灰膠囊 */
+  color: @db-orange;
+  border: 1px solid @db-border;
 }
 
+/* ---- Workspaces ---- */
+#workspaces button {
+  margin: 0;
+  padding: 0 6px;
+  border: none;
+  border-radius: 14px;
+  color: @db-orange;
+}
+#workspaces button.active {
+  background: @db-orange;
+  color: @db-bg;
+  font-weight: bold;
+}
+#workspaces button.urgent {
+  background: @db-red;
+  color: @db-bg;
+}
+
+/* ---- Hover 效果 ---- */
+#workspaces button:hover,
+#clock:hover,
+#battery:hover,
+#power-profiles-daemon:hover,
+#network:hover,
+#pulseaudio:hover,
+#wireplumber:hover,
+#custom-media:hover,
+#tray:hover,
 #custom-power:hover {
-    background-color: #763F37;
+  background: @db-orange-2;
+  color: @db-bg;
 }
 
-#tray > .passive {
-    -gtk-icon-effect: dim;
+/* ---- Power Button 特別強調 ---- */
+#custom-power {
+  font-weight: bold;
+  font-size: 18px;
+  background: @db-orange;
+  color: @db-bg;
+}
+#custom-power:hover {
+  background: @db-orange-2;
 }
 
+/* ---- Tray 狀態 ---- */
+#tray > .passive { -gtk-icon-effect: dim; }
 #tray > .needs-attention {
-    -gtk-icon-effect: highlight;
-    background-color: #eb4d4b;
-} 
-
-#mpd {
-    background-color: #66cc99;
-    color: #2a5c45;
+  -gtk-icon-effect: highlight;
+  background: @db-red;
+  color: @db-bg;
 }
 
-#mpd.disconnected {
-    background-color: #f53c3c;
+/* ---- Tooltip ---- */
+tooltip {
+  border-radius: 8px;
+  border: 1px solid @db-border;
+  background: @db-surface;
+  color: @db-orange;
+  padding: 6px 10px;
 }
 
-#mpd.stopped {
-    background-color: #90b1b1;
-}
-
-#mpd.paused {
-    background-color: #51a37a;
-}

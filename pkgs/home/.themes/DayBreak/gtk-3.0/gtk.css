@@ -4138,6 +4138,8 @@ colorchooser .popover.osd:backdrop {
  * Window Decorations *
  **********************/
 decoration {
+  border: 1px solid @db_border;
+  background-color: @db_surface;
   transition: none;
   border-radius: 12px;
   box-shadow: 0 8px 6px -5px rgba(0, 0, 0, 0.2), 0 16px 15px 2px rgba(0, 0, 0, 0.14), 0 6px 18px 5px rgba(0, 0, 0, 0.12), 0 0 36px transparent;

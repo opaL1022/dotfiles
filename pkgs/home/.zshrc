@@ -8,8 +8,9 @@ export ZSH="$HOME/.oh-my-zsh"
 # load a random theme each time Oh My Zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="sand"
-plugins=(git z zsh-autosuggestions zsh-syntax-highlighting)
+ZSH_THEME="daybreak"
+plugins=(git z zsh-autosuggestions)
+
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -71,7 +72,6 @@ plugins=(git z zsh-autosuggestions zsh-syntax-highlighting)
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -119,19 +119,19 @@ zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*' menu select
 
 # 保存你原本的 prompt
-typeset -g SAND_OK='#7f9473'
-typeset -g SAND_ERR='#a97c7c'
+typeset -g DAYBREAK_OK='#29D398'
+typeset -g DAYBREAK_ERR='#E95678'
 ORIGINAL_PROMPT=$PROMPT
 
 autoload -Uz add-zsh-hook
 
 show_status() {
-  local exit_code=$?   # ⚠️ 用 exit_code，不要用 status
+  local exit_code=$?
 
   if [[ $exit_code -eq 0 ]]; then
-    PROMPT="%F{$SAND_OK}0%f $ORIGINAL_PROMPT"
+    PROMPT="%F{$DAYBREAK_OK}0%f $ORIGINAL_PROMPT"
   else
-    PROMPT="%F{$SAND_ERR}$exit_code%f $ORIGINAL_PROMPT"
+    PROMPT="%F{$DAYBREAK_ERR}$exit_code%f $ORIGINAL_PROMPT"
   fi
 }
 
@@ -141,4 +141,4 @@ add-zsh-hook precmd show_status
 #big delete
 bindkey '^H' backward-kill-word
 
-fastfetch
+command -v fastfetch >/dev/null 2>&1 && fastfetch

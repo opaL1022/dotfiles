@@ -41,4 +41,4 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 --主題顏色
-vim.cmd.colorscheme("sand")
+vim.cmd.colorscheme("daybreak")
