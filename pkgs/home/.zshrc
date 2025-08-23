@@ -118,4 +118,27 @@ zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 # 可視化選單
 zstyle ':completion:*' menu select
 
+# 保存你原本的 prompt
+typeset -g SAND_OK='#7f9473'
+typeset -g SAND_ERR='#a97c7c'
+ORIGINAL_PROMPT=$PROMPT
+
+autoload -Uz add-zsh-hook
+
+show_status() {
+  local exit_code=$?   # ⚠️ 用 exit_code，不要用 status
+
+  if [[ $exit_code -eq 0 ]]; then
+    PROMPT="%F{$SAND_OK}0%f $ORIGINAL_PROMPT"
+  else
+    PROMPT="%F{$SAND_ERR}$exit_code%f $ORIGINAL_PROMPT"
+  fi
+}
+
+add-zsh-hook precmd show_status
+
+
+#big delete
+bindkey '^H' backward-kill-word
+
 fastfetch
