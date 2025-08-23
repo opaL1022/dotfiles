@@ -1,0 +1,26 @@
+# Daybreak GTK2 (based on your snippet)
+
+# Text/base
+gtk-color-scheme = "text_color:#D5D8DA\nbase_color:#2E303E"
+# Foreground/background
+gtk-color-scheme = "fg_color:#D5D8DA\nbg_color:#1C1E26"
+# Selected foreground/background  (若想更橘，把 selected_fg_color 改成 #FAB28E)
+gtk-color-scheme = "selected_fg_color:#D5D8DA\nselected_bg_color:#333543"
+# Titlebar foreground/background
+gtk-color-scheme = "titlebar_fg_color:#D5D8DA\ntitlebar_bg_color:#1A1C23"
+# Menus
+gtk-color-scheme = "menu_color:#232530"
+# Tooltips foreground/background
+gtk-color-scheme = "tooltip_fg_color:#D5D8DA\ntooltip_bg_color:#232530"
+# Links（Daybreak 橘）
+gtk-color-scheme = "link_color:#FAB28E\nvisited_link_color:#FAC29A"
+
+# GTK settings（照原本）
+gtk-auto-mnemonics              = 1
+gtk-primary-button-warps-slider = 1
+
+# 主題檔（照原本）
+include "main.rc"
+include "apps.rc"
+include "hacks.rc"
+

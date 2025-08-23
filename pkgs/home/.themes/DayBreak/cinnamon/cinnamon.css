@@ -1,0 +1,161 @@
+/* ================================
+   Daybreak Cinnamon Theme
+   基於 VSCode Daybreak JSON
+   背景暗、前景灰白、重點橘色 (#FAB28E)
+   ================================ */
+
+/* --- 基本色定義 --- */
+@define-color theme_fg_color        #D5D8DA;
+@define-color theme_bg_color        #1C1E26;
+@define-color theme_text_color      #D5D8DA;
+@define-color theme_base_color      #2E303E;
+@define-color theme_selected_bg_color #333543;
+@define-color theme_selected_fg_color #FAB28E;
+@define-color borders               #333543;
+
+@define-color accent_orange         #FAB28E;
+@define-color accent_orange2        #FAC29A;
+@define-color accent_orange3        #FBC3A7;
+
+/* --- 預設文字/背景 --- */
+stage {
+  color: @theme_fg_color;
+  background-color: @theme_bg_color;
+}
+
+/* --- 標題列/面板 --- */
+#panel {
+  background-color: #1A1C23;
+  color: @accent_orange;
+  font-weight: bold;
+  height: 34px;
+}
+
+.panel-top, .panel-bottom, .panel-left, .panel-right {
+  background-color: rgba(28,30,38,0.9);
+  color: @theme_fg_color;
+}
+
+/* --- 按鈕 --- */
+.dialog .dialog-button,
+.modal-dialog .dialog-button {
+  border-radius: 8px;
+  background-color: @theme_base_color;
+  color: @theme_fg_color;
+  border: 1px solid @borders;
+  padding: 6px 12px;
+}
+.dialog .dialog-button:hover,
+.modal-dialog .dialog-button:hover {
+  border-color: @accent_orange;
+  color: @accent_orange;
+}
+.dialog .dialog-button:active,
+.modal-dialog .dialog-button:active {
+  background-color: rgba(250,178,142,0.15);
+  color: @accent_orange2;
+}
+
+/* --- 輸入框 --- */
+#menu-search-entry,
+.run-dialog-entry,
+.prompt-dialog-password-entry {
+  border-radius: 8px;
+  background-color: @theme_base_color;
+  color: @theme_fg_color;
+  border: 1px solid @borders;
+  padding: 4px 8px;
+  caret-color: @accent_orange;
+  selection-background-color: @theme_selected_bg_color;
+  selected-color: @theme_selected_fg_color;
+}
+#menu-search-entry:focus,
+.run-dialog-entry:focus,
+.prompt-dialog-password-entry:focus {
+  border-color: @accent_orange;
+  color: @accent_orange;
+}
+
+/* --- 選單 --- */
+.menu, .popup-menu {
+  background-color: #232530;
+  color: @theme_fg_color;
+  border-radius: 8px;
+  padding: 6px;
+}
+.menu .popup-menu-item,
+.popup-menu .popup-menu-item {
+  border-radius: 6px;
+  padding: 6px 12px;
+}
+.menu .popup-menu-item:hover,
+.popup-menu .popup-menu-item:hover {
+  background-color: @theme_selected_bg_color;
+  color: @accent_orange;
+}
+
+/* --- 工作區 OSD --- */
+.workspace-switch-osd {
+  background-color: rgba(28,30,38,0.9);
+  color: @accent_orange;
+  border-radius: 9999px;
+  font-weight: bold;
+  padding: 12px 36px;
+}
+
+/* --- 通知 --- */
+#notification {
+  background-color: #232530;
+  color: @theme_fg_color;
+  border: 1px solid @borders;
+  border-radius: 8px;
+  padding: 12px;
+}
+
+/* --- OSD 音量/亮度 --- */
+.media-keys-osd, .osd-window {
+  background-color: rgba(28,30,38,0.95);
+  color: @accent_orange;
+  border-radius: 12px;
+  padding: 12px 24px;
+}
+
+/* --- 捲軸 --- */
+StScrollBar StButton#vhandle,
+StScrollBar StButton#hhandle {
+  background-color: @theme_base_color;
+  border-radius: 999px;
+}
+StScrollBar StButton#vhandle:hover,
+StScrollBar StButton#hhandle:hover {
+  background-color: @accent_orange;
+}
+
+/* --- 進度條 --- */
+.slider, .level-bar {
+  -slider-height: 6px;
+  -slider-background-color: @theme_base_color;
+  -slider-active-background-color: @accent_orange;
+  -slider-border-color: transparent;
+  -slider-handle-radius: 6px;
+}
+
+/* --- 鍵盤/checkbox/radio --- */
+.check-box StBin {
+  background-color: @theme_base_color;
+  border: 1px solid @borders;
+  border-radius: 4px;
+}
+.check-box:checked StBin {
+  background-color: @accent_orange;
+}
+
+.radiobutton StBin {
+  background-color: @theme_base_color;
+  border: 1px solid @borders;
+  border-radius: 9999px;
+}
+.radiobutton:checked StBin {
+  background-color: @accent_orange;
+}
+
