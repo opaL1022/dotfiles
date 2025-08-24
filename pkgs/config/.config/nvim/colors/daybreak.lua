@@ -105,6 +105,46 @@ daybreak.setup = function()
   vim.api.nvim_set_hl(0, "@variable",     { link = "Identifier" })
   vim.api.nvim_set_hl(0, "@variable.builtin", { fg = "#FAC29A", bold = true }) -- 比如 true/false/null
 
+  -- 調整 TabLine 顏色
+  vim.api.nvim_set_hl(0, "TabLine", { fg = deep_orange, bg = bg })      -- 非當前 tab
+  vim.api.nvim_set_hl(0, "TabLineSel", { fg = deep_orange, bg = sel_bg, bold = true }) -- 當前 tab
+  vim.api.nvim_set_hl(0, "TabLineFill", { bg = "NONE" }) -- 空白填充
+
+  -- === NvimTree 主題 ===
+  -- 面板 / 分隔線 / 游標行
+  vim.api.nvim_set_hl(0, "NvimTreeNormal",      { fg = fg, bg = bg })
+  vim.api.nvim_set_hl(0, "NvimTreeNormalNC",    { fg = fg, bg = bg })
+  vim.api.nvim_set_hl(0, "NvimTreeEndOfBuffer", { fg = bg, bg = bg }) -- 隱藏 ~
+  vim.api.nvim_set_hl(0, "NvimTreeWinSeparator",{ fg = "#2E303E", bg = bg }) -- 與 VertSplit 一致
+  vim.api.nvim_set_hl(0, "NvimTreeCursorLine",  { bg = "#232530" })
+
+  -- 資料夾 / 路徑 / 縮排（改成橘色系）
+  vim.api.nvim_set_hl(0, "NvimTreeRootFolder",        { fg = "#FAC29A", bold = true }) -- Root → 淺橘
+  vim.api.nvim_set_hl(0, "NvimTreeFolderName",        { fg = "#FAB28E", bold = true }) -- 資料夾 → 深橘
+  vim.api.nvim_set_hl(0, "NvimTreeOpenedFolderName",  { fg = "#FAC29A", bold = true }) -- 開啟 → 淺橘
+  vim.api.nvim_set_hl(0, "NvimTreeEmptyFolderName",   { fg = "#E95678" })              -- 空資料夾 → 深紅橘
+  vim.api.nvim_set_hl(0, "NvimTreeFolderIcon",        { fg = "#FAB28E" })              -- 資料夾圖示 → 深橘
+  vim.api.nvim_set_hl(0, "NvimTreeIndentMarker",      { fg = "#333543" })              -- 導引線 → 亮黑
+
+  -- 檔案狀態 / 類型
+  vim.api.nvim_set_hl(0, "NvimTreeExecFile",   { fg = "#29D398", bold = true })   -- 可執行：綠
+  vim.api.nvim_set_hl(0, "NvimTreeSpecialFile",{ fg = "#FAB795", italic = true }) -- 特殊：黃
+  vim.api.nvim_set_hl(0, "NvimTreeSymlink",    { fg = "#59E1E3" })                -- 符號連結：青
+  vim.api.nvim_set_hl(0, "NvimTreeImageFile",  { fg = "#D5D8DA" })                -- 圖片：白
+  vim.api.nvim_set_hl(0, "NvimTreeModified",   { fg = "#FAC29A" })                -- 已修改：淺橘
+
+  -- Git 狀態（保持原本 daybreak 配色）
+  vim.api.nvim_set_hl(0, "NvimTreeGitDirty",   { fg = "#FAB795" }) -- 修改：黃
+  vim.api.nvim_set_hl(0, "NvimTreeGitStaged",  { fg = "#29D398" }) -- 已暫存：綠
+  vim.api.nvim_set_hl(0, "NvimTreeGitNew",     { fg = "#3FDAA4" }) -- 新檔：亮綠
+  vim.api.nvim_set_hl(0, "NvimTreeGitDeleted", { fg = "#E95678" }) -- 刪除：紅
+  vim.api.nvim_set_hl(0, "NvimTreeGitRenamed", { fg = "#FAC29A" }) -- 重新命名：橘
+  vim.api.nvim_set_hl(0, "NvimTreeGitIgnored", { fg = "#333543" }) -- 忽略：亮黑
+
+  -- Live Filter / 替代方案
+  vim.api.nvim_set_hl(0, "NvimTreeLiveFilterPrefix", { fg = "#E95678", bold = true }) -- 紅橘
+  vim.api.nvim_set_hl(0, "NvimTreeLiveFilterValue",  { fg = "#FAC29A", bold = true }) -- 淺橘
+
 end
 
 daybreak.setup()

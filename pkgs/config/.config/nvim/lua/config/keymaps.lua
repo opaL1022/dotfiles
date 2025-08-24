@@ -24,3 +24,6 @@ map("n", "]d", vim.diagnostic.goto_next, opts)
 map("n", "<leader>e", vim.diagnostic.open_float, opts)
 map("n", "<leader>dl", "<cmd>lua vim.diagnostic.setloclist()<cr>", opts)
 
+-- nvim-tree Toggle
+map("n", "<C-n>", "<cmd>NvimTreeToggle<cr>", opts)
+
