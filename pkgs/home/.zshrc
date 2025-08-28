@@ -113,7 +113,7 @@ autoload -Uz compinit
 compinit
 zmodload zsh/complist
 
-# 讓補全清單用 LS_COLORS 的配色（你的沙色）
+# 讓補全清單用 LS_COLORS 的配色
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 # 可視化選單
 zstyle ':completion:*' menu select

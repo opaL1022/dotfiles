@@ -9,6 +9,9 @@ return {
     require("nvim-tree").setup {
         on_attach = function(bufnr)
             local api = require('nvim-tree.api')
+
+            api.config.mappings.default_on_attach(bufnr)
+
             local opts = { buffer = bufnr, noremap = true, silent = true, nowait = true }
 
             vim.keymap.set('n', 'l', api.node.open.edit, opts)
@@ -26,6 +29,18 @@ return {
     vim.api.nvim_create_autocmd("VimEnter", {
             callback = function()
                 require("nvim-tree.api").tree.open()
+                local curwin = vim.api.nvim_get_current_win()
+                local curbuf = vim.api.nvim_win_get_buf(curwin)
+                if vim.bo[curbuf].filetype ~= "NvimTree" then return end
+
+                for _, w in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+                  local cfg = vim.api.nvim_win_get_config(w)
+                  local b = vim.api.nvim_win_get_buf(w)
+                  if cfg.relative == "" and vim.bo[b].filetype ~= "NvimTree" then
+                    vim.api.nvim_set_current_win(w)
+                    return
+                  end
+                end
             end,
     })
     vim.api.nvim_create_autocmd("QuitPre", {

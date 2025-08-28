@@ -4138,7 +4138,7 @@ colorchooser .popover.osd:backdrop {
  * Window Decorations *
  **********************/
 decoration {
-  border: 1px solid @db_border;
+   border: 1px solid @db_border;
   background-color: @db_surface;
   transition: none;
   border-radius: 12px;
@@ -8279,6 +8279,7 @@ menubar.-vala-panel-appmenu-private > menuitem:disabled,
 menubar.-vala-panel-background > menuitem:disabled {
   color: rgba(213, 216, 218, 0.32);
 }
+
 
 /************************
  * LightDM GTK+ Greeter *

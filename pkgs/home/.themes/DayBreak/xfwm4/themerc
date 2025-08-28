@@ -1,23 +1,26 @@
+# --- Daybreak for xfwm4/themerc ---
+
 button_offset=6
 button_spacing=0
 
 show_app_icon=false
-
 full_width_title=true
 
 title_shadow_active=false
 title_shadow_inactive=false
-
 title_horizontal_offset=3
 
-active_text_color=#f0f7fe
-active_text_shadow_color=#222426
+# 標題文字（Daybreak 橘 / 冷灰）
+active_text_color=#FAB28E
+active_text_shadow_color=#0E0F14
 
-inactive_text_color=#999da3
-inactive_text_shadow_color=#222426
+inactive_text_color=#6C6F93
+inactive_text_shadow_color=#0E0F14
 
+# 視窗陰影（較深、柔一點）
 shadow_delta_height=2
 shadow_delta_width=0
 shadow_delta_x=0
 shadow_delta_y=-5
-shadow_opacity=40
+shadow_opacity=36
+

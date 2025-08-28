@@ -2,5 +2,16 @@
 normal = { family = "Dank Mono", style = "Regular" }
 bold = { family = "Dank Mono", style = "Bold" }
 italic = { family = "Dank Mono", style = "Italic" }
-size = 14
 
+size = 14
+[colors.primary]
+background = "#1C1E26"   # 背景色
+foreground = "#D5D8DA"   # 前景字色
+
+[colors.cursor]
+text = "#1C1E26"
+cursor = "#FAC29A"       # 游標顏色
+
+[colors.selection]
+background = "#333543"
+text = "#D5D8DA"

@@ -1,53 +1,66 @@
+/* ===== Daybreak override (橘字版) ===== */
+
+@define-color db_bg      #1C1E26;   /* 主背景 */
+@define-color db_panel   #232530;   /* 次要面板 */
+@define-color db_fg      #D5D8DA;   /* 原本淺灰字色 */
+@define-color db_orange  #FAB28E;   /* Daybreak 橘 */
+@define-color db_sel_bg  #333543;   /* 選取背景 */
+@define-color db_sel_fg  #FDF0ED;   /* 選取字色 */
+
+/* 主要容器 (檔案區 / sidebar) */
 .view, .sidebar {
-    background-color: #1a1a1a;
-    color:  rgba(199, 190, 151, 0.5)
+    background-color: @db_bg;
+    color: @db_orange;
 }
 
 .window:not(.swaync-window) {
-    background-color: #1a1a1a;
+    background-color: @db_bg;
+    color: @db_orange;
 }
 
+/* 選取狀態 */
 .view:selected,
 .sidebar:selected,
 .sidebar row:selected {
-    background-color: #3a3a3a;  /* or any color that contrasts with sidebar */
-    color: rgb(199, 190, 151);
+    background-color: @db_sel_bg;
+    color: @db_sel_fg;  /* 讓選取更明顯 */
 }
 
-
+/* 工具列 / 標頭列 */
 toolbar {
-    background-color: #1a1a1a;
-    color: #1a1a1a;
+    background-color: @db_panel;
+    color: @db_orange;
 }
 
-headerbar {
-    background-color: #1a1a1a;
-    color: #1a1a1a;
+headerbar,
+.header-bar {
+    background-color: @db_panel;
+    color: @db_orange;
 }
 
 headerbar button {
-    background-color: #1a1a1a;
-    color: #1a1a1a;
+    background-color: @db_panel;
+    color: @db_orange;
 }
 
-.header-bar, headerbar {
-    background-color: #1a1a1a;
-    color: #1a1a1a;
-}
-
+/* 功能表 */
 menubar {
-    background-color: #1a1a1a;
+    background-color: @db_panel;
+    color: @db_orange;
 }
 
 menubar menuitem {
-    background-color: #1a1a1a;
+    background-color: @db_panel;
+    color: @db_orange;
 }
 
 menu {
-    background-color: #1a1a1a;
+    background-color: @db_panel;
+    color: @db_orange;
 }
 
 menu menuitem {
-    background-color: #1a1a1a;
+    background-color: @db_panel;
+    color: @db_orange;
 }
 
