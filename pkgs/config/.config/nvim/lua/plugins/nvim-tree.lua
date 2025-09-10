@@ -26,23 +26,67 @@ return {
             },
         },
     }
-    vim.api.nvim_create_autocmd("VimEnter", {
-            callback = function()
-                require("nvim-tree.api").tree.open()
-                local curwin = vim.api.nvim_get_current_win()
-                local curbuf = vim.api.nvim_win_get_buf(curwin)
-                if vim.bo[curbuf].filetype ~= "NvimTree" then return end
 
-                for _, w in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
-                  local cfg = vim.api.nvim_win_get_config(w)
-                  local b = vim.api.nvim_win_get_buf(w)
-                  if cfg.relative == "" and vim.bo[b].filetype ~= "NvimTree" then
-                    vim.api.nvim_set_current_win(w)
-                    return
-                  end
-                end
-            end,
-    })
+    local api = require("nvim-tree.api")
+    local grp = vim.api.nvim_create_augroup("NvimTreeRevealOnEnter", { clear = true })
+
+    local function reveal_current(buf)
+      if not buf or vim.bo[buf].filetype == "NvimTree" then return end
+      local name = vim.api.nvim_buf_get_name(buf)
+      if name == "" then return end            -- 無名 buffer 就略過
+      if not api.tree.is_visible() then
+        api.tree.open({ focus = false })       -- 開樹但不搶焦點
+      end
+      api.tree.find_file({
+        buf = buf,
+        open = true,                           -- 確保展開節點
+        focus = false,                         -- 不切焦點到樹
+        update_root = false,                   -- 若想跟著換根，改成 true
+      })
+    end
+
+    -- 取代原本的 VimEnter：先展開到當前檔案，再把焦點留在編輯器
+vim.api.nvim_create_autocmd("VimEnter", {
+  callback = function()
+    local api = require("nvim-tree.api")
+
+    -- 先找這個分頁中第一個「非浮動、非 NvimTree」的編輯器視窗與 buffer
+    local editor_win, editor_buf
+    for _, w in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+      local cfg = vim.api.nvim_win_get_config(w)
+      local b = vim.api.nvim_win_get_buf(w)
+      if cfg.relative == "" and vim.bo[b].filetype ~= "NvimTree" then
+        editor_win, editor_buf = w, b
+        break
+      end
+    end
+
+    -- 若整個 tab 都沒有編輯器視窗，就不處理（避免強行聚焦失敗）
+    if not editor_win then return end
+
+    -- 確保樹已開，但不要搶焦點
+    if not api.tree.is_visible() then
+      api.tree.open({ focus = false })
+    end
+
+    -- 先「展開」到當前檔案（以編輯器的 buffer 為準），不切焦點到樹
+    local name = vim.api.nvim_buf_get_name(editor_buf)
+    if name ~= "" then
+      api.tree.find_file({
+        buf = editor_buf,
+        open = true,
+        focus = false,
+        update_root = false,  -- 要跟著換根就改 true
+      })
+    end
+
+    -- 最後一步：把焦點切回編輯器視窗
+    if vim.api.nvim_win_is_valid(editor_win) then
+      vim.api.nvim_set_current_win(editor_win)
+    end
+  end,
+})
+
     vim.api.nvim_create_autocmd("QuitPre", {
       callback = function()
         local tree_wins = {}
@@ -78,12 +122,28 @@ return {
       end,
     })
     vim.api.nvim_create_autocmd("TabEnter", {
+  group = grp,
+  callback = function()
+    local buf = vim.api.nvim_get_current_buf()
+    if vim.bo[buf].filetype == "NvimTree" then
+      for _, w in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+        local cfg = vim.api.nvim_win_get_config(w)
+        local b = vim.api.nvim_win_get_buf(w)
+        if cfg.relative == "" and vim.bo[b].filetype ~= "NvimTree" then
+          buf = b; break
+        end
+      end
+    end
+    reveal_current(buf)
+  end,
+})
+    -- 離開某個 Tab 時，若焦點在 NvimTree，就切回到編輯器視窗
+    vim.api.nvim_create_autocmd("TabLeave", {
       callback = function()
         local curwin = vim.api.nvim_get_current_win()
         local curbuf = vim.api.nvim_win_get_buf(curwin)
         if vim.bo[curbuf].filetype ~= "NvimTree" then return end
 
-        -- 找到同 Tab 中的第一個非浮動、非 NvimTree 視窗並切過去
         for _, w in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
           local cfg = vim.api.nvim_win_get_config(w)
           local b = vim.api.nvim_win_get_buf(w)
@@ -92,8 +152,10 @@ return {
             return
           end
         end
-        -- 若整個 Tab 只有 NvimTree，就保持不動（也可選擇關掉 Tab）
+        -- 若整個 tab 真的只有 NvimTree，就不動作
       end,
     })
+
   end,
 }
+

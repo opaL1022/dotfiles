@@ -53,6 +53,20 @@ return {
       if vim.g.__lsp_setup_done then return end
       vim.g.__lsp_setup_done = true
 
+      -- 診斷視覺設定（新增）
+      vim.diagnostic.config({
+        virtual_text = { prefix = "●" },
+        signs = true,
+        underline = true,
+        update_in_insert = false,
+        severity_sort = true,
+      })
+
+      -- 讓 .sv / .svh 正確成為 systemverilog（新增）
+      vim.filetype.add({
+        extension = { sv = "systemverilog", svh = "systemverilog" },
+      })
+
       -- 停掉任何已啟動的 clangd（防重複）
       for _, c in ipairs(vim.lsp.get_clients()) do
         if c.name == "clangd" then c.stop(true) end
@@ -63,11 +77,19 @@ return {
 
       local on_attach = function(_, bufnr)
         local o = { noremap = true, silent = true, buffer = bufnr }
+
+        -- LSP 功能
         vim.keymap.set("n", "gd", vim.lsp.buf.definition, o)
         vim.keymap.set("n", "K",  vim.lsp.buf.hover, o)
         vim.keymap.set("n", "gr", vim.lsp.buf.references, o)
         vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, o)
         vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, o)
+
+        -- 🛠️ 診斷快捷鍵
+        vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, o)   -- 看錯誤訊息浮窗
+        vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, o)           -- 跳到上一個錯誤
+        vim.keymap.set("n", "]d", vim.diagnostic.goto_next, o)           -- 跳到下一個錯誤
+        vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, o)   -- 把錯誤丟到 loclist
       end
 
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
@@ -99,23 +121,6 @@ return {
         },
       }))
 
-      -- LspAttach：若有非 UTF-16 的 clangd 混入，保留正確者
-      vim.api.nvim_create_autocmd("LspAttach", {
-        callback = function(args)
-          local client = vim.lsp.get_client_by_id(args.data.client_id)
-          if not client or client.name ~= "clangd" then return end
-          local keep
-          for _, c in ipairs(vim.lsp.get_clients({ bufnr = args.buf })) do
-            if c.name == "clangd" and c.config and c.config.cmd then
-              local cmd = table.concat(c.config.cmd, " ")
-              if cmd:find("%-%-offset%-encoding=utf%-16") then keep = c.id end
-            end
-          end
-          for _, c in ipairs(vim.lsp.get_clients({ bufnr = args.buf })) do
-            if c.name == "clangd" and c.id ~= keep then c.stop(true) end
-          end
-        end,
-      })
     end,
   },
 }

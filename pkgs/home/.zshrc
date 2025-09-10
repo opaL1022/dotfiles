@@ -142,3 +142,6 @@ add-zsh-hook precmd show_status
 bindkey '^H' backward-kill-word
 
 command -v fastfetch >/dev/null 2>&1 && fastfetch
+
+
+export PATH=/opt/nvidia/nsight-systems/2025.5.1/bin:$PATH
