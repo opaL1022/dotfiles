@@ -6,7 +6,7 @@ return {
     event = { "BufReadPost", "BufNewFile", "VeryLazy" },
     opts = {
       -- 你常用的語言；需要再加就加入字串
-      ensure_installed = { "c", "cpp", "lua", "python", "bash", "javascript", "typescript", "vim", "vimdoc", "query", "markdown", "markdown_inline" },
+      ensure_installed = { "c", "cpp", "lua", "python", "bash", "javascript", "typescript", "vim", "vimdoc", "query", "markdown", "markdown_inline", "verilog" },
       auto_install = true,      -- 開檔時若缺 parser 會自動安裝
       sync_install = false,     -- 背景安裝，避免卡住 UI
       highlight = {

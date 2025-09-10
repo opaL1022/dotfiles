@@ -137,6 +137,7 @@ show_status() {
 
 add-zsh-hook precmd show_status
 
+xrdb -merge ~/.Xresources
 
 #big delete
 bindkey '^H' backward-kill-word

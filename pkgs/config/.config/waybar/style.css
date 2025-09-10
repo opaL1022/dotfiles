@@ -92,6 +92,14 @@ window#waybar.hidden { opacity: .2; }
   background: @db-red;
   color: @db-bg;
 }
+#tray > *:hover {
+  margin: 0;
+  padding: 0 6px;
+  border: none;
+  border-radius: 14px;
+  background: @db-orange-2;
+  color: @db-bg;
+}
 
 /* ---- Tooltip ---- */
 tooltip {
