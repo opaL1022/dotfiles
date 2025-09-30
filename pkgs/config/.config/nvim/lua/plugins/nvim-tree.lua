@@ -32,19 +32,16 @@ return {
 
     local function reveal_current(buf)
       if not buf or vim.bo[buf].filetype == "NvimTree" then return end
+      if not require("nvim-tree.api").tree.is_visible() then return end
       local name = vim.api.nvim_buf_get_name(buf)
-      if name == "" then return end            -- 無名 buffer 就略過
-      if not api.tree.is_visible() then
-        api.tree.open({ focus = false })       -- 開樹但不搶焦點
-      end
-      api.tree.find_file({
+      if name == "" then return end
+      require("nvim-tree.api").tree.find_file({
         buf = buf,
-        open = true,                           -- 確保展開節點
-        focus = false,                         -- 不切焦點到樹
-        update_root = false,                   -- 若想跟著換根，改成 true
+        open = true,      -- 展開節點
+        focus = false,    -- 不搶焦點
+        update_root = false,
       })
     end
-
     -- 取代原本的 VimEnter：先展開到當前檔案，再把焦點留在編輯器
 vim.api.nvim_create_autocmd("VimEnter", {
   callback = function()

@@ -3,7 +3,9 @@ return {
   -- 只用 mason 當安裝器（不使用 mason-lspconfig，以免重複啟動）
   {
     "williamboman/mason.nvim",
-    config = function() require("mason").setup({}) end,
+    config = function()
+      require("mason").setup({})
+    end,
   },
 
   -- nvim-cmp 最小配置（含 snippets）
@@ -43,17 +45,22 @@ return {
     end,
   },
 
-  -- 純 lspconfig（手動 setup，一次到位、避免重複）
+  -- 標準 nvim-lspconfig 寫法
   {
     "neovim/nvim-lspconfig",
     dependencies = { "williamboman/mason.nvim", "hrsh7th/nvim-cmp" },
     event = { "BufReadPre", "BufNewFile" },
     config = function()
-      -- 只跑一次
+      -- 避免重複執行
       if vim.g.__lsp_setup_done then return end
       vim.g.__lsp_setup_done = true
 
-      -- 診斷視覺設定（新增）
+      -- 讓 .sv / .svh 正確成為 systemverilog
+      vim.filetype.add({
+        extension = { sv = "systemverilog", svh = "systemverilog" },
+      })
+
+      -- 診斷視覺設定
       vim.diagnostic.config({
         virtual_text = { prefix = "●" },
         signs = true,
@@ -62,82 +69,101 @@ return {
         severity_sort = true,
       })
 
-      -- 讓 .sv / .svh 正確成為 systemverilog（新增）
-      vim.filetype.add({
-        extension = { sv = "systemverilog", svh = "systemverilog" },
-      })
-
-      -- 停掉任何已啟動的 clangd（防重複）
-      for _, c in ipairs(vim.lsp.get_clients()) do
-        if c.name == "clangd" then c.stop(true) end
-      end
-
-      local lspconfig = require("lspconfig")
-      local util = require("lspconfig.util")
-
+      -- 共同 on_attach / capabilities
       local on_attach = function(_, bufnr)
         local o = { noremap = true, silent = true, buffer = bufnr }
-
         -- LSP 功能
         vim.keymap.set("n", "gd", vim.lsp.buf.definition, o)
         vim.keymap.set("n", "K",  vim.lsp.buf.hover, o)
         vim.keymap.set("n", "gr", vim.lsp.buf.references, o)
         vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, o)
         vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, o)
-
-        -- 🛠️ 診斷快捷鍵
-        vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, o)   -- 看錯誤訊息浮窗
-        vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, o)           -- 跳到上一個錯誤
-        vim.keymap.set("n", "]d", vim.diagnostic.goto_next, o)           -- 跳到下一個錯誤
-        vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, o)   -- 把錯誤丟到 loclist
+        -- 診斷快捷鍵
+        vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, o)
+        vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, o)
+        vim.keymap.set("n", "]d", vim.diagnostic.goto_next, o)
+        vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, o)
       end
 
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
-      capabilities.offsetEncoding = { "utf-16" } -- 避免 encoding 警告
+      capabilities.offsetEncoding = { "utf-16" } -- 避免 encoding 警告（for clangd）
 
-      local default = {
+      -- 專案根：用內建 vim.fs 向上找標記
+      local function find_root_by_markers(start_path, markers)
+        local found = vim.fs.find(markers, { upward = true, path = start_path })[1]
+        return found and vim.fs.dirname(found) or vim.fs.dirname(start_path)
+      end
+
+      local lspconfig = require("lspconfig")
+
+      -- C/C++（clangd）
+      lspconfig.clangd.setup({
+        cmd = { "clangd", "--offset-encoding=utf-16" },
         on_attach = on_attach,
         capabilities = capabilities,
         root_dir = function(fname)
-          return util.root_pattern(
-            "compile_commands.json","compile_flags.txt",".clangd",".git"
-          )(fname) or util.find_git_ancestor(fname) or util.path.dirname(fname)
+          local start = (fname ~= "" and fname) or vim.api.nvim_buf_get_name(0)
+          return find_root_by_markers(start, { "compile_commands.json", "compile_flags.txt", ".clangd", ".git" })
         end,
-      }
+      })
 
-      -- 你常用的幾個 LSP
-      lspconfig.clangd.setup(vim.tbl_deep_extend("force", default, {
-        cmd = { "clangd", "--offset-encoding=utf-16" },
-      }))
+      -- Python（pyright）
+      lspconfig.pyright.setup({
+        on_attach = on_attach,
+        capabilities = capabilities,
+        root_dir = function(fname)
+          local start = (fname ~= "" and fname) or vim.api.nvim_buf_get_name(0)
+          return find_root_by_markers(start, { "pyproject.toml", "setup.py", "setup.cfg", "requirements.txt", ".git" })
+        end,
+      })
 
-      lspconfig.pyright.setup(default)
-
-      lspconfig.lua_ls.setup(vim.tbl_deep_extend("force", default, {
+      -- Lua（lua_ls）
+      lspconfig.lua_ls.setup({
+        on_attach = on_attach,
+        capabilities = capabilities,
+        root_dir = function(fname)
+          local start = (fname ~= "" and fname) or vim.api.nvim_buf_get_name(0)
+          return find_root_by_markers(start, { ".luarc.json", ".git" })
+        end,
         settings = {
           Lua = {
             diagnostics = { globals = { "vim" } },
             workspace   = { checkThirdParty = false },
           },
         },
-      }))
+      })
 
-      -- ✅ Verilog/SystemVerilog：verible-verilog-ls（新增）
-      lspconfig.verible.setup(vim.tbl_deep_extend("force", default, {
-        cmd = { "verible-verilog-ls" },                    -- Mason 安裝後就有
-        filetypes = { "verilog", "systemverilog" },        -- .v / .sv / .svh
+      -- ✅ Verilog/SystemVerilog：verible-verilog-ls
+      lspconfig.verible.setup({
+        name = "verible",
+        cmd = { "verible-verilog-ls" },                 -- 確保此 binary 在 PATH（Mason 可安裝）
+        filetypes = { "verilog", "systemverilog" },     -- .v / .sv / .svh
+        on_attach = on_attach,
+        capabilities = capabilities,
         root_dir = function(fname)
-          return util.root_pattern(".git")(fname)
-            or util.find_git_ancestor(fname)
-            or util.path.dirname(fname)
+          local start = (fname ~= "" and fname) or vim.api.nvim_buf_get_name(0)
+          -- 以 .git 為專案根（你可改成搜 .rules.verible_lint 等）
+          local dir = vim.fs.dirname(start)
+          local git = vim.fs.find({ ".git" }, { upward = true, path = dir })[1]
+          return git and vim.fs.dirname(git) or dir
         end,
-      }))
+        -- 若你有 verible 規則檔，可開啟自動搜尋：
+        -- init_options = { rules_config_search = true },
+        -- 或明確指定：
+        -- cmd = { "verible-verilog-ls", "--rules_config_file", ".rules.verible_lint" },
+      })
 
-      -- 如果你之後想用 hdl-checker（可選）：失敗就改用 verible
-      -- lspconfig.hdl_checker.setup(vim.tbl_deep_extend("force", default, {
+      -- （可選）hdl-checker：想改用可打開
+      -- lspconfig.hdl_checker.setup({
       --   cmd = { "hdl_checker", "--lsp" },
       --   filetypes = { "vhdl", "verilog", "systemverilog" },
-      -- }))
-      -- 提醒：hdl-checker 0.7.4 對 Python 3.12 不相容，Mason 安裝可能會失敗
+      --   on_attach = on_attach,
+      --   capabilities = capabilities,
+      --   root_dir = function(fname)
+      --     local start = (fname ~= "" and fname) or vim.api.nvim_buf_get_name(0)
+      --     return find_root_by_markers(start, { "hdl_checker.config", ".git" })
+      --   end,
+      -- })
     end,
   },
 }
