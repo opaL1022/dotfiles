@@ -36,3 +36,4 @@ node_modules/
 .config/fcitx/dbus/
 .config/pulse/
 .config/ibus/bus/
+pkgs/config/.config/pulse/

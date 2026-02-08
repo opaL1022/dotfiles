@@ -1,0 +1,11 @@
+^\.config/discord(/|$)
+^\.config/pulse(/|$)
+^\.config/dconf(/|$)
+^\.config/fcitx/dbus(/|$)
+^\.config/ibus/bus(/|$)
+^\.config/.*/Cache(/|$)
+^\.config/.*GPUCache(/|$)
+^\.config/systemd/
+^\.config/gtk-4\.0/(assets|gtk\.css|gtk-dark\.css)$
+^\.config/mimeapps\.list$
+^\.config/pavucontrol\.ini$
