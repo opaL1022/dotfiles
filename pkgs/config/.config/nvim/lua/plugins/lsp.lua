@@ -10,65 +10,74 @@ return {
 
     -- nvim-cmp 最小配置（含 snippets）
     {
-        "hrsh7th/nvim-cmp",
-        event = "InsertEnter",
-        dependencies = {
-            "hrsh7th/cmp-nvim-lsp",
-            "hrsh7th/cmp-buffer",
-            "hrsh7th/cmp-path",
-            "L3MON4D3/LuaSnip",
-            "saadparwaiz1/cmp_luasnip",
-        },
-        config = function()
-            vim.opt.completeopt = { "menu", "menuone", "noselect" }
+      "hrsh7th/nvim-cmp",
+      event = "InsertEnter",
+      dependencies = {
+        "hrsh7th/cmp-nvim-lsp",
+        "hrsh7th/cmp-buffer",
+        "hrsh7th/cmp-path",
+        "L3MON4D3/LuaSnip",
+        "saadparwaiz1/cmp_luasnip",
+      },
+      config = function()
+        vim.opt.completeopt = { "menu", "menuone", "noselect" }
 
-            local cmp = require("cmp")
-            local luasnip = require("luasnip")
+        local cmp = require("cmp")
+        local luasnip = require("luasnip")
 
-            cmp.setup({
-                snippet = {
-                    expand = function(args)
-                        luasnip.lsp_expand(args.body)
-                    end,
-                },
-                mapping = cmp.mapping.preset.insert({
-                    ["<C-Space>"] = cmp.mapping.complete(),
-                    ["<CR>"] = cmp.mapping.confirm({ select = true }),
-                    ["<Tab>"] = cmp.mapping(function(fb)
-                        if cmp.visible() then
-                            cmp.select_next_item()
-                        elseif luasnip.expand_or_jumpable() then
-                            luasnip.expand_or_jump()
-                        else
-                            fb()
-                        end
-                    end, { "i", "s" }),
-                    ["<S-Tab>"] = cmp.mapping(function(fb)
-                        if cmp.visible() then
-                            cmp.select_prev_item()
-                        elseif luasnip.jumpable(-1) then
-                            luasnip.jump(-1)
-                        else
-                            fb()
-                        end
-                    end, { "i", "s" }),
-                }),
-                sources = cmp.config.sources({
-                    { name = "nvim_lsp" },
-                    { name = "luasnip" },
-                }, {
-                    { name = "buffer" },
-                    { name = "path" },
-                }),
-            })
-        end,
+        cmp.setup({
+          snippet = {
+            expand = function(args)
+              luasnip.lsp_expand(args.body)
+            end,
+          },
+          mapping = cmp.mapping.preset.insert({
+            ["<C-Space>"] = cmp.mapping.complete(),
+
+            ["<CR>"] = cmp.mapping(function(fallback)
+              if cmp.visible() and cmp.get_selected_entry() then
+                cmp.confirm({ select = false })
+              else
+                fallback()
+              end
+            end, { "i", "s" }),
+
+            ["<Tab>"] = cmp.mapping(function(fb)
+              if cmp.visible() then
+                cmp.select_next_item()
+              elseif luasnip.expand_or_jumpable() then
+                luasnip.expand_or_jump()
+              else
+                fb()
+              end
+            end, { "i", "s" }),
+
+            ["<S-Tab>"] = cmp.mapping(function(fb)
+              if cmp.visible() then
+                cmp.select_prev_item()
+              elseif luasnip.jumpable(-1) then
+                luasnip.jump(-1)
+              else
+                fb()
+              end
+            end, { "i", "s" }),
+          }),
+          sources = cmp.config.sources({
+            { name = "nvim_lsp" },
+            { name = "luasnip" },
+          }, {
+            { name = "buffer" },
+            { name = "path" },
+          }),
+        })
+      end,
     },
 
     -- 使用 Neovim 0.11 官方 LSP API（不再使用 lspconfig.setup）
     {
         -- 這個條目只是個容器；不依賴 lspconfig
         "nvim-lua/plenary.nvim",
-        lazy = false,  -- 確保一啟動 Neovim 就載入並執行 config
+        lazy = false, -- 確保一啟動 Neovim 就載入並執行 config
         config = function()
             if vim.g.__lsp_setup_done then
                 return
@@ -88,24 +97,9 @@ return {
                 end
 
                 for _, c in ipairs(clients) do
-                    print(string.format(
-                        "[%d] %s  (root: %s)",
-                        c.id,
-                        c.name,
-                        c.config.root_dir or "N/A"
-                    ))
+                    print(string.format("[%d] %s  (root: %s)", c.id, c.name, c.config.root_dir or "N/A"))
                 end
             end, {})
-
-            --------------------------------------------------------------------
-            -- 讓 .sv / .svh 正確成為 systemverilog
-            --------------------------------------------------------------------
-            vim.filetype.add({
-                extension = {
-                    sv = "systemverilog",
-                    svh = "systemverilog",
-                },
-            })
 
             --------------------------------------------------------------------
             -- 診斷視覺設定
@@ -136,7 +130,7 @@ return {
             end
 
             local capabilities = require("cmp_nvim_lsp").default_capabilities()
-            capabilities.offsetEncoding = { "utf-16" }  -- for clangd
+            capabilities.offsetEncoding = { "utf-16" } -- for clangd
 
             --------------------------------------------------------------------
             -- 根目錄解析：同時支援 bufnr（number）與路徑（string）
@@ -256,22 +250,85 @@ return {
                 },
             })
 
-            -- Verilog/SystemVerilog：verible-verilog-ls
-            setup_server("verible", {
-                name = "verible",
-                cmd = { "verible-verilog-ls" },  -- 確保 binary 在 PATH（可用 Mason 安裝）
-                filetypes = { "verilog", "systemverilog" },  -- .v / .sv / .svh
+            -- Java（jdtls）
+            setup_server("jdtls", {
+                cmd = { "jdtls" }, -- 你已用 Mason 裝了，且 PATH 有 mason/bin
+                filetypes = { "java" },
                 root_dir = function(arg)
                     return root_by_markers(arg, {
-                        ".rules.verible_lint",
+                        "build.gradle",
+                        "build.gradle.kts",
+                        "settings.gradle",
+                        "settings.gradle.kts",
+                        "pom.xml",
                         ".git",
                     })
                 end,
-                -- init_options = { rules_config_search = true }, -- 若想自動搜尋規則檔可開
                 capabilities = capabilities,
                 on_attach = on_attach,
+
+                -- jdtls 很需要每個專案一個 workspace，避免跨專案互相污染
+                -- Neovim 0.11 的 vim.lsp.start 會把 config 共享，所以我們在啟動時動態塞 -data
+                on_init = function(client)
+                    -- no-op; keep here if you later want to tweak init behavior
+                end,
+            })
+
+            --------------------------------------------------------------------
+            -- 針對 jdtls：每次進到 java buffer 時，重建 cmd 加上 -data workspace
+            -- （因為 jdtls 沒給 -data 會用預設 workspace，常常出事）
+            --------------------------------------------------------------------
+            vim.api.nvim_create_autocmd("FileType", {
+                pattern = "java",
+                callback = function(args)
+                    -- 若已經有 jdtls client attach，就不做任何事
+                    local existing = vim.lsp.get_clients({ bufnr = args.buf, name = "jdtls" })
+                    if not vim.tbl_isempty(existing) then
+                        return
+                    end
+
+                    -- 基底 config（拿我們剛剛存的）
+                    local base = vim.lsp.config["jdtls"]
+                    if not base then
+                        return
+                    end
+
+                    -- 算 root
+                    local root = base.root_dir
+                    if type(root) == "function" then
+                        root = root(args.buf)
+                    end
+
+                    local project_name = vim.fn.fnamemodify(root or vim.fn.getcwd(), ":t")
+                    local workspace_dir = vim.fn.stdpath("data") .. "/jdtls-workspace/" .. project_name
+
+                    local cfg = vim.tbl_deep_extend("force", {}, base)
+                    cfg.root_dir = root
+                    cfg.name = "jdtls"
+                    cfg.bufnr = args.buf
+
+                    -- 重要：把 -data workspace 加進去
+                    cfg.cmd = { "jdtls", "-data", workspace_dir }
+
+                    vim.lsp.start(cfg)
+                end,
+            })
+            --------------------------------------------------------------------
+            -- Dart auto format on save
+            --------------------------------------------------------------------
+            vim.api.nvim_create_autocmd("BufWritePre", {
+                pattern = "*.dart",
+                callback = function()
+                    -- 確保有 dart LSP attach 才 format
+                    local clients = vim.lsp.get_clients({ bufnr = 0 })
+                    for _, c in ipairs(clients) do
+                        if c.name == "dartls" then
+                            vim.lsp.buf.format({ async = false })
+                            return
+                        end
+                    end
+                end,
             })
         end,
     },
 }
-

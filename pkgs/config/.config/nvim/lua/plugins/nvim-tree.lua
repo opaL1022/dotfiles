@@ -14,7 +14,22 @@ return {
 
         local opts = { buffer = bufnr, noremap = true, silent = true, nowait = true }
 
-        vim.keymap.set('n', 'l', api.node.open.edit, opts)
+        vim.keymap.set('n', 'l', function()
+          local node = api.tree.get_node_under_cursor()
+          if not node then
+            return
+          end
+
+          local should_move = node.type == "directory" and not node.open
+          api.node.open.edit()
+
+          if should_move then
+            vim.schedule(function()
+              local line = vim.api.nvim_win_get_cursor(0)[1]
+              vim.api.nvim_win_set_cursor(0, { line + 1, 0 })
+            end)
+          end
+        end, opts)
         vim.keymap.set('n', 'h', api.node.navigate.parent_close, opts)
         vim.keymap.set('n', 't', api.node.open.tab, opts)
       end,

@@ -22,7 +22,10 @@ return {
           return false
         end,
       },
-      indent = { enable = true },
+      indent = {
+        enable = true,
+        disable = { "dart" },
+      },
       incremental_selection = {
         enable = true,
         keymaps = {

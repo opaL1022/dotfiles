@@ -33,8 +33,8 @@ return {
     dependencies = { "rcarriga/nvim-notify", "nvim-lua/plenary.nvim", "MunifTanjim/nui.nvim" },
     opts = {
       lsp = {
-        progress = { enabled = true, view = "notify" }, -- LSP 進度也走 notify（可關）
         message  = { enabled = true, view = "notify" }, -- LSP 訊息 -> notify
+        progress = { enabled = false }, -- LSP 進度
         hover    = { enabled = false },                 -- 不改 hover 視圖
         signature= { enabled = false },
       },

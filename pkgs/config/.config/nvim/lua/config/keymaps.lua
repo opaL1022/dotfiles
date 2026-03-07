@@ -27,3 +27,15 @@ map("n", "<leader>dl", "<cmd>lua vim.diagnostic.setloclist()<cr>", opts)
 -- nvim-tree Toggle
 map("n", "<C-n>", "<cmd>NvimTreeToggle<cr>", opts)
 
+map("n", "<leader>cc", "<cmd>CopilotToggle<cr>", opts)
+map("n", "<leader>cE", "<cmd>CopilotEnable<cr>", opts)
+map("n", "<leader>cD", "<cmd>CopilotDisable<cr>", opts)
+
+-- LSP code action = refactor / quick fix
+vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Action" })
+
+-- Rename symbol
+vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "Rename Symbol" })
+
+-- Go to definition
+vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "Go to Definition" })

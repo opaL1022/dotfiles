@@ -40,5 +40,15 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+-- 使用 2 spaces
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "lua", "sshconfig", "dart" },
+  callback = function()
+    vim.opt_local.tabstop = 2
+    vim.opt_local.shiftwidth = 2
+    vim.opt_local.expandtab = true
+  end,
+})
+
 --主題顏色
 vim.cmd.colorscheme("daybreak")

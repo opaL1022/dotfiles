@@ -137,6 +137,19 @@ show_status() {
 
 add-zsh-hook precmd show_status
 
+export PATH=~/.local/bin:$PATH
+
+# Flutter
+export PATH=$HOME/Downloads/flutter/bin:$PATH
+#export CHROME_EXECUTABLE=/usr/bin/chromium
+
+# Android SDK
+export ANDROID_HOME="$HOME/Android/Sdk"
+export ANDROID_SDK_ROOT="$ANDROID_HOME"
+export PATH="$PATH:$ANDROID_HOME/platform-tools"
+export PATH="$PATH:$ANDROID_HOME/cmdline-tools/latest/bin"
+export PATH="$PATH:$ANDROID_HOME/emulator"
+
 xrdb -merge ~/.Xresources
 
 #big delete
