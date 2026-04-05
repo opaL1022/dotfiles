@@ -4,6 +4,13 @@
 vim.opt.undofile = true                           -- 啟用持久化 undo
 vim.opt.undodir = vim.fn.stdpath("state") .. "/undo"  -- 設定存放目錄
 
+-- 換行
+vim.opt.wrap = true
+vim.opt.linebreak = true
+vim.opt.breakindent = true
+vim.opt.showbreak = "↳ "
+vim.opt.breakindentopt = "shift:2"
+
 -- 縮排與空格
 vim.opt.tabstop = 4        -- 實際 tab 寬度
 vim.opt.shiftwidth = 4     -- 自動縮排的空格數
@@ -16,7 +23,6 @@ vim.opt.relativenumber = true
 vim.opt.cursorline = true
 vim.opt.termguicolors = true
 vim.opt.signcolumn = "yes"
-vim.opt.wrap = false
 
 -- 搜尋
 vim.opt.ignorecase = true
@@ -50,5 +56,19 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "tex" },
+  callback = function()
+    vim.opt_local.tabstop = 2
+    vim.opt_local.shiftwidth = 2
+    vim.opt_local.expandtab = true
+    vim.opt.autoindent = false
+    vim.opt.smartindent = false
+    vim.opt.cindent = false
+    vim.bo.indentexpr = ""
+  end,
+})
+
 --主題顏色
 vim.cmd.colorscheme("daybreak")
+

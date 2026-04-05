@@ -3,7 +3,7 @@ normal = { family = "Dank Mono", style = "Regular" }
 bold = { family = "Dank Mono", style = "Bold" }
 italic = { family = "Dank Mono", style = "Italic" }
 
-size = 14
+size = 16
 [colors.primary]
 background = "#1C1E26"   # 背景色
 foreground = "#D5D8DA"   # 前景字色

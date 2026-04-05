@@ -45,6 +45,7 @@ daybreak.setup = function()
   vim.api.nvim_set_hl(0, "CursorLineNr", { fg = cursor, bold = true })
   vim.api.nvim_set_hl(0, "CursorLine",   { bg = "#232530" })
   vim.api.nvim_set_hl(0, "Visual",       { bg = sel_bg })
+  vim.api.nvim_set_hl(0, "NonText", { fg = "#FAC29A", bold = true })
 
   vim.api.nvim_set_hl(0, "StatusLine",   { fg = bg, bg = yellow, bold = true })
   vim.api.nvim_set_hl(0, "StatusLineNC", { fg = bright_black, bg = "#232530" })

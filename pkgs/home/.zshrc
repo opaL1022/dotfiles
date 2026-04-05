@@ -158,3 +158,8 @@ bindkey '^H' backward-kill-word
 eval $(thefuck --alias)
 
 command -v fastfetch >/dev/null 2>&1 && fastfetch
+
+alias lg='lazygit'
+alias nv='nvim'
+unalias z
+eval "$(zoxide init zsh)"
