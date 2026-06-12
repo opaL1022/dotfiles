@@ -24,10 +24,6 @@ return {
           prefix = "//",
         },
         lsp = {
-          color = {
-            enabled = true,
-            background = true,
-          },
           settings = {
             showTodos = true,
             completeFunctionCalls = true,

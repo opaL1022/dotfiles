@@ -4555,7 +4555,7 @@ columnview row:not(:selected) cell editablelabel.editing:focus-within {
 
 columnview row:not(:selected) cell editablelabel.editing text selection {
   color: @db_fg;
-  background-color: @db_orange;
+  background-color: rgba(126, 156, 216, 0.5);
 }
 
 /*********************
@@ -5420,7 +5420,7 @@ entry > text > selection, spinbutton > text > selection,
 entry headerbar popover.background entry > text > selection,
 headerbar popover.background entry entry > text > selection, calendar > grid > label.today:selected {
   color: @db_fg;
-  background-color: @db_orange;
+  background-color: rgba(126, 156, 216, 0.5);
 }
 
 /* .monospace { */

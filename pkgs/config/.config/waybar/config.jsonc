@@ -33,6 +33,19 @@
         "custom/power"
     ],
     // Modules configuration
+    // Using "hyprland/workspaces" (NOT "ext/workspaces"). Under the Lua config
+    // (Hyprland >= 0.55) socket1 `dispatch` is parsed as Lua, so the legacy
+    // click `dispatch workspace N` fails on BOTH modules — switch by keyboard
+    // (SUPER+1..0). hyprland/workspaces is kept anyway because it reads
+    // Hyprland's own IPC events: correct number ordering AND the urgent (red)
+    // indicator both work. ext/workspaces breaks ordering + urgent on this
+    // Hyprland version, so it's the worse display-only choice.
+    "hyprland/workspaces": {
+        "all-outputs": true,
+        "sort-by-number": true,
+        "format": "{name}"
+    },
+
     // "hyprland/workspaces": {
     //     "disable-scroll": true,
     //     "all-outputs": true,

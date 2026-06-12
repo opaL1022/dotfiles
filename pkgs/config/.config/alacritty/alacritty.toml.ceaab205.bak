@@ -15,8 +15,3 @@ cursor = "#FAC29A"       # 游標顏色
 [colors.selection]
 background = "#333543"
 text = "#D5D8DA"
-
-[[keyboard.bindings]]
-key = "Return"
-mods = "Shift"
-chars = "\u001b[13;2u"

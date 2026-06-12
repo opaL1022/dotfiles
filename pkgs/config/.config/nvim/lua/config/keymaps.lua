@@ -18,6 +18,13 @@ map("n", "<C-l>", "<C-w>l", opts)
 map("n", "n", "nzzzv", opts)
 map("n", "N", "Nzzzv", opts)
 
+-- Terminal sends Shift+Enter as CSI-u from Alacritty; keep it as a distinct key
+-- and make it behave like Enter in insert/cmdline instead of leaving insert mode.
+map("i", "<Esc>[13;2u", "<CR>", opts)
+map("c", "<Esc>[13;2u", "<CR>", opts)
+map("i", "<S-CR>", "<CR>", opts)
+map("c", "<S-CR>", "<CR>", opts)
+
 -- 診斷
 map("n", "[d", vim.diagnostic.goto_prev, opts)
 map("n", "]d", vim.diagnostic.goto_next, opts)

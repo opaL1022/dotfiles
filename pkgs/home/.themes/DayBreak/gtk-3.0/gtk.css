@@ -66,7 +66,7 @@
 .nemo-window .nemo-window-pane widget.entry:selected, window.background.csd evview.view.content-view:selected, window.background.csd evview.view.content-view:selected:backdrop, .nautilus-window.background.csd notebook widget.view:selected, spinbutton.vertical selection, spinbutton:not(.vertical) selection,
 entry selection, label selection, textview text selection:focus, textview text selection, widget.view:selected {
   color: @db_fg;
-  background-color: @db_orange;
+  background-color: rgba(126, 156, 216, 0.5);
 }
 
 treeview.view:selected, .view:selected {
@@ -151,7 +151,7 @@ treeview.view:selected, .view:selected {
 }
 
 .gtkstyle-fallback:selected {
-  background-color: @db_orange;
+  background-color: rgba(126, 156, 216, 0.5);
   color: @db_fg;
 }
 

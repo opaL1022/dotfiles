@@ -89,9 +89,8 @@ else
   export EDITOR='nvim'
 fi
 
-if ! pgrep -u "$USER" ssh-agent >/dev/null; then
-  eval "$(ssh-agent -s)"
-fi
+unset SSH_AGENT_PID
+export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/ssh-agent.socket"
 
 # Compilation flags
 # export ARCHFLAGS="-arch $(uname -m)"
@@ -141,7 +140,7 @@ export PATH=~/.local/bin:$PATH
 
 # Flutter
 export PATH=$HOME/Downloads/flutter/bin:$PATH
-#export CHROME_EXECUTABLE=/usr/bin/chromium
+export CHROME_EXECUTABLE=/usr/bin/chromium
 
 # Android SDK
 export ANDROID_HOME="$HOME/Android/Sdk"
@@ -163,3 +162,13 @@ alias lg='lazygit'
 alias nv='nvim'
 unalias z
 eval "$(zoxide init zsh)"
+tw() {
+  if [ -t 0 ]; then
+    trans -brief :zh-TW "$*"
+  else
+    while read -r line; do
+      trans -brief :zh-TW "$line"
+    done
+  fi
+}
+export PATH="$PATH":"$HOME/.pub-cache/bin"

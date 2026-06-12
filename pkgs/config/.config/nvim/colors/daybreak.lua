@@ -200,6 +200,18 @@ daybreak.setup = function()
   vim.api.nvim_set_hl(0, "NoiceCmdlineIconLua",    { fg = "#FAB28E", bg = "#1C1E26" }) -- :lua
   vim.api.nvim_set_hl(0, "NoiceCmdlineIconHelp",   { fg = "#FAB28E", bg = "#1C1E26" }) -- :help
 
+  vim.api.nvim_set_hl(0, "NormalFloat", { fg = "#D5D8DA", bg = "#232530" })
+  vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#2E303E", bg = "#232530" })
+  vim.api.nvim_set_hl(0, "FloatTitle",  { fg = "#FAB28E", bg = "#232530", bold = true })
+  vim.api.nvim_set_hl(0, "FloatFooter", { fg = "#BBBBBB", bg = "#232530" })
+
+  vim.api.nvim_set_hl(0, "DiagnosticFloatingError", { fg = "#E95678", bg = "#232530" })
+  vim.api.nvim_set_hl(0, "DiagnosticFloatingWarn",  { fg = "#FAB795", bg = "#232530" })
+  vim.api.nvim_set_hl(0, "DiagnosticFloatingInfo",  { fg = "#26BBD9", bg = "#232530" })
+  vim.api.nvim_set_hl(0, "DiagnosticFloatingHint",  { fg = "#29D398", bg = "#232530" })
+
+  vim.api.nvim_set_hl(0, "LspReferenceTarget", { bg = "#333543" })
+
 end
 
 daybreak.setup()

@@ -1,5 +1,14 @@
 [Default Applications]
 text/x-c++src=Alacritty.desktop
+text/html=zen.desktop
+x-scheme-handler/http=zen.desktop
+x-scheme-handler/https=zen.desktop
+application/json=zen.desktop
+x-scheme-handler/about=zen.desktop
+x-scheme-handler/unknown=zen.desktop
+application/pdf=zen.desktop
+application/xhtml+xml=zen.desktop
+x-scheme-handler/claude-cli=claude-code-url-handler.desktop
 
 [Added Associations]
 text/x-c++src=nvim.desktop;Alacritty.desktop;

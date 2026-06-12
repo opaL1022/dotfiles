@@ -183,6 +183,120 @@ return {
         return path:gsub("[/\\:]", "_")
       end
 
+      local function format_with_lsp(bufnr)
+        local clients = vim.lsp.get_clients({ bufnr = bufnr })
+        for _, client in ipairs(clients) do
+          if client:supports_method("textDocument/formatting") then
+            vim.lsp.buf.format({
+              bufnr = bufnr,
+              async = false,
+              filter = function(format_client)
+                return format_client.id == client.id
+              end,
+              formatting_options = {
+                tabSize = vim.bo[bufnr].shiftwidth,
+                insertSpaces = vim.bo[bufnr].expandtab,
+              },
+            })
+            return true
+          end
+        end
+
+        return false
+      end
+
+      local function format_with_command(bufnr, cmd)
+        local content = table.concat(vim.api.nvim_buf_get_lines(bufnr, 0, -1, false), "\n")
+        if vim.bo[bufnr].endofline then
+          content = content .. "\n"
+        end
+
+        local result = vim.system(cmd, {
+          stdin = content,
+          text = true,
+        }):wait()
+
+        if result.code ~= 0 or not result.stdout then
+          return false
+        end
+
+        if result.stdout == content then
+          return true
+        end
+
+        local view = vim.fn.winsaveview()
+        local lines = vim.split(result.stdout, "\n", { plain = true })
+        if lines[#lines] == "" then
+          table.remove(lines, #lines)
+        end
+        vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, lines)
+        vim.fn.winrestview(view)
+        return true
+      end
+
+      local prettier_filetypes = {
+        javascript = true,
+        javascriptreact = true,
+        typescript = true,
+        typescriptreact = true,
+        json = true,
+        jsonc = true,
+        html = true,
+        css = true,
+        scss = true,
+        less = true,
+        markdown = true,
+        yaml = true,
+      }
+
+      local clang_filetypes = {
+        c = true,
+        cpp = true,
+        objc = true,
+        objcpp = true,
+        cuda = true,
+      }
+
+      local function autoformat_buffer(bufnr)
+        local ft = vim.bo[bufnr].filetype
+        local path = vim.api.nvim_buf_get_name(bufnr)
+        if path == "" then
+          return false
+        end
+
+        if ft == "dart" then
+          return format_with_lsp(bufnr)
+        end
+
+        if ft == "lua" or ft == "java" then
+          return format_with_lsp(bufnr)
+        end
+
+        if clang_filetypes[ft] then
+          return format_with_command(bufnr, {
+            "clang-format",
+            "--assume-filename",
+            path,
+            "--style",
+            "{BasedOnStyle: LLVM, IndentWidth: 4, TabWidth: 4, UseTab: Never}",
+          })
+        end
+
+        if prettier_filetypes[ft] then
+          return format_with_command(bufnr, {
+            "prettier",
+            "--stdin-filepath",
+            path,
+            "--tab-width",
+            "4",
+            "--use-tabs",
+            "false",
+          })
+        end
+
+        return format_with_lsp(bufnr)
+      end
+
       --------------------------------------------------------------------
       -- helper：註冊 server + 自動 FileType 啟動
       --------------------------------------------------------------------
@@ -287,6 +401,14 @@ return {
             diagnostics = {
               globals = { "vim" },
             },
+            format = {
+              enable = true,
+              defaultConfig = {
+                indent_style = "space",
+                indent_size = "4",
+                tab_width = "4",
+              },
+            },
             workspace = {
               checkThirdParty = false,
             },
@@ -355,18 +477,16 @@ return {
       })
 
       --------------------------------------------------------------------
-      -- Dart auto format on save
+      -- Auto format on save
       --------------------------------------------------------------------
       vim.api.nvim_create_autocmd("BufWritePre", {
-        pattern = "*.dart",
-        callback = function()
-          local clients = vim.lsp.get_clients({ bufnr = 0 })
-          for _, c in ipairs(clients) do
-            if c.name == "dartls" then
-              vim.lsp.buf.format({ async = false })
-              return
-            end
+        pattern = "*",
+        callback = function(args)
+          if vim.bo[args.buf].buftype ~= "" or not vim.bo[args.buf].modifiable then
+            return
           end
+
+          autoformat_buffer(args.buf)
         end,
       })
     end,
