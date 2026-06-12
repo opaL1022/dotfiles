@@ -2,18 +2,20 @@
 
 hl.config({
     general = {
-        gaps_in  = 1,
-        gaps_out = 4,
+        -- retroism (yorha): visible gaps show the wallpaper, like an old desktop
+        gaps_in  = 5,
+        gaps_out = 10,
 
-        border_size = 2,
+        -- thin 1px window frame
+        border_size = 1,
 
         col = {
-            active_border   = "rgba(203,158,114,0.7)",
-            -- old value had alpha 255 (out of the 0-1 decimal range); 1.0 = fully opaque
-            inactive_border = { colors = { "rgba(203,158,114,0.7)", "rgba(42,41,47,1.0)" }, angle = 90 },
+            -- yorha palette: dark outline when focused, lighter shadow when not
+            active_border   = "rgb(3d3d39)",
+            inactive_border = "rgb(baafa1)",
         },
 
-        resize_on_border = false,
+        resize_on_border = true,
 
         allow_tearing = false,
 
@@ -21,17 +23,22 @@ hl.config({
     },
 
     decoration = {
-        rounding       = 10,
-        rounding_power = 5,
+        -- retro: hard square corners
+        rounding = 0,
 
+        -- no transparency; the crisp border carries the look
         active_opacity   = 1.0,
-        inactive_opacity = 0.85,
+        inactive_opacity = 1.0,
 
+        -- hard 80s/90s drop shadow (offset down-right, mostly opaque black)
         shadow = {
-            enabled      = false,
+            enabled      = true,
             range        = 2,
-            render_power = 2,
-            color        = "rgba(00000000)",
+            render_power = 5,
+            sharp        = false,
+            scale        = 1,
+            offset       = { 2, 2 },
+            color        = "rgba(000000d9)",
         },
 
         blur = {
@@ -43,7 +50,8 @@ hl.config({
     },
 
     animations = {
-        enabled = true,
+        -- retroism: animations fully off — windows just snap into place
+        enabled = false,
     },
 })
 
