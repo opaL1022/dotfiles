@@ -1,0 +1,2 @@
+# nvim 已拆成獨立 repo（不走 stow）
+^\.config/nvim(/|$)
