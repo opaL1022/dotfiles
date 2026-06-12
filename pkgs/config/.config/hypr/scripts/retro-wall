@@ -1,0 +1,73 @@
+#!/usr/bin/env bash
+# retro-wall — hyprpaper 壁紙切換器 (retroism)
+# 用法: retro-wall {next|prev|random|set <path>|menu|restore}
+#   next/prev  循環下一張/上一張
+#   random     隨機一張
+#   set <path> 指定某張
+#   menu       wofi 選單挑選
+#   restore    開機後套用上次選的(等 hyprpaper 就緒)
+set -euo pipefail
+
+WALLDIR="${RETRO_WALL_DIR:-$HOME/Pictures/wallpapers/retro}"
+STATE_DIR="$HOME/.cache/retro-wall"
+STATE="$STATE_DIR/current"
+mkdir -p "$STATE_DIR"
+
+mapfile -t WALLS < <(find "$WALLDIR" -maxdepth 1 -type f \
+    \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.webp' \) | sort)
+[ "${#WALLS[@]}" -gt 0 ] || { echo "retro-wall: 沒有桌布於 $WALLDIR" >&2; exit 1; }
+
+current_path() { [ -f "$STATE" ] && cat "$STATE" || echo ""; }
+
+index_of() {
+    local p="$1" i
+    for i in "${!WALLS[@]}"; do [ "${WALLS[$i]}" = "$p" ] && { echo "$i"; return; }; done
+    echo -1
+}
+
+wait_hyprpaper() {
+    local n=0
+    while ! hyprctl hyprpaper listactive >/dev/null 2>&1; do
+        sleep 0.3; n=$((n + 1)); [ "$n" -gt 30 ] && return 1
+    done
+}
+
+apply() {
+    local wall="$1" mon
+    [ -f "$wall" ] || { echo "retro-wall: 找不到 $wall" >&2; exit 1; }
+    # hyprpaper 0.8: 請求為單一字串、wallpaper 會自動載入(無 preload/unload)；逐螢幕套用
+    while read -r mon; do
+        [ -n "$mon" ] && hyprctl hyprpaper "wallpaper $mon,$wall" >/dev/null 2>&1 || true
+    done < <(hyprctl monitors -j | jq -r '.[].name' 2>/dev/null)
+    printf '%s\n' "$wall" > "$STATE"
+}
+
+cmd="${1:-next}"
+case "$cmd" in
+    next | prev)
+        idx="$(index_of "$(current_path)")"; [ "$idx" -lt 0 ] && idx=0
+        n=${#WALLS[@]}
+        if [ "$cmd" = next ]; then idx=$(((idx + 1) % n)); else idx=$(((idx - 1 + n) % n)); fi
+        apply "${WALLS[$idx]}"
+        ;;
+    random)
+        apply "${WALLS[$((RANDOM % ${#WALLS[@]}))]}"
+        ;;
+    set)
+        [ $# -ge 2 ] || { echo "retro-wall: set 需要路徑" >&2; exit 1; }
+        apply "$2"
+        ;;
+    menu)
+        pick="$(printf '%s\n' "${WALLS[@]##*/}" \
+            | env GTK_THEME=Adwaita:light wofi --dmenu --prompt 'Wallpaper')" || exit 0
+        [ -n "$pick" ] && apply "$WALLDIR/$pick"
+        ;;
+    restore)
+        wait_hyprpaper || exit 0
+        cur="$(current_path)"; [ -f "$cur" ] || cur="${WALLS[0]}"
+        apply "$cur"
+        ;;
+    *)
+        echo "用法: retro-wall {next|prev|random|set <path>|menu|restore}" >&2; exit 1
+        ;;
+esac

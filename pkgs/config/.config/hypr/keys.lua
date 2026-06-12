@@ -11,6 +11,7 @@ local fileManager = "thunar"
 -- 才會是深色可見（DayBreak 深色主題會讓 placeholder 變淺融進背景）。
 -- Phase 7 把全域 GTK 換成淺色 retro 主題後，這個 env 可以拿掉。
 local menu        = "env GTK_THEME=Adwaita:light wofi --show drun"
+local wall        = (os.getenv("HOME") or "") .. "/.config/hypr/scripts/retro-wall"
 
 -- Apps / actions
 hl.bind(mainMod .. " + RETURN", hl.dsp.exec_cmd(terminal))
@@ -19,6 +20,8 @@ hl.bind(mainMod .. " + M",      hl.dsp.exit())
 hl.bind(mainMod .. " + E",      hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + F",      hl.dsp.window.float())
 hl.bind(mainMod .. " + D",      hl.dsp.exec_cmd(menu))
+hl.bind(mainMod .. " + W",         hl.dsp.exec_cmd(wall .. " next"))   -- 下一張桌布
+hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd(wall .. " menu"))   -- 桌布選單
 hl.bind(mainMod .. " + P",      hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + S",      hl.dsp.layout("togglesplit"))
 hl.bind(mainMod .. " + Z",      hl.dsp.window.fullscreen())
