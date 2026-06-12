@@ -50,3 +50,23 @@ menu menuitem {
     background-color: @yo_base;
     color: @yo_fg;
 }
+
+/* 復古粗捲軸：永遠顯示、方角、yorha 立體拖動塊 */
+scrollbar { background-color: #d9caba; }
+scrollbar trough {
+    background-color: #f0e2d3;
+    border: 1px solid #8a7c66;
+    border-radius: 0;
+    margin: 0;
+}
+scrollbar slider {
+    min-width: 13px;
+    min-height: 13px;
+    border-radius: 0;
+    background-color: #baafa1;
+    border-top: 1px solid #f0e2d3;
+    border-left: 1px solid #f0e2d3;
+    border-bottom: 1px solid #8a7c66;
+    border-right: 1px solid #8a7c66;
+}
+scrollbar slider:hover { background-color: #626335; }
