@@ -1,36 +1,60 @@
-/* ~/.config/wofi/style.css — Daybreak theme */
+/* ~/.config/wofi/style.css — Retroism · yorha (Platinum window) */
 
+@define-color base      #d9caba;
+@define-color field     #f0e2d3;  /* 輸入框淺面 */
+@define-color highlight #f0e2d3;
+@define-color shadow    #baafa1;
+@define-color bevel     #8a7c66;
+@define-color outline   #3d3d39;
+@define-color text      #3e3d38;
+@define-color accent    #626335;
+
+/* ---- 視窗：凸起的白金對話框 ---- */
 window {
     margin: 0;
     padding: 0;
-    border: 2px solid #6C6F93;           /* 灰藍邊框 */
-    border-radius: 10px;
-    background-color: #1C1E26;           /* 深底色 */
-    color: #D5D8DA;                      /* 字色 */
-    font-family: "Cantarell";
-    font-size: 17px;
+    border: 2px solid @outline;                                       /* 厚硬框 */
+    border-radius: 0;
+    background-color: @base;
+    color: @text;
+    font-family: "Monaco", "Charcoal", monospace;
+    font-size: 14px;
+    box-shadow: inset 1px 1px 0 @highlight, inset -1px -1px 0 @bevel;  /* 內凸斜角 */
 }
 
+/* ---- 搜尋欄：凹陷輸入框 ---- */
 #input {
     margin: 8px;
-    padding: 6px;
-    border: none;
-    border-radius: 10px;
-    background-color: #232530;           /* 較淺面板 */
-    color: #D5D8DA;
+    padding: 6px 8px;
+    border: 1px solid @outline;
+    border-radius: 0;
+    background-color: @field;
+    color: @text;
+    box-shadow: inset 1px 1px 0 @bevel, inset -1px -1px 0 @highlight;  /* 凹陷 */
 }
 
+/* 搜尋框的放大鏡(symbolic icon)染成深色，否則在淺底上看不見 */
+#input image {
+    color: @text;
+}
+
+/* ---- 清單項目 ---- */
 #entry {
-    padding: 8px;
-    margin: 4px;
-    border-radius: 14px;
+    padding: 6px 8px;
+    margin: 1px 4px;
+    border: none;
+    border-radius: 0;
     background-color: transparent;
-    color: #D5D8DA;
+    color: @text;
 }
 
+/* ---- 選取項：olive 反白 ---- */
 #entry:selected {
-    background-color: #FAB28E;           /* Daybreak 橘 accent */
-    color: #1A1C23;                      /* 文字用深底色反差 */
+    background-color: @accent;
+    color: @highlight;
+}
+#entry:selected #text {
+    color: @highlight;
 }
 
 #outer-box, #inner-box, #scroll {
@@ -42,4 +66,3 @@ window {
 #img {
     margin-right: 8px;
 }
-

@@ -7,7 +7,10 @@ local mainMod = "SUPER"
 -- binds that use them.
 local terminal    = "alacritty"
 local fileManager = "thunar"
-local menu        = "wofi --show drun"
+-- GTK_THEME=Adwaita:light → 讓 wofi 用淺色前景渲染，搜尋框 placeholder(Search:)
+-- 才會是深色可見（DayBreak 深色主題會讓 placeholder 變淺融進背景）。
+-- Phase 7 把全域 GTK 換成淺色 retro 主題後，這個 env 可以拿掉。
+local menu        = "env GTK_THEME=Adwaita:light wofi --show drun"
 
 -- Apps / actions
 hl.bind(mainMod .. " + RETURN", hl.dsp.exec_cmd(terminal))
