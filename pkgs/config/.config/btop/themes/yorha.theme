@@ -1,0 +1,95 @@
+# ================================
+# Retroism · yorha Theme for btop
+# ================================
+
+# 主背景 & 前景
+theme[main_bg]="#baafa1"
+theme[main_fg]="#3e3d38"
+
+# 高亮 (游標 / 選單)
+theme[hi_fg]="#9e3b2e"
+theme[hi_bg]="#d9caba"
+
+# 邊框 & 標題 → 全橘
+theme[cpu_box]="#626335"
+theme[mem_box]="#626335"
+theme[swap_box]="#626335"
+theme[gpu_box]="#626335"
+theme[net_box]="#626335"
+theme[disk_box]="#626335"
+theme[proc_box]="#626335"
+theme[title]="#626335"
+
+# 波形 & 量表 → 全橘
+theme[graph_text]="#626335"
+theme[graph_bg]="#d9caba"
+theme[graph_line]="#626335"
+theme[graph_text_hi]="#626335"
+theme[meter_bg]="#d9caba"
+theme[meter_fg]="#626335"
+
+# CPU 條 & 波 → 全橘
+theme[cpu_0]="#626335"
+theme[cpu_1]="#626335"
+theme[cpu_2]="#626335"
+theme[cpu_3]="#626335"
+theme[cpu_4]="#626335"
+theme[cpu_5]="#626335"
+theme[cpu_6]="#626335"
+theme[cpu_7]="#626335"
+
+# 記憶體
+theme[mem_used]="#626335"
+theme[mem_cached]="#626335"
+theme[mem_free]="#626335"
+
+# Swap
+theme[swap_used]="#626335"
+theme[swap_free]="#626335"
+
+# GPU
+theme[gpu_used]="#626335"
+theme[gpu_free]="#626335"
+
+# 網路
+theme[net_up]="#626335"
+theme[net_down]="#626335"
+
+# 硬碟
+theme[disk_used]="#626335"
+theme[disk_free]="#626335"
+
+# 程序列表
+theme[proc_bg]="#baafa1"
+theme[proc_fg]="#3e3d38"
+theme[proc_hi_fg]="#626335"
+theme[proc_hi_bg]="#d9caba"
+
+# —— CPU / MEM / DISK / GPU 波形全橘（漸層三段都設成同色）——
+theme[cpu_start]="#626335"
+theme[cpu_mid]="#626335"
+theme[cpu_end]="#626335"
+
+theme[mem_start]="#626335"
+theme[mem_mid]="#626335"
+theme[mem_end]="#626335"
+
+theme[disk_start]="#626335"
+theme[disk_mid]="#626335"
+theme[disk_end]="#626335"
+
+theme[gpu_start]="#626335"
+theme[gpu_mid]="#626335"
+theme[gpu_end]="#626335"
+
+# —— 網路上下行波形（原本常見的綠色/紅色）——
+theme[net_up]="#626335"
+theme[net_down]="#626335"
+
+# —— 迷你圖 / 細節圖用色（程序框右側的小波形、記憶體細節圖）——
+theme[proc_misc]="#626335"
+
+# —— 量表/文字也補齊 —— 
+theme[meter_fg]="#626335"
+theme[graph_text]="#626335"
+
