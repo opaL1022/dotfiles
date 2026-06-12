@@ -104,8 +104,6 @@ hl.config({
             bar_text_size              = 14,
             bar_part_of_window         = true,
             bar_precedence_over_border = true,
-            -- NOTE: hyprbars-button 是 keyword handler，目前 lua config 無法設定，
-            --       關閉鈕暫缺（用 SUPER+Q 關視窗）；待找到 lua 設 keyword 的方法再加。
         },
     },
 })
