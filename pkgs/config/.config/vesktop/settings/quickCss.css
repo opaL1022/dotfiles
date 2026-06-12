@@ -1,0 +1,194 @@
+/* ===== Retroism · yorha for Discord (Vencord QuickCSS) ===== */
+/* 同時覆蓋 .theme-light/.theme-dark，所以 Discord 設成亮或暗都會是 yorha */
+
+:root,
+.theme-light,
+.theme-dark {
+  /* —— 背景階層 —— */
+  --background-primary: #d9caba;          /* 聊天區 */
+  --background-secondary: #cfc0ac;        /* 頻道列 */
+  --background-secondary-alt: #c8b9a4;
+  --background-tertiary: #c2b39e;         /* 伺服器列 */
+  --background-accent: #626335;
+  --background-floating: #f0e2d3;         /* 浮動/提示視窗 */
+  --background-nested-floating: #f0e2d3;
+  --channeltextarea-background: #f0e2d3;  /* 輸入框 */
+  --background-message-hover: rgba(98,99,53,.06);
+  --background-modifier-hover: rgba(98,99,53,.10);
+  --background-modifier-selected: rgba(98,99,53,.18);
+  --background-modifier-active: rgba(98,99,53,.22);
+
+  /* —— 新版 bg tokens —— */
+  --bg-base-primary: #d9caba;
+  --bg-base-secondary: #cfc0ac;
+  --bg-base-tertiary: #c2b39e;
+  --bg-surface-overlay: #f0e2d3;
+  --bg-mod-subtle: rgba(98,99,53,.08);
+  --bg-mod-faint: rgba(98,99,53,.05);
+
+  /* —— 文字 —— */
+  --text-normal: #3e3d38;
+  --text-default: #3e3d38;
+  --text-muted: #8a7c66;
+  --text-link: #3d5a72;
+  --header-primary: #2b2a26;
+  --header-secondary: #5e5648;
+  --interactive-normal: #3e3d38;
+  --interactive-hover: #2b2a26;
+  --interactive-active: #2b2a26;
+  --interactive-muted: #a89a82;
+  --channels-default: #5e5648;
+  --channel-icon: #8a7c66;
+  /* 補掉殘留白字 */
+  --white-500: #3e3d38;
+  --white: #3e3d38;
+  --text-strong: #2b2a26;
+  --text-primary: #3e3d38;
+  --text-secondary: #5e5648;
+
+  /* —— accent / 品牌色 → olive —— */
+  --brand-experiment: #626335;
+  --brand-500: #626335;
+  --brand-560: #545631;
+  --brand-experiment-560: #545631;
+  --button-secondary-background: #cfc0ac;
+
+  /* —— retro 方角 —— */
+  --radius-xs: 0px;
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --radius-round: 0px;
+
+  /* —— retro 字體(老 Mac Charcoal / Monaco) —— */
+  --font-primary: "Charcoal", "Monaco", sans-serif;
+  --font-display: "Charcoal", "Monaco", sans-serif;
+  --font-headline: "Charcoal", sans-serif;
+  --font-code: "Monaco", monospace;
+}
+
+/* ===================== retro 質感層 ===================== */
+
+/* 全域方角(連頭像都方，很有老系統味) */
+* { border-radius: 0 !important; }
+
+/* 復古粗捲軸(白金立體拖動塊)，!important 壓過 Discord 自己的細捲軸 */
+::-webkit-scrollbar { width: 15px !important; height: 15px !important; }
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-track-piece {
+  background-color: #e3d6c4 !important;
+  border: 1px solid #8a7c66 !important;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #cfc0ac !important;
+  border-top: 1px solid #f0e2d3 !important;
+  border-left: 1px solid #f0e2d3 !important;
+  border-bottom: 1px solid #3d3d39 !important;
+  border-right: 1px solid #3d3d39 !important;
+  min-height: 32px !important;
+}
+::-webkit-scrollbar-thumb:hover { background-color: #626335 !important; }
+::-webkit-scrollbar-corner { background: #e3d6c4 !important; }
+
+/* 訊息輸入框 = 凹陷白金輸入框 */
+[class*="channelTextArea"] {
+  border: 1px solid #3d3d39 !important;
+  box-shadow: inset 1px 1px 0 #8a7c66, inset -1px -1px 0 #f0e2d3 !important;
+  background: #f0e2d3 !important;
+}
+
+/* 主要按鈕 = 凸起白金按鈕 */
+button[class*="lookFilled"],
+button[class*="colorBrand"] {
+  border: 1px solid #3d3d39 !important;
+  box-shadow: inset 1px 1px 0 #f0e2d3, inset -1px -1px 0 #8a7c66 !important;
+}
+
+/* 各區塊用不同深淺 + 硬黑分隔線(retro 面板感、明顯區隔) */
+[class*="guilds"] {                          /* 伺服器列：最深 */
+  background-color: #b3a48f !important;
+  border-right: 1px solid #3d3d39;
+}
+[class*="sidebar"] {                         /* 頻道列：中 */
+  background-color: #d2c3ad !important;
+  border-right: 1px solid #3d3d39;
+}
+[class*="chatContent"],
+[class*="messagesWrapper"],
+[class*="chat_"] {                           /* 聊天區：最亮=字最好讀 */
+  background-color: #f0e2d3 !important;
+}
+[class*="membersWrap"],
+[class*="members_"] {                        /* 成員列：中 */
+  background-color: #cfc0ac !important;
+  border-left: 1px solid #3d3d39;
+}
+/* 上方頻道標題列 + 底部使用者面板：加硬分隔線當「標題列」感 */
+[class*="title_"][class*="container"],
+[class*="panels_"] {
+  border-top: 1px solid #3d3d39;
+  border-bottom: 1px solid #3d3d39;
+}
+
+/* ===== 選單/彈窗 retro 化(ARIA role 較穩，涵蓋右鍵選單/群組選單) ===== */
+[role="menu"] {
+  background-color: #d9caba !important;
+  border: 1px solid #3d3d39 !important;
+  box-shadow: 2px 2px 0 rgba(0,0,0,.45) !important;   /* 硬投影,無模糊=老式 */
+}
+[role="menuitem"] { color: #3e3d38 !important; }
+[role="menuitem"]:hover,
+[role="menuitem"]:focus,
+[role="menuitem"][class*="focused"] {
+  background-color: #626335 !important;             /* olive 反白 */
+  color: #f0e2d3 !important;
+}
+[role="dialog"] {
+  border: 2px solid #3d3d39 !important;
+  box-shadow: 3px 3px 0 rgba(0,0,0,.4) !important;   /* 對話框厚框+硬投影 */
+}
+[class*="tooltip"] { border: 1px solid #3d3d39 !important; }
+
+/* 選中的頻道 = 凹陷(按下)感 */
+[class*="modeSelected"] {
+  box-shadow: inset 1px 1px 0 #8a7c66, inset -1px -1px 0 #f0e2d3 !important;
+}
+
+/* ===== 殘留白字修正(時間戳記 / 反應emoji數 / 次要文字) ===== */
+[class*="timestamp"],
+[class*="timestamp"] *,
+[class*="timestampInline"],
+[class*="latin12"],
+[class*="reactionCount"],
+[class*="reactionInner"] [class*="reactionCount"] {
+  color: #5e5648 !important;
+}
+/* 反應 pill 背景改淺,數字才看得清 */
+[class*="reaction_"] {
+  background-color: #e3d6c4 !important;
+  border: 1px solid #8a7c66 !important;
+}
+[class*="reaction_"][class*="reactionMe"] {
+  background-color: #d2c3ad !important;
+  border-color: #626335 !important;
+}
+
+/* ===== 群組(伺服器)之間分隔線 ===== */
+[class*="guilds"] [class*="listItem"] {
+  border-bottom: 1px solid #8a7c66;
+  padding-bottom: 6px;
+  margin-bottom: 6px;
+}
+/* 群組列的捲軸隱藏(很窄,會擋到圖示;用滾輪捲) */
+[class*="guilds"] *::-webkit-scrollbar { width: 0 !important; display: none !important; }
+
+/* ===== 頻道之間分隔線 ===== */
+[class*="containerDefault"],
+[class*="channel_"] [class*="link_"] {
+  border-bottom: 1px solid #b3a48f;
+}
+/* 分類標題上方加粗一點的線(段落感) */
+[class*="containerDefault"][class*="category"] {
+  border-top: 1px solid #3d3d39;
+}
