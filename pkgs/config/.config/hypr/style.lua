@@ -98,10 +98,10 @@ hl.plugin.load("/usr/lib/libhyprbars.so")
 hl.config({
     plugin = {
         hyprbars = {
-            bar_height                 = 24,
+            bar_height                 = 32,
             bar_color                  = "rgb(d9caba)",  -- yorha base
             ["col.text"]               = "rgb(3e3d38)",  -- yorha text
-            bar_text_size              = 12,
+            bar_text_size              = 14,
             bar_part_of_window         = true,
             bar_precedence_over_border = true,
             -- NOTE: hyprbars-button 是 keyword handler，目前 lua config 無法設定，
