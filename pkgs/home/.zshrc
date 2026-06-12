@@ -8,7 +8,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # load a random theme each time Oh My Zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="daybreak"
+ZSH_THEME="yorha"
 plugins=(git z zsh-autosuggestions)
 
 
@@ -118,8 +118,9 @@ zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*' menu select
 
 # 保存你原本的 prompt
-typeset -g DAYBREAK_OK='#29D398'
-typeset -g DAYBREAK_ERR='#E95678'
+# retroism/yorha 調：壓深以配淺色終端底
+typeset -g DAYBREAK_OK='#5e6e2f'
+typeset -g DAYBREAK_ERR='#9e3b2e'
 ORIGINAL_PROMPT=$PROMPT
 
 autoload -Uz add-zsh-hook

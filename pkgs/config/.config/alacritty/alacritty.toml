@@ -4,17 +4,44 @@ bold = { family = "Dank Mono", style = "Bold" }
 italic = { family = "Dank Mono", style = "Italic" }
 
 size = 16
+
+# ===== Retroism · yorha 配色（移植自 retroism kitty yorha_theme）=====
+[window]
+padding = { x = 8, y = 6 }
+opacity = 1.0            # retro: 不透明、無模糊
+
 [colors.primary]
-background = "#1C1E26"   # 背景色
-foreground = "#D5D8DA"   # 前景字色
+background = "#baafa1"   # yorha 淺暖底
+foreground = "#1e1d1b"   # 近黑前景
 
 [colors.cursor]
-text = "#1C1E26"
-cursor = "#FAC29A"       # 游標顏色
+text   = "#d9caba"
+cursor = "#626335"       # olive 游標
 
 [colors.selection]
-background = "#333543"
-text = "#D5D8DA"
+background = "#1e1d1b"
+text       = "#d9caba"
+
+# 收斂暖色組（霧面大地色，全部夠深、在 #baafa1 淺底上可讀）
+[colors.normal]
+black   = "#2b2a26"
+red     = "#9e3b2e"
+green   = "#5e6e2f"
+yellow  = "#a8782a"
+blue    = "#3d5a72"
+magenta = "#7c4a60"
+cyan    = "#3f7068"
+white   = "#4a463e"
+
+[colors.bright]
+black   = "#6b655a"
+red     = "#c0492f"
+green   = "#76883a"
+yellow  = "#c08f33"
+blue    = "#4f7390"
+magenta = "#98607b"
+cyan    = "#4f8a7e"
+white   = "#2b2a26"
 
 [[keyboard.bindings]]
 key = "Return"
