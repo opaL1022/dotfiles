@@ -1,112 +1,122 @@
-/* ========= Daybreak Floating Buttons ========= */
+/* ========= Retroism · yorha (Platinum bevel taskbar) ========= */
 * {
-  font-family: FontAwesome, Roboto, Helvetica, Arial, sans-serif;
-  font-size: 14px;
+  /* Monaco/Charcoal 在 Phase 7 安裝；現在先 fallback 到 monospace，圖示用 FontAwesome */
+  font-family: "Monaco", "Charcoal", monospace, FontAwesome;
+  font-size: 12px;
+  border-radius: 0;          /* 復古直角 */
+  min-height: 0;
 }
 
-/* ---- Palette ---- */
-@define-color db-bg        #1C1E26;
-@define-color db-surface   #2E303E;   /* 藍灰底 */
-@define-color db-border    #333543;
+/* ---- yorha palette ---- */
+@define-color base      #d9caba;
+@define-color highlight #f0e2d3;  /* 斜角亮面（上/左） */
+@define-color shadow    #baafa1;  /* 斜角暗面（下/右） */
+@define-color outline   #3d3d39;  /* 硬外框 */
+@define-color text      #3e3d38;
+@define-color accent    #626335;
+@define-color urgent    #ff854c;
 
-@define-color db-orange    #FAB28E;   /* 主橘 */
-@define-color db-orange-2  #FAB795;   /* hover/次橘 */
-@define-color db-orange-3  #FAC29A;   /* active/更亮橘 */
-@define-color db-red       #E95678;
-
-/* ---- Bar (透明) ---- */
+/* ---- Bar：實心白金，底部一條硬線 ---- */
 window#waybar {
-  background: transparent;
-  border: none;
-  color: @db-orange;
+  background: @base;
+  color: @text;
+  border-bottom: 1px solid @outline;
 }
 window#waybar.hidden { opacity: .2; }
 
-/* ---- Module Pills ---- */
-#workspaces,
+/* ---- 模組 = 凸起的白金按鈕（outset bevel）---- */
 #clock,
 #battery,
-#power-profiles-daemon,
 #network,
 #pulseaudio,
-#wireplumber,
+#mpd,
 #custom-media,
-#tray,
 #custom-power {
-  padding: 0 10px;
-  margin: 3px;
-  border-radius: 18px;
-  background: @db-surface;       /* 藍灰膠囊 */
-  color: @db-orange;
-  border: 1px solid @db-border;
+  margin: 3px 2px;
+  padding: 0 8px;
+  color: @text;
+  background: @base;
+  border-top: 1px solid @highlight;
+  border-left: 1px solid @highlight;
+  border-bottom: 1px solid @shadow;
+  border-right: 1px solid @shadow;
 }
 
-/* ---- Workspaces ---- */
-#workspaces button {
-  margin: 0;
-  padding: 0 6px;
-  border: none;
-  border-radius: 14px;
-  color: @db-orange;
-}
-#workspaces button.active {
-  background: @db-orange;
-  color: @db-bg;
-  font-weight: bold;
-}
-#workspaces button.urgent {
-  background: @db-red;
-  color: @db-bg;
-}
-
-/* ---- Hover 效果 ---- */
-#workspaces button:hover,
+/* hover：輕微下沉 */
 #clock:hover,
 #battery:hover,
-#power-profiles-daemon:hover,
 #network:hover,
 #pulseaudio:hover,
-#wireplumber:hover,
+#mpd:hover,
 #custom-media:hover,
-#tray:hover,
 #custom-power:hover {
-  background: @db-orange-2;
-  color: @db-bg;
+  background: @highlight;
 }
 
-/* ---- Power Button 特別強調 ---- */
-#custom-power {
+/* ---- Workspaces：容器平貼，按鈕各自凸起 ---- */
+#workspaces {
+  margin: 3px 2px;
+  padding: 0;
+  background: transparent;
+}
+#workspaces button {
+  margin: 0 1px;
+  padding: 0 7px;
+  color: @text;
+  background: @base;
+  border-top: 1px solid @highlight;
+  border-left: 1px solid @highlight;
+  border-bottom: 1px solid @shadow;
+  border-right: 1px solid @shadow;
+}
+/* active = 按下/凹陷（斜角反轉）+ accent 文字 */
+#workspaces button.active {
+  background: @shadow;
+  color: @outline;
   font-weight: bold;
-  font-size: 18px;
-  background: @db-orange;
-  color: @db-bg;
+  border-top: 1px solid @shadow;
+  border-left: 1px solid @shadow;
+  border-bottom: 1px solid @highlight;
+  border-right: 1px solid @highlight;
 }
-#custom-power:hover {
-  background: @db-orange-2;
+#workspaces button.urgent {
+  background: @urgent;
+  color: @outline;
+}
+#workspaces button:hover {
+  background: @highlight;
 }
 
-/* ---- Tray 狀態 ---- */
-#tray > .passive { -gtk-icon-effect: dim; }
+/* ---- Power 按鈕：醒目一點 ---- */
+#custom-power {
+  font-size: 14px;
+  font-weight: bold;
+  color: @outline;
+}
+#custom-power:hover {
+  background: @urgent;
+  color: @outline;
+}
+
+/* ---- Tray：凹陷深色凹槽，讓 app 的白色圖示看得見（仿 Win95 系統匣）---- */
+#tray {
+  margin: 4px 3px;
+  padding: 0 6px;
+  background: #2b2b28;                  /* 深色凹槽 */
+  border-top: 1px solid #1f1f1d;        /* inset：上/左更暗 */
+  border-left: 1px solid #1f1f1d;
+  border-bottom: 1px solid @highlight;  /* 下/右亮 */
+  border-right: 1px solid @highlight;
+}
 #tray > .needs-attention {
   -gtk-icon-effect: highlight;
-  background: @db-red;
-  color: @db-bg;
-}
-#tray > *:hover {
-  margin: 0;
-  padding: 0 6px;
-  border: none;
-  border-radius: 14px;
-  background: @db-orange-2;
-  color: @db-bg;
+  background: @urgent;
 }
 
-/* ---- Tooltip ---- */
+/* ---- Tooltip：白金小視窗 ---- */
 tooltip {
-  border-radius: 8px;
-  border: 1px solid @db-border;
-  background: @db-surface;
-  color: @db-orange;
-  padding: 6px 10px;
+  background: @base;
+  color: @text;
+  border: 1px solid @outline;
+  padding: 4px 8px;
 }
-

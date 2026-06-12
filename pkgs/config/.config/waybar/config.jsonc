@@ -1,10 +1,10 @@
 {
     "markup": "pango",
-    "margin-top": 2,
-    "margin-bottom": 0,   
-    "margin-left": 1,
-    "margin-right":1, 
-    "height": 43,
+    "margin-top": 0,
+    "margin-bottom": 0,
+    "margin-left": 0,
+    "margin-right": 0,
+    "height": 30,
     "spacing": 0,
 
     "modules-left": [
