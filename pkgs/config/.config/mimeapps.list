@@ -9,6 +9,7 @@ x-scheme-handler/unknown=zen.desktop
 application/pdf=zen.desktop
 application/xhtml+xml=zen.desktop
 x-scheme-handler/claude-cli=claude-code-url-handler.desktop
+x-scheme-handler/discord=vesktop.desktop
 
 [Added Associations]
 text/x-c++src=nvim.desktop;Alacritty.desktop;
