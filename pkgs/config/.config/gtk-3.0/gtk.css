@@ -1,66 +1,52 @@
-/* ===== Daybreak override (橘字版) ===== */
+/* ===== Retroism · yorha override (套在 ClassicPlatinum 之上) ===== */
 
-@define-color db_bg      #1C1E26;   /* 主背景 */
-@define-color db_panel   #232530;   /* 次要面板 */
-@define-color db_fg      #D5D8DA;   /* 原本淺灰字色 */
-@define-color db_orange  #FAB28E;   /* Daybreak 橘 */
-@define-color db_sel_bg  #333543;   /* 選取背景 */
-@define-color db_sel_fg  #FDF0ED;   /* 選取字色 */
+@define-color yo_base    #d9caba;   /* 主背景/chrome */
+@define-color yo_view    #f0e2d3;   /* 檔案區淺面(像紙) */
+@define-color yo_fg      #3e3d38;   /* 字色 */
+@define-color yo_sel_bg  #626335;   /* 選取背景 olive */
+@define-color yo_sel_fg  #f0e2d3;   /* 選取字色 */
 
 /* 主要容器 (檔案區 / sidebar) */
 .view, .sidebar {
-    background-color: @db_bg;
-    color: @db_orange;
+    background-color: @yo_view;
+    color: @yo_fg;
 }
 
 .window:not(.swaync-window) {
-    background-color: @db_bg;
-    color: @db_orange;
+    background-color: @yo_base;
+    color: @yo_fg;
 }
 
 /* 選取狀態 */
 .view:selected,
 .sidebar:selected,
 .sidebar row:selected {
-    background-color: @db_sel_bg;
-    color: @db_sel_fg;  /* 讓選取更明顯 */
+    background-color: @yo_sel_bg;
+    color: @yo_sel_fg;
 }
 
 /* 工具列 / 標頭列 */
 toolbar {
-    background-color: @db_panel;
-    color: @db_orange;
+    background-color: @yo_base;
+    color: @yo_fg;
 }
 
 headerbar,
 .header-bar {
-    background-color: @db_panel;
-    color: @db_orange;
+    background-color: @yo_base;
+    color: @yo_fg;
 }
 
 headerbar button {
-    background-color: @db_panel;
-    color: @db_orange;
+    background-color: @yo_base;
+    color: @yo_fg;
 }
 
 /* 功能表 */
-menubar {
-    background-color: @db_panel;
-    color: @db_orange;
-}
-
-menubar menuitem {
-    background-color: @db_panel;
-    color: @db_orange;
-}
-
-menu {
-    background-color: @db_panel;
-    color: @db_orange;
-}
-
+menubar,
+menubar menuitem,
+menu,
 menu menuitem {
-    background-color: @db_panel;
-    color: @db_orange;
+    background-color: @yo_base;
+    color: @yo_fg;
 }
-
