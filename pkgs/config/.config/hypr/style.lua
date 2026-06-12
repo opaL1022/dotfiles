@@ -50,25 +50,20 @@ hl.config({
     },
 
     animations = {
-        -- retroism: animations fully off — windows just snap into place
-        enabled = false,
+        -- 保持開啟(全關會讓 GTK popup 選單閃爍)；下方葉子設成極快≈瞬間，保留 retro 感
+        enabled = true,
     },
 })
 
 -- Bézier curves
-hl.curve("winIn",     { type = "bezier", points = { {0.1, 1.0},  {0.1, 1}    } })
-hl.curve("winOut",    { type = "bezier", points = { {0.1, 1.0},  {0.1, 1}    } })
-hl.curve("smoothOut", { type = "bezier", points = { {0.5, 0},    {0.99, 0.99} } })
-hl.curve("layerOut",  { type = "bezier", points = { {0.23, 1},   {0.32, 1}   } })
+hl.curve("snappy", { type = "bezier", points = { {0.05, 0.9}, {0.1, 1.0} } })
 
--- Animation leaves
-hl.animation({ leaf = "windowsIn",    enabled = true, speed = 5, bezier = "winIn",     style = "slide" })
-hl.animation({ leaf = "windowsOut",   enabled = true, speed = 3, bezier = "smoothOut", style = "slide" })
-hl.animation({ leaf = "windowsMove",  enabled = true, speed = 7, bezier = "winIn",     style = "slide" })
-hl.animation({ leaf = "workspacesIn", enabled = true, speed = 8, bezier = "winIn",     style = "slide" })
-hl.animation({ leaf = "workspacesOut",enabled = true, speed = 8, bezier = "winOut",    style = "slide" })
-hl.animation({ leaf = "layersIn",     enabled = true, speed = 7, bezier = "winIn",     style = "slide" })
-hl.animation({ leaf = "layersOut",    enabled = false })
+-- Animation leaves — 全部極快(≈瞬間)，動畫系統仍運作以避免 popup 閃爍
+hl.animation({ leaf = "windows",     enabled = true, speed = 2, bezier = "snappy", style = "popin 92%" })
+hl.animation({ leaf = "windowsMove", enabled = true, speed = 2, bezier = "snappy" })
+hl.animation({ leaf = "fade",        enabled = true, speed = 2, bezier = "snappy" })
+hl.animation({ leaf = "workspaces",  enabled = false })   -- 切工作區瞬間,不要動畫
+hl.animation({ leaf = "layers",      enabled = true, speed = 2, bezier = "snappy", style = "fade" })
 
 hl.config({
     scrolling = {
