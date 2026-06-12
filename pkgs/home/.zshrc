@@ -173,3 +173,80 @@ tw() {
   fi
 }
 export PATH="$PATH":"$HOME/.pub-cache/bin"
+
+# ── dotfiles 主題切換（git branch = 主題，自動 restow + reload）──
+# 用法：
+#   theme-switch            列出目前與可用主題
+#   theme-switch <name>     切到該主題（本地沒有會自動從 origin 建立）
+DOTFILES_DIR="$HOME/dotfiles"
+
+theme-switch() {
+  local dir="$DOTFILES_DIR"
+  [[ -d "$dir/.git" ]] || { print -P "%F{$DAYBREAK_ERR}找不到 dotfiles：$dir%f"; return 1 }
+
+  # 沒給參數 → 顯示目前與可用主題
+  if [[ -z "$1" ]]; then
+    print -P "目前主題：%F{$DAYBREAK_OK}$(git -C "$dir" symbolic-ref --short HEAD 2>/dev/null)%f"
+    print "可用主題（本地）："
+    git -C "$dir" branch --format='  %(refname:short)'
+    return 0
+  fi
+
+  local target="$1"
+
+  # 目標主題存在嗎？本地沒有就找 origin
+  if ! git -C "$dir" show-ref --verify --quiet "refs/heads/$target"; then
+    if git -C "$dir" show-ref --verify --quiet "refs/remotes/origin/$target"; then
+      print -P "%F{$DAYBREAK_OK}從 origin 建立本地分支 $target%f"
+      git -C "$dir" branch --track "$target" "origin/$target" || return 1
+    else
+      print -P "%F{$DAYBREAK_ERR}沒有這個主題：$target%f"
+      git -C "$dir" branch -a
+      return 1
+    fi
+  fi
+
+  # 髒工作目錄處理（app 會直接寫進 repo，例如 nvim 的 lazy-lock.json）
+  if [[ -n "$(git -C "$dir" status --porcelain)" ]]; then
+    print -P "%F{$DAYBREAK_ERR}dotfiles 有未提交的改動：%f"
+    git -C "$dir" status --short
+    print -n "處理方式？[s]tash / [c]ommit / [d]iscard / [a]bort: "
+    local ans; read -r ans
+    case "$ans" in
+      s) git -C "$dir" stash push -u -m "theme-switch auto-stash" || return 1 ;;
+      c) git -C "$dir" add -A && git -C "$dir" commit -m "wip: before switching to $target" || return 1 ;;
+      d) git -C "$dir" reset --hard && git -C "$dir" clean -fd ;;
+      *) print "已取消。"; return 1 ;;
+    esac
+  fi
+
+  # 切換主題（折疊目錄內的檔會立即生效）
+  git -C "$dir" checkout "$target" || { print -P "%F{$DAYBREAK_ERR}checkout 失敗%f"; return 1 }
+
+  # restow：補上新增/移除的頂層目錄 symlink；-R 可安全重複執行
+  if command -v stow >/dev/null 2>&1; then
+    if stow -R -d "$dir/pkgs" -t "$HOME" config home; then
+      print -P "%F{$DAYBREAK_OK}stow restow 完成%f"
+    else
+      print -P "%F{$DAYBREAK_ERR}stow 有衝突，請看上面訊息手動處理%f"
+    fi
+  fi
+
+  # reload 執行中的 app
+  command -v hyprctl    >/dev/null 2>&1 && hyprctl reload >/dev/null 2>&1
+  pgrep -x waybar       >/dev/null 2>&1 && killall -SIGUSR2 waybar 2>/dev/null
+  pgrep -x xsettingsd   >/dev/null 2>&1 && killall -HUP xsettingsd 2>/dev/null
+  command -v swaync-client >/dev/null 2>&1 && pgrep -x swaync >/dev/null 2>&1 && swaync-client -rs 2>/dev/null
+  command -v xrdb       >/dev/null 2>&1 && xrdb -merge "$HOME/.Xresources" 2>/dev/null
+
+  print -P "%F{$DAYBREAK_OK}已切換到主題：$target%f（nvim 與終端機請重開以套用）"
+}
+
+# tab 補全：補上本地與 origin 的主題分支
+_theme-switch() {
+  local -a themes
+  themes=(${(f)"$(git -C "$DOTFILES_DIR" for-each-ref --format='%(refname:short)' refs/heads 2>/dev/null)"})
+  themes+=(${(f)"$(git -C "$DOTFILES_DIR" for-each-ref --format='%(refname:short)' refs/remotes/origin 2>/dev/null | sed 's#^origin/##')"})
+  compadd -- ${(u)themes:#HEAD}
+}
+compdef _theme-switch theme-switch
