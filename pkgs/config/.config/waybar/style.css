@@ -11,6 +11,7 @@
 @define-color base      #d9caba;
 @define-color highlight #f0e2d3;  /* 斜角亮面（上/左） */
 @define-color shadow    #baafa1;  /* 斜角暗面（下/右） */
+@define-color bevel     #8a7c66;  /* 更深的斜角暗面（加強立體感） */
 @define-color outline   #3d3d39;  /* 硬外框 */
 @define-color text      #3e3d38;
 @define-color accent    #626335;
@@ -31,15 +32,14 @@ window#waybar.hidden { opacity: .2; }
 #pulseaudio,
 #mpd,
 #custom-media,
+#tray,
 #custom-power {
   margin: 3px 2px;
   padding: 0 8px;
   color: @text;
   background: @base;
-  border-top: 1px solid @highlight;
-  border-left: 1px solid @highlight;
-  border-bottom: 1px solid @shadow;
-  border-right: 1px solid @shadow;
+  border: 1px solid @outline;                                            /* 硬深色外框 */
+  box-shadow: inset 1px 1px 0 @highlight, inset -1px -1px 0 @bevel;       /* 內凸斜角 */
 }
 
 /* hover：輕微下沉 */
@@ -64,20 +64,16 @@ window#waybar.hidden { opacity: .2; }
   padding: 0 7px;
   color: @text;
   background: @base;
-  border-top: 1px solid @highlight;
-  border-left: 1px solid @highlight;
-  border-bottom: 1px solid @shadow;
-  border-right: 1px solid @shadow;
+  border: 1px solid @outline;
+  box-shadow: inset 1px 1px 0 @highlight, inset -1px -1px 0 @bevel;
 }
 /* active = 按下/凹陷（斜角反轉）+ accent 文字 */
 #workspaces button.active {
   background: @shadow;
   color: @outline;
   font-weight: bold;
-  border-top: 1px solid @shadow;
-  border-left: 1px solid @shadow;
-  border-bottom: 1px solid @highlight;
-  border-right: 1px solid @highlight;
+  border: 1px solid @outline;
+  box-shadow: inset 1px 1px 0 @bevel, inset -1px -1px 0 @highlight;       /* 凹陷(按下) */
 }
 #workspaces button.urgent {
   background: @urgent;
@@ -98,16 +94,7 @@ window#waybar.hidden { opacity: .2; }
   color: @outline;
 }
 
-/* ---- Tray：凹陷深色凹槽，讓 app 的白色圖示看得見（仿 Win95 系統匣）---- */
-#tray {
-  margin: 4px 3px;
-  padding: 0 6px;
-  background: #2b2b28;                  /* 深色凹槽 */
-  border-top: 1px solid #1f1f1d;        /* inset：上/左更暗 */
-  border-left: 1px solid #1f1f1d;
-  border-bottom: 1px solid @highlight;  /* 下/右亮 */
-  border-right: 1px solid @highlight;
-}
+/* ---- Tray（圖示改由 Gruvbox-Plus-Light 提供深色圖示，落在白金底上可見）---- */
 #tray > .needs-attention {
   -gtk-icon-effect: highlight;
   background: @urgent;
