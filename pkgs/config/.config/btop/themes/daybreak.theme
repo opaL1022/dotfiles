@@ -1,0 +1,95 @@
+# ================================
+# Daybreak Theme for btop (Orange Variant)
+# ================================
+
+# 主背景 & 前景
+theme[main_bg]="#1C1E26"
+theme[main_fg]="#D5D8DA"
+
+# 高亮 (游標 / 選單)
+theme[hi_fg]="#FAC29A"
+theme[hi_bg]="#333543"
+
+# 邊框 & 標題 → 全橘
+theme[cpu_box]="#FAC29A"
+theme[mem_box]="#FAC29A"
+theme[swap_box]="#FAC29A"
+theme[gpu_box]="#FAC29A"
+theme[net_box]="#FAC29A"
+theme[disk_box]="#FAC29A"
+theme[proc_box]="#FAC29A"
+theme[title]="#FAC29A"
+
+# 波形 & 量表 → 全橘
+theme[graph_text]="#FAC29A"
+theme[graph_bg]="#333543"
+theme[graph_line]="#FAC29A"
+theme[graph_text_hi]="#FAC29A"
+theme[meter_bg]="#333543"
+theme[meter_fg]="#FAC29A"
+
+# CPU 條 & 波 → 全橘
+theme[cpu_0]="#FAC29A"
+theme[cpu_1]="#FAC29A"
+theme[cpu_2]="#FAC29A"
+theme[cpu_3]="#FAC29A"
+theme[cpu_4]="#FAC29A"
+theme[cpu_5]="#FAC29A"
+theme[cpu_6]="#FAC29A"
+theme[cpu_7]="#FAC29A"
+
+# 記憶體
+theme[mem_used]="#FAC29A"
+theme[mem_cached]="#FAC29A"
+theme[mem_free]="#FAC29A"
+
+# Swap
+theme[swap_used]="#FAC29A"
+theme[swap_free]="#FAC29A"
+
+# GPU
+theme[gpu_used]="#FAC29A"
+theme[gpu_free]="#FAC29A"
+
+# 網路
+theme[net_up]="#FAC29A"
+theme[net_down]="#FAC29A"
+
+# 硬碟
+theme[disk_used]="#FAC29A"
+theme[disk_free]="#FAC29A"
+
+# 程序列表
+theme[proc_bg]="#1C1E26"
+theme[proc_fg]="#D5D8DA"
+theme[proc_hi_fg]="#FAC29A"
+theme[proc_hi_bg]="#333543"
+
+# —— CPU / MEM / DISK / GPU 波形全橘（漸層三段都設成同色）——
+theme[cpu_start]="#FAC29A"
+theme[cpu_mid]="#FAC29A"
+theme[cpu_end]="#FAC29A"
+
+theme[mem_start]="#FAC29A"
+theme[mem_mid]="#FAC29A"
+theme[mem_end]="#FAC29A"
+
+theme[disk_start]="#FAC29A"
+theme[disk_mid]="#FAC29A"
+theme[disk_end]="#FAC29A"
+
+theme[gpu_start]="#FAC29A"
+theme[gpu_mid]="#FAC29A"
+theme[gpu_end]="#FAC29A"
+
+# —— 網路上下行波形（原本常見的綠色/紅色）——
+theme[net_up]="#FAC29A"
+theme[net_down]="#FAC29A"
+
+# —— 迷你圖 / 細節圖用色（程序框右側的小波形、記憶體細節圖）——
+theme[proc_misc]="#FAC29A"
+
+# —— 量表/文字也補齊 —— 
+theme[meter_fg]="#FAC29A"
+theme[graph_text]="#FAC29A"
+
