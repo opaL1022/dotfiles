@@ -94,6 +94,27 @@ hl.config({
     },
 })
 
+-- ============================================================
+-- hyprbars: 每視窗 retro 標題列 (yorha palette)
+-- plugin 由 pacman 套件 hyprland-plugin-hyprbars 提供 → /usr/lib/libhyprbars.so
+-- ============================================================
+hl.plugin.load("/usr/lib/libhyprbars.so")
+
+hl.config({
+    plugin = {
+        hyprbars = {
+            bar_height                 = 24,
+            bar_color                  = "rgb(d9caba)",  -- yorha base
+            ["col.text"]               = "rgb(3e3d38)",  -- yorha text
+            bar_text_size              = 12,
+            bar_part_of_window         = true,
+            bar_precedence_over_border = true,
+            -- NOTE: hyprbars-button 是 keyword handler，目前 lua config 無法設定，
+            --       關閉鈕暫缺（用 SUPER+Q 關視窗）；待找到 lua 設 keyword 的方法再加。
+        },
+    },
+})
+
 -- Window rules
 hl.window_rule({ match = { class = "firefox" },       opacity = "1" })
 hl.window_rule({ match = { class = "discord" },       opacity = "1" })
