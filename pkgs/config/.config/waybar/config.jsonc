@@ -30,8 +30,8 @@
         //"hyprland/language",
         "battery",
         //"battery#bat2",
-        "custom/power",
-        "custom/swaync"
+        "custom/swaync",
+        "custom/power"
     ],
     // Modules configuration
     // Using "hyprland/workspaces" (NOT "ext/workspaces"). Under the Lua config
