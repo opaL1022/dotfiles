@@ -35,7 +35,7 @@ window#waybar.hidden { opacity: .2; }
 #tray,
 #custom-power {
   margin: 3px 2px;
-  padding: 0 8px;
+  padding: 9px 10px;   /* 垂直內距讓按鈕填滿加高後的 bar */
   color: @text;
   background: @base;
   border: 1px solid @outline;                                            /* 硬深色外框 */
@@ -61,7 +61,7 @@ window#waybar.hidden { opacity: .2; }
 }
 #workspaces button {
   margin: 0 1px;
-  padding: 0 7px;
+  padding: 9px 9px;
   color: @text;
   background: @base;
   border: 1px solid @outline;
