@@ -37,3 +37,6 @@ node_modules/
 .config/pulse/
 .config/ibus/bus/
 pkgs/config/.config/pulse/
+
+# vendored retro 資產(字體/GTK主題/icon)——覆蓋上面的 *.png 等規則
+!pkgs/home/.local/share/**
