@@ -1,0 +1,64 @@
+gui:
+  theme:
+    activeBorderColor:
+      - "#626335"
+      - bold
+    inactiveBorderColor:
+      - "#8a7c66"
+    searchingActiveBorderColor:
+      - "#a8782a"
+      - bold
+    optionsTextColor:
+      - "#3d5a72"
+    selectedLineBgColor:
+      - "#f0e2d3"
+    inactiveViewSelectedLineBgColor:
+      - "#8a7c66"
+    cherryPickedCommitFgColor:
+      - "#5e6e2f"
+    cherryPickedCommitBgColor:
+      - "#f0e2d3"
+    markedBaseCommitFgColor:
+      - "#a8782a"
+    markedBaseCommitBgColor:
+      - "#8a7c66"
+    unstagedChangesColor:
+      - "#9e3b2e"
+    defaultFgColor:
+      - "#3e3d38"
+  authorColors:
+    "*": "#7c4a60"
+  branchColorPatterns:
+    "^main$": "#a8782a"
+    "^master$": "#a8782a"
+    "^develop$": "#3d5a72"
+    "^dev$": "#3d5a72"
+    "^feature/": "#5e6e2f"
+    "^fix/": "#9e3b2e"
+    "^hotfix/": "#9e3b2e"
+    "^release/": "#a8782a"
+    "^docs/": "#3f7068"
+    "^refactor/": "#7c4a60"
+  customIcons:
+    filenames:
+      "README.md": {icon: "\U000F0354", color: "#3d5a72"}
+      "Makefile": {icon: "\U000F1064", color: "#a8782a"}
+      ".gitignore": {icon: "", color: "#8a7c66"}
+      "CMakeLists.txt": {icon: "", color: "#a8782a"}
+    extensions:
+      ".c": {icon: "", color: "#3d5a72"}
+      ".cc": {icon: "", color: "#3d5a72"}
+      ".cpp": {icon: "", color: "#3d5a72"}
+      ".h": {icon: "", color: "#a8782a"}
+      ".hpp": {icon: "", color: "#a8782a"}
+      ".cu": {icon: "", color: "#5e6e2f"}
+      ".cuh": {icon: "", color: "#5e6e2f"}
+      ".py": {icon: "", color: "#626335"}
+      ".lua": {icon: "", color: "#3f7068"}
+      ".sh": {icon: "", color: "#5e6e2f"}
+      ".md": {icon: "", color: "#3e3d38"}
+os:
+  edit: "nvim {{filename}}"
+git:
+  pagers:
+    - colorArg: always
