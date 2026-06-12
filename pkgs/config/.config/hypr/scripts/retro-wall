@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 # retro-wall — hyprpaper 壁紙切換器 (retroism)
-# 用法: retro-wall {next|prev|random|set <path>|menu|restore}
+# 用法: retro-wall {next|prev|random|set <path>|menu|restore|fit <img> [out]}
 #   next/prev  循環下一張/上一張
 #   random     隨機一張
 #   set <path> 指定某張
 #   menu       wofi 選單挑選
 #   restore    開機後套用上次選的(等 hyprpaper 就緒)
+#   fit <img>  把圖烤成 16:10(清晰置頂、下方模糊延伸填滿)，預設輸出到桌布夾
 set -euo pipefail
 
 WALLDIR="${RETRO_WALL_DIR:-$HOME/Pictures/wallpapers/retro}"
@@ -67,7 +68,21 @@ case "$cmd" in
         cur="$(current_path)"; [ -f "$cur" ] || cur="${WALLS[0]}"
         apply "$cur"
         ;;
+    fit)
+        # 把任意比例的圖烤成 16:10：清晰原圖貼齊頂端，下方用同圖放大模糊版填滿(不裁切)
+        [ $# -ge 2 ] || { echo "用法: retro-wall fit <圖片> [輸出檔]" >&2; exit 1; }
+        src="$2"; [ -f "$src" ] || { echo "retro-wall: 找不到 $src" >&2; exit 1; }
+        command -v magick >/dev/null || { echo "retro-wall: 需要 imagemagick(magick)" >&2; exit 1; }
+        out="${3:-$WALLDIR/$(basename "$src")}"
+        w="$(magick identify -format '%w' "$src")"
+        h10=$((w * 10 / 16))
+        magick "$src" \
+            \( +clone -resize "${w}x${h10}^" -gravity center -extent "${w}x${h10}" -blur 0x50 -modulate 92 \) \
+            +swap -gravity north -composite \
+            "$out"
+        echo "retro-wall: 已烤 16:10(清晰置頂/下方模糊) → $out"
+        ;;
     *)
-        echo "用法: retro-wall {next|prev|random|set <path>|menu|restore}" >&2; exit 1
+        echo "用法: retro-wall {next|prev|random|set <path>|menu|restore|fit <img> [out]}" >&2; exit 1
         ;;
 esac

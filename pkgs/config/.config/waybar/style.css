@@ -2,7 +2,7 @@
 * {
   /* Monaco/Charcoal 在 Phase 7 安裝；現在先 fallback 到 monospace，圖示用 FontAwesome */
   font-family: "Monaco", "Charcoal", monospace, FontAwesome;
-  font-size: 12px;
+  font-size: 14px;
   border-radius: 0;          /* 復古直角 */
   min-height: 0;
 }
