@@ -30,7 +30,8 @@
         //"hyprland/language",
         "battery",
         //"battery#bat2",
-        "custom/power"
+        "custom/power",
+        "custom/swaync"
     ],
     // Modules configuration
     // Using "hyprland/workspaces" (NOT "ext/workspaces"). Under the Lua config
@@ -189,5 +190,26 @@
 			"suspend": "systemctl suspend",
 			"hibernate": "systemctl hibernate"
 		}
+    },
+
+    "custom/swaync": {
+        "tooltip": false,
+        "format": "{icon}",
+        "format-icons": {
+            "none": "",
+            "notification": "<span foreground='#9e3b2e'></span>",
+            "dnd-none": "",
+            "dnd-notification": "<span foreground='#9e3b2e'></span>",
+            "inhibited-none": "",
+            "inhibited-notification": "<span foreground='#9e3b2e'></span>",
+            "dnd-inhibited-none": "",
+            "dnd-inhibited-notification": "<span foreground='#9e3b2e'></span>"
+        },
+        "return-type": "json",
+        "exec-if": "which swaync-client",
+        "exec": "swaync-client -swb",
+        "on-click": "swaync-client -t -sw",
+        "on-click-right": "swaync-client -d -sw",
+        "escape": true
     }
 }

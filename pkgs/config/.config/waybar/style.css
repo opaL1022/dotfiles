@@ -33,6 +33,7 @@ window#waybar.hidden { opacity: .2; }
 #mpd,
 #custom-media,
 #tray,
+#custom-swaync,
 #custom-power {
   margin: 3px 2px;
   padding: 9px 10px;   /* 垂直內距讓按鈕填滿加高後的 bar */
@@ -49,6 +50,7 @@ window#waybar.hidden { opacity: .2; }
 #pulseaudio:hover,
 #mpd:hover,
 #custom-media:hover,
+#custom-swaync:hover,
 #custom-power:hover {
   background: @highlight;
 }
