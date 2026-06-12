@@ -1,1 +1,41 @@
-/home/opal/.themes/DayBreak/gtk-4.0/gtk.css
+/* ===== Retroism · yorha override (GTK4，套在 ClassicPlatinum 之上) ===== */
+
+@define-color yo_base    #d9caba;
+@define-color yo_view    #f0e2d3;
+@define-color yo_fg      #3e3d38;
+@define-color yo_sel_bg  #626335;
+@define-color yo_sel_fg  #f0e2d3;
+
+.view, .sidebar {
+    background-color: @yo_view;
+    color: @yo_fg;
+}
+
+.window:not(.swaync-window),
+window {
+    background-color: @yo_base;
+    color: @yo_fg;
+}
+
+.view:selected,
+.sidebar:selected,
+.sidebar row:selected,
+row:selected {
+    background-color: @yo_sel_bg;
+    color: @yo_sel_fg;
+}
+
+headerbar,
+.titlebar,
+headerbar button {
+    background-color: @yo_base;
+    color: @yo_fg;
+}
+
+popover,
+popover > contents,
+menu,
+.menu {
+    background-color: @yo_base;
+    color: @yo_fg;
+}

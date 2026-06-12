@@ -6,7 +6,7 @@
 ^\.config/.*/Cache(/|$)
 ^\.config/.*GPUCache(/|$)
 ^\.config/systemd/
-^\.config/gtk-4\.0/(assets|gtk\.css|gtk-dark\.css)$
+^\.config/gtk-4\.0/(assets|gtk-dark\.css)$
 ^\.config/mimeapps\.list$
 ^\.config/pavucontrol\.ini$
 # nvim 已拆成獨立 repo（直接 clone 到 ~/.config/nvim，不走 stow）

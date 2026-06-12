@@ -36,7 +36,7 @@ window#waybar.hidden { opacity: .2; }
 #custom-swaync,
 #custom-power {
   margin: 3px 2px;
-  padding: 9px 10px;   /* 垂直內距讓按鈕填滿加高後的 bar */
+  padding: 9px;        /* 上下左右一致 */
   color: @text;
   background: @base;
   border: 1px solid @outline;                                            /* 硬深色外框 */
