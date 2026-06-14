@@ -41,6 +41,8 @@ apply() {
         [ -n "$mon" ] && hyprctl hyprpaper "wallpaper $mon,$wall" >/dev/null 2>&1 || true
     done < <(hyprctl monitors -j | jq -r '.[].name' 2>/dev/null)
     printf '%s\n' "$wall" > "$STATE"
+    # 固定 symlink，給 hyprlock 當鎖屏背景(永遠=目前桌布)
+    ln -sfn "$wall" "$STATE_DIR/current.img"
 }
 
 cmd="${1:-next}"
