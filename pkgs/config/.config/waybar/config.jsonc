@@ -171,7 +171,7 @@
       "return-type": "json",
       "escape": true,
       "tail": true,
-      "exec": "$HOME/.config/waybar/mediaplayer.py --player spotify,mpd,%any --max-length 60",
+      "exec": "$HOME/.config/waybar/mediaplayer.py --player spotify,mpd,%any --max-length 30",
       "on-click": "playerctl -p spotify,mpd,%any play-pause",
       "on-click-right": "playerctl -p spotify,mpd,%any next",
       "on-click-middle": "playerctl -p spotify,mpd,%any previous",
