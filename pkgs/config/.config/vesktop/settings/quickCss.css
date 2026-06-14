@@ -324,7 +324,72 @@ section[class*="panel"] svg {
   color: #2b2a26 !important;
   font-weight: 500 !important;
 }
-/* ===== 未讀白點 → 黑(跟未讀頻道一致) ===== */
-[class*="unread__"], [class*="unreadImportant"] {
+/* ===== 未讀白點 → 黑(跟未讀頻道一致) =====
+   注意:排除 Discord 的「未讀跳轉條」(unreadTop/Bottom/Bar/MentionsBar),
+   否則整個 303x40 的提示容器會被染成 #1e1d1b → 變成頻道列上下的黑方塊。===== */
+[class*="unread__"]:not([class*="unreadTop"]):not([class*="unreadBottom"]):not([class*="unreadBar"]):not([class*="unreadMentions"]),
+[class*="unreadImportant"]:not([class*="unreadMentions"]) {
   background-color: #1e1d1b !important;
+}
+
+/* ===== 隱藏捲軸上下箭頭按鈕(那兩個黑方塊;會擋內容/卡滾動) ===== */
+::-webkit-scrollbar-button { display: none !important; width: 0 !important; height: 0 !important; }
+
+/* ===== 徹底隱藏捲軸按鈕(所有方向變體) + 清掉軌道邊框 ===== */
+::-webkit-scrollbar-button,
+::-webkit-scrollbar-button:vertical:decrement,
+::-webkit-scrollbar-button:vertical:increment,
+::-webkit-scrollbar-button:horizontal:decrement,
+::-webkit-scrollbar-button:horizontal:increment,
+::-webkit-scrollbar-button:start,
+::-webkit-scrollbar-button:end,
+::-webkit-scrollbar-button:single-button,
+::-webkit-scrollbar-button:double-button {
+  display: none !important;
+  height: 0 !important;
+  width: 0 !important;
+  background: transparent !important;
+}
+::-webkit-scrollbar-track, ::-webkit-scrollbar-track-piece {
+  border: none !important;
+}
+
+/* ===== 補齊 bg-base 階梯(fade 漸層引用的變數;沒設會變黑) ===== */
+:root {
+  --bg-base-lowest:  #c2b39e !important;
+  --bg-base-lower:   #cabba6 !important;
+  --bg-base-higher:  #e3d6c4 !important;
+  --bg-base-highest: #ece0cd !important;
+  --bg-overlay-app-frame: #cfc0ac !important;
+}
+/* ===== 讓 Discord 的 thin_ scroller 交還 webkit 控制(scrollbar-width:thin 會停用
+   ::-webkit-scrollbar-*)。這樣上面的粗捲軸樣式才會套到頻道列等細捲軸。
+   (註:頻道列上下的黑方塊其實是未讀跳轉條被染色,非捲軸;見檔尾 unreadBar 規則。)===== */
+[class*="scroller_"],
+[class*="scrollerBase_"],
+[class*="thin_"],
+#channels {
+  scrollbar-width: auto !important;
+  scrollbar-color: auto !important;
+}
+/* 標準細捲軸的後備配色(萬一某處 webkit 仍沒接管,至少不是黑) */
+* {
+  scrollbar-color: #cfc0ac #e3d6c4;
+}
+
+/* ===== 未讀跳轉條(頻道列上下緣「有未讀頻道」提示):
+   外層容器還原透明(原本被我的 unread 規則染黑成 303x40 黑方塊),
+   內層 pill 給 retro olive,提及條給 urgent 紅。===== */
+[class*="unreadTop"], [class*="unreadBottom"] {
+  background-color: transparent !important;
+}
+[class*="unreadBar"] {
+  background-color: #626335 !important;   /* olive accent pill */
+  color: #f0e2d3 !important;
+  border-radius: 0 !important;
+}
+[class*="unreadMentionsBar"] {
+  background-color: #9e3b2e !important;    /* 提及=urgent 紅 */
+  color: #f0e2d3 !important;
+  border-radius: 0 !important;
 }
