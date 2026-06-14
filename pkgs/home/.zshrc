@@ -152,9 +152,6 @@ export PATH="$PATH:$ANDROID_HOME/emulator"
 
 xrdb -merge ~/.Xresources
 
-#big delete
-bindkey '^H' backward-kill-word
-
 eval $(thefuck --alias)
 
 command -v fastfetch >/dev/null 2>&1 && fastfetch

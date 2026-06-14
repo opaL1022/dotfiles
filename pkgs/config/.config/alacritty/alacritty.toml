@@ -3,7 +3,7 @@ normal = { family = "Dank Mono", style = "Regular" }
 bold = { family = "Dank Mono", style = "Bold" }
 italic = { family = "Dank Mono", style = "Italic" }
 
-size = 16
+size = 18
 
 # ===== Retroism · yorha 配色（移植自 retroism kitty yorha_theme）=====
 [window]

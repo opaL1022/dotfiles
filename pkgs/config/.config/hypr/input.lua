@@ -20,6 +20,11 @@ hl.config({
     },
 })
 
+hl.device({
+    name       = "at-translated-set-2-keyboard",
+    kb_options = "ctrl:swapcaps",
+})
+
 -- The old `workspace_swipe` option was removed in favour of the new gesture
 -- system. Uncomment to swipe between workspaces with 3 fingers:
 -- hl.gesture({
