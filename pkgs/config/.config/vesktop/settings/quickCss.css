@@ -192,3 +192,109 @@ button[class*="colorBrand"] {
 [class*="containerDefault"][class*="category"] {
   border-top: 1px solid #3d3d39;
 }
+
+/* ===== @提及：深字 + olive 底 ===== */
+.mention, [class*="mention"] {
+  background-color: rgba(98,99,53,.18) !important;
+  color: #3e3d38 !important;
+  border-radius: 0 !important;
+}
+.mention:hover, [class*="mention"]:hover {
+  background-color: rgba(98,99,53,.32) !important;
+  color: #2b2a26 !important;
+}
+
+/* ===== 代碼區塊(inline + block)：淺底深字 ===== */
+code, code[class*="inline"], pre, pre code, .hljs {
+  background-color: #ece0cd !important;
+  color: #3e3d38 !important;
+}
+/* highlight.js 語法 token → yorha 收斂色 */
+.hljs-keyword, .hljs-built_in, .hljs-selector-tag, .hljs-section { color: #9e3b2e !important; }
+.hljs-string, .hljs-attr, .hljs-symbol           { color: #5e6e2f !important; }
+.hljs-number, .hljs-literal, .hljs-boolean        { color: #a8782a !important; }
+.hljs-comment, .hljs-quote                        { color: #8a7c66 !important; }
+.hljs-function, .hljs-title, .hljs-name           { color: #3d5a72 !important; }
+.hljs-type, .hljs-class                           { color: #3f7068 !important; }
+.hljs-variable, .hljs-template-variable, .hljs-regexp { color: #7c4a60 !important; }
+
+/* ===== 圖示白色修正 ===== */
+:root, .theme-light, .theme-dark {
+  --icon-primary: #3e3d38;
+  --icon-secondary: #5e5648;
+  --icon-tertiary: #8a7c66;
+  --icon-muted: #a89a82;
+  --interactive-icon: #3e3d38;
+}
+/* UI svg 圖示(currentColor)染深；排除彩色 emoji / 狀態點 */
+svg:not([class*="emoji"]):not([class*="Emoji"]):not([class*="status"]):not([class*="Status"]) {
+  color: #3e3d38 !important;
+}
+
+/* ===== 選中/hover 頻道 + 語音面板按鈕 的白圖示 ===== */
+[class*="modeSelected"] svg, [class*="modeSelected"] [class*="icon"],
+[class*="link_"]:hover svg, [class*="containerDefault"]:hover svg,
+[class*="modeConnected"] svg, [class*="modeConnected"] [class*="icon"] {
+  color: #3e3d38 !important;
+  fill: #3e3d38 !important;
+}
+/* 語音連線面板(掛電話/雜音抑制/視訊等按鈕)圖示 */
+[class*="voicePanel"] svg, [class*="connection_"] svg,
+[class*="actionButtons"] svg, [class*="voiceButtons"] svg,
+[class*="panels_"] [class*="button"] svg {
+  color: #3e3d38 !important;
+  fill: #3e3d38 !important;
+}
+
+/* ===== 補新版 text/icon token (含 --text-subtle；用 !important 壓過 ClientTheme) ===== */
+:root, .theme-light, .theme-dark, .visual-refresh {
+  --text-default: #3e3d38 !important;
+  --text-normal: #3e3d38 !important;
+  --text-primary: #3e3d38 !important;
+  --text-secondary: #5e5648 !important;
+  --text-tertiary: #8a7c66 !important;
+  --text-subtle: #5e5648 !important;
+  --text-muted: #8a7c66 !important;
+  --text-faint: #a89a82 !important;
+  --text-feedback-muted: #8a7c66 !important;
+  --header-primary: #2b2a26 !important;
+  --header-secondary: #5e5648 !important;
+  --channels-default: #5e5648 !important;
+  --channel-icon: #8a7c66 !important;
+  --interactive-normal: #3e3d38 !important;
+  --interactive-hover: #2b2a26 !important;
+  --interactive-active: #2b2a26 !important;
+  --icon-primary: #3e3d38 !important;
+  --icon-secondary: #5e5648 !important;
+  --icon-tertiary: #8a7c66 !important;
+  --icon-muted: #a89a82 !important;
+  --white-500: #3e3d38 !important;
+}
+
+/* ===== 使用者名稱(語音/成員/作者) → 深 ===== */
+[class*="username"], span[class*="name__"] {
+  color: #3e3d38 !important;
+}
+
+/* ===== hover 的頻道(文字+圖示一起深;不用 inspect) ===== */
+[class*="link"]:hover, [class*="link"]:hover *,
+[class*="containerDefault"]:hover, [class*="containerDefault"]:hover *,
+[class*="interactive"]:hover, [class*="interactive"]:hover * {
+  color: #3e3d38 !important;
+}
+
+/* ===== 底部/語音面板按鈕圖示(雜音抑制等;只用 color,不碰 blurple 動畫的 fill) ===== */
+[class*="panels_"] svg,
+[class*="wrapper_"] [class*="button"] svg,
+[class*="voiceUser"] svg,
+section[class*="panel"] svg {
+  color: #3e3d38 !important;
+}
+
+/* ===== 連結(anchor) → 板岩藍 ===== */
+[class*="anchor"] { color: #3d5a72 !important; }
+
+/* ===== 語音控制 Lottie 圖示(雜音抑制/中斷連接)：只染可見的 blurple 路徑,不碰遮罩 ===== */
+[class*="lottieIcon"] svg path[fill="rgb(88,101,242)"] {
+  fill: #3e3d38 !important;
+}
