@@ -301,3 +301,30 @@ section[class*="panel"] svg {
 
 /* ===== 未讀/一般頻道名稱(div 也要;白字醒目→深) ===== */
 [class*="name__"] { color: #3e3d38 !important; }
+
+/* ===== 頻道名:已讀偏淡 / 未讀+選中 黑加粗(恢復區別) ===== */
+[class*="containerDefault"] [class*="name__"],
+[class*="link_"] [class*="name__"] {
+  color: #7a7060 !important;     /* 已讀:中性偏淡 */
+  font-weight: 400 !important;
+}
+[class*="modeSelected"] [class*="name__"] {
+  color: #2b2a26 !important;     /* 選中:黑+粗 */
+  font-weight: 600 !important;
+}
+[class*="modeUnread"] [class*="name__"],
+[class*="unread"] [class*="name__"] {
+  color: #1e1d1b !important;     /* 未讀:黑+粗,最醒目 */
+  font-weight: 700 !important;
+}
+
+/* ===== hover 頻道名:加深(更精準,蓋過已讀淡色) ===== */
+[class*="containerDefault"]:hover [class*="name__"],
+[class*="link_"]:hover [class*="name__"] {
+  color: #2b2a26 !important;
+  font-weight: 500 !important;
+}
+/* ===== 未讀白點 → 黑(跟未讀頻道一致) ===== */
+[class*="unread__"], [class*="unreadImportant"] {
+  background-color: #1e1d1b !important;
+}
