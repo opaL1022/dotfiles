@@ -298,3 +298,6 @@ section[class*="panel"] svg {
 [class*="lottieIcon"] svg path[fill="rgb(88,101,242)"] {
   fill: #3e3d38 !important;
 }
+
+/* ===== 未讀/一般頻道名稱(div 也要;白字醒目→深) ===== */
+[class*="name__"] { color: #3e3d38 !important; }
