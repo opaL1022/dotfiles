@@ -91,9 +91,10 @@ hl.config({
 
 -- ============================================================
 -- hyprbars: 每視窗 retro 標題列 (yorha palette)
--- plugin 由 pacman 套件 hyprland-plugin-hyprbars 提供 → /usr/lib/libhyprbars.so
+-- plugin 改由 hyprpm 管理(不鎖 pacman 更新)：hyprpm add hyprland-plugins
+-- hyprland 升級後需跑 `hyprpm update` 重編，否則 .so 版本不符不會載入
 -- ============================================================
-hl.plugin.load("/usr/lib/libhyprbars.so")
+hl.plugin.load("/var/cache/hyprpm/" .. (os.getenv("USER") or "") .. "/hyprland-plugins/hyprbars.so")
 
 hl.config({
     plugin = {

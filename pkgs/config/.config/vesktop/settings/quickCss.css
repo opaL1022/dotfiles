@@ -328,3 +328,6 @@ section[class*="panel"] svg {
 [class*="unread__"], [class*="unreadImportant"] {
   background-color: #1e1d1b !important;
 }
+
+/* ===== 隱藏捲軸上下箭頭按鈕(那兩個黑方塊;會擋內容/卡滾動) ===== */
+::-webkit-scrollbar-button { display: none !important; width: 0 !important; height: 0 !important; }
