@@ -6,12 +6,14 @@ hl.config({
         gaps_in  = 5,
         gaps_out = 10,
 
-        -- thin 1px window frame
-        border_size = 1,
+        -- 2px frame so the Platinum bevel reads (1px is too thin to emboss)
+        border_size = 2,
 
         col = {
-            -- yorha palette: dark outline when focused, lighter shadow when not
-            active_border   = "rgb(3d3d39)",
+            -- Platinum 浮雕邊：亮邊在上/左、暗邊在下/右(斜角漸層)，視窗(含 hyprbars
+            -- 標題列，因 bar_part_of_window=true)整個看起來像凸起的舊系統視窗
+            active_border   = { colors = { "rgb(f0e2d3)", "rgb(8a7c66)" }, angle = 135 },
+            -- 非作用視窗：平淡退到背景(無浮雕)，做出 Platinum「前景視窗才立體」的效果
             inactive_border = "rgb(baafa1)",
         },
 
@@ -91,10 +93,13 @@ hl.config({
 
 -- ============================================================
 -- hyprbars: 每視窗 retro 標題列 (yorha palette)
--- plugin 改由 hyprpm 管理(不鎖 pacman 更新)：hyprpm add hyprland-plugins
--- hyprland 升級後需跑 `hyprpm update` 重編，否則 .so 版本不符不會載入
+-- ** 自編 patch 版 **：原版 hyprbars 無法在標題兩側畫橫條(pinstripe)，
+--    所以 fork 改了 barDeco.cpp(標題左右畫等距水平線，僅作用視窗)。
+--    source: ~/.local/src/hyprland-plugins (對應 Hyprland 0.55.4 的 pin commit 3aa21f2)
+--    重編: ~/.local/src/hyprland-plugins/rebuild-hyprbars.sh
+-- ** Hyprland 升級後 .so 會 ABI 不符 → 必須重跑 rebuild 腳本(不是 hyprpm update) **
 -- ============================================================
-hl.plugin.load("/var/cache/hyprpm/" .. (os.getenv("USER") or "") .. "/hyprland-plugins/hyprbars.so")
+hl.plugin.load((os.getenv("HOME") or "") .. "/.local/share/hyprbars/hyprbars.so")
 
 hl.config({
     plugin = {
@@ -103,6 +108,7 @@ hl.config({
             bar_color                  = "rgb(d9caba)",  -- yorha base
             ["col.text"]               = "rgb(3e3d38)",  -- yorha text
             bar_text_size              = 14,
+            bar_text_align             = "center",       -- pinstripe 對稱所需
             bar_part_of_window         = true,
             bar_precedence_over_border = true,
         },
