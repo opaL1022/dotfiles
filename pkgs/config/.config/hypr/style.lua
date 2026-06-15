@@ -6,15 +6,15 @@ hl.config({
         gaps_in  = 5,
         gaps_out = 10,
 
-        -- 2px frame so the Platinum bevel reads (1px is too thin to emboss)
-        border_size = 2,
+        -- 厚漸層框：把邊框往外加粗,作用視窗變成有厚度的 3D 浮雕框(視覺上接近內距)
+        -- 想要多厚改這個數字即可(2=細浮雕, 8≈厚框)
+        border_size = 8,
 
         col = {
-            -- Platinum 浮雕邊：亮邊在上/左、暗邊在下/右(斜角漸層)，視窗(含 hyprbars
-            -- 標題列，因 bar_part_of_window=true)整個看起來像凸起的舊系統視窗
-            active_border   = { colors = { "rgb(f0e2d3)", "rgb(8a7c66)" }, angle = 135 },
-            -- 非作用視窗：平淡退到背景(無浮雕)，做出 Platinum「前景視窗才立體」的效果
-            inactive_border = "rgb(baafa1)",
+            -- 邊框 = hyprbars bar_color (yorha base #d9caba)：厚框 + 標題列連成一片，
+            -- 整個視窗外圍是均勻 yorha 色帶 → 看起來像每個視窗都有一圈內距框
+            active_border   = "rgb(d9caba)",
+            inactive_border = "rgb(d9caba)",
         },
 
         resize_on_border = true,
@@ -110,6 +110,8 @@ hl.config({
             bar_text_size              = 14,
             bar_text_align             = "center",       -- pinstripe 對稱所需
             bar_part_of_window         = true,
+            -- true：邊框繞在 bar 外側(上方)。因邊框=bar 同色 #d9caba,上方邊框會跟 bar
+            -- 融成一片(看不出線),且邊框不在 bar 與內容之間 → 下方不會有橫線。
             bar_precedence_over_border = true,
         },
     },

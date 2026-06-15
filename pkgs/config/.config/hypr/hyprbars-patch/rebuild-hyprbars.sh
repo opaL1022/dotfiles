@@ -60,11 +60,14 @@ echo "==> 重編"
 make -C hyprbars CXX=g++ clean >/dev/null 2>&1 || true
 make -C hyprbars CXX=g++
 
-cp "$SRC/hyprbars/hyprbars.so" "$DEST"
-echo "✔ 已部署到 $DEST"
+# ⚠ atomic 部署：寫到暫存檔再 mv(換新 inode)。
+# 絕不可 cp 原地覆寫 $DEST —— 執行中的 Hyprland 把它 mmap 成執行碼，
+# 原地覆寫會改到執行中程式的 pages → 立刻 SEGV(整個桌面崩)。
+# mv 是同檔系統的 rename，給新 inode，執行中程序繼續用舊 inode，安全。
+cp "$SRC/hyprbars/hyprbars.so" "$DEST.new"
+mv -f "$DEST.new" "$DEST"
+echo "✔ 已 atomic 部署到 $DEST"
 echo
-echo "套用到執行中的 Hyprland(live)："
-echo "  hyprctl plugin unload \"\$HOME/.local/share/hyprbars/hyprbars.so\""
-echo "  hyprctl plugin load   \"\$HOME/.local/share/hyprbars/hyprbars.so\"   # 註冊 config key"
-echo "  hyprctl reload                                                       # 套用 yorha 設定"
-echo "或直接重啟 Hyprland(下次登入 style.lua 會自動載入)。"
+echo "套用方式：**重新登入 / 重啟 Hyprland**(下次啟動 style.lua 會載入新 .so)。"
+echo "⚠ 不要用 hyprctl plugin unload/load 來 live 換版 —— Hyprland 卸載 plugin"
+echo "  (dlclose)會 SEGV。一律靠重新登入套用。"

@@ -1,8 +1,20 @@
 diff --git a/hyprbars/barDeco.cpp b/hyprbars/barDeco.cpp
-index 257c4c9..09f18fb 100644
+index 257c4c9..5215678 100644
 --- a/hyprbars/barDeco.cpp
 +++ b/hyprbars/barDeco.cpp
-@@ -560,6 +560,36 @@ void CHyprBar::renderPass(PHLMONITOR pMonitor, const float& a) {
+@@ -473,7 +473,10 @@ void CHyprBar::renderPass(PHLMONITOR pMonitor, const float& a) {
+     const auto PWORKSPACE      = PWINDOW->m_workspace;
+     const auto WORKSPACEOFFSET = PWORKSPACE && !PWINDOW->m_pinned ? PWORKSPACE->m_renderOffset->value() : Vector2D();
+ 
+-    const auto ROUNDING = PWINDOW->rounding() + (PRECEDENCE ? 0 : PWINDOW->getRealBorderSize());
++    // retroism: 原式在 precedence=false 時把 border size 算進 ROUNDING，會讓 bar
++    // 往下多畫 ROUNDING*3 並圓角化(方角視窗下方會多一條 bar 色帶)。方角不需補償，
++    // ROUNDING 只看視窗實際圓角。
++    const auto ROUNDING = PWINDOW->rounding();
+ 
+     const auto scaledRounding = ROUNDING > 0 ? ROUNDING * pMonitor->m_scale - 2 /* idk why but otherwise it looks bad due to the gaps */ : 0;
+ 
+@@ -560,6 +563,36 @@ void CHyprBar::renderPass(PHLMONITOR pMonitor, const float& a) {
          CBox       titleBox          = {textBox.x + xOffset, textBox.y + yOffset, m_pTextTex->m_size.x, m_pTextTex->m_size.y};
  
          g_pHyprOpenGL->renderTexture(m_pTextTex, titleBox, {.a = a});
