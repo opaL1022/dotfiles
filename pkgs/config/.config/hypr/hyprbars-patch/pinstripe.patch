@@ -1,5 +1,5 @@
 diff --git a/hyprbars/barDeco.cpp b/hyprbars/barDeco.cpp
-index 257c4c9..5215678 100644
+index 257c4c9..87c6657 100644
 --- a/hyprbars/barDeco.cpp
 +++ b/hyprbars/barDeco.cpp
 @@ -473,7 +473,10 @@ void CHyprBar::renderPass(PHLMONITOR pMonitor, const float& a) {
@@ -14,7 +14,16 @@ index 257c4c9..5215678 100644
  
      const auto scaledRounding = ROUNDING > 0 ? ROUNDING * pMonitor->m_scale - 2 /* idk why but otherwise it looks bad due to the gaps */ : 0;
  
-@@ -560,6 +563,36 @@ void CHyprBar::renderPass(PHLMONITOR pMonitor, const float& a) {
+@@ -556,10 +559,44 @@ void CHyprBar::renderPass(PHLMONITOR pMonitor, const float& a) {
+         const auto scaledBarPadding  = BARPADDING * pMonitor->m_scale;
+         const auto xOffset           = ALIGN == "left" ? std::round(scaledBarPadding + (BUTTONSRIGHT ? 0 : scaledButtonsSize)) :
+                                                          std::round(((BARBUF.x - scaledBorderSize) / 2.0 - m_pTextTex->m_size.x / 2.0));
+-        const auto yOffset           = std::round((BARBUF.y - m_pTextTex->m_size.y) / 2.0);
++        // retroism: precedence=true 時上緣有一條同寬邊框(畫在 bar 上方)。把標題文字
++        // 往上移半個邊框,讓它在「邊框+bar」整個上方框帶內垂直置中(否則文字偏低看起來
++        // 不平衡)。pinstripe 依 titleBox.y 計算,會跟著一起上移。
++        const auto yOffset           = std::round((BARBUF.y - m_pTextTex->m_size.y) / 2.0
++                                                  - (PRECEDENCE ? scaledBorderSize / 2.0 : 0.0));
          CBox       titleBox          = {textBox.x + xOffset, textBox.y + yOffset, m_pTextTex->m_size.x, m_pTextTex->m_size.y};
  
          g_pHyprOpenGL->renderTexture(m_pTextTex, titleBox, {.a = a});
