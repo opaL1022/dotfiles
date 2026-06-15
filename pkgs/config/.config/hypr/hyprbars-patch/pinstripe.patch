@@ -1,0 +1,41 @@
+diff --git a/hyprbars/barDeco.cpp b/hyprbars/barDeco.cpp
+index 257c4c9..09f18fb 100644
+--- a/hyprbars/barDeco.cpp
++++ b/hyprbars/barDeco.cpp
+@@ -560,6 +560,36 @@ void CHyprBar::renderPass(PHLMONITOR pMonitor, const float& a) {
+         CBox       titleBox          = {textBox.x + xOffset, textBox.y + yOffset, m_pTextTex->m_size.x, m_pTextTex->m_size.y};
+ 
+         g_pHyprOpenGL->renderTexture(m_pTextTex, titleBox, {.a = a});
++
++        // ── Platinum pinstripes: 標題文字左右各畫一組等距水平橫線 ──
++        // 只在「作用中視窗」畫(背景視窗保持素淨，符合 Mac Platinum 行為)
++        const bool ACTIVEWINDOW = PWINDOW == Desktop::focusState()->window();
++        if (ACTIVEWINDOW && ALIGN != "left") {
++            const float leftEdge  = textBox.x + scaledBarPadding + (BUTTONSRIGHT ? 0 : scaledButtonsSize);
++            const float rightEdge = textBox.x + BARBUF.x - scaledBarPadding - (BUTTONSRIGHT ? scaledButtonsSize : 0);
++            const float gap       = 8.0 * pMonitor->m_scale; // 文字與橫線之間留白
++
++            CHyprColor  stripeCol = m_bForcedTitleColor.value_or(configColor(g_pGlobalState->config.textColor->value()));
++            stripeCol.a *= 0.55 * a; // 半透明，做出細緻的 pinstripe 而非實心塊
++
++            const float lineH   = std::max<double>(1.0, std::round(pMonitor->m_scale)); // 線粗(隨 scale)
++            const float step    = lineH * 3.0;                                  // 線+2倍空白 = 等距橫線
++            const float bandH   = std::round(BARBUF.y * 0.5);                   // 橫線帶佔 bar 高一半
++            const float bandTop = titleBox.y + m_pTextTex->m_size.y / 2.0 - bandH / 2.0;
++
++            auto drawStripes = [&](float x1, float x2) {
++                if (x2 - x1 < 6.0 * pMonitor->m_scale)
++                    return; // 空間太窄就不畫
++                for (float yy = bandTop; yy + lineH <= bandTop + bandH; yy += step) {
++                    CBox line = {x1, std::round(yy), x2 - x1, lineH};
++                    line.round();
++                    g_pHyprOpenGL->renderRect(line, stripeCol, {});
++                }
++            };
++
++            drawStripes(leftEdge, titleBox.x - gap);                         // 文字左側
++            drawStripes(titleBox.x + m_pTextTex->m_size.x + gap, rightEdge); // 文字右側
++        }
+     }
+ 
+     renderBarButtons(&textBox, pMonitor->m_scale, a);

@@ -95,8 +95,8 @@ hl.config({
 -- hyprbars: 每視窗 retro 標題列 (yorha palette)
 -- ** 自編 patch 版 **：原版 hyprbars 無法在標題兩側畫橫條(pinstripe)，
 --    所以 fork 改了 barDeco.cpp(標題左右畫等距水平線，僅作用視窗)。
---    source: ~/.local/src/hyprland-plugins (對應 Hyprland 0.55.4 的 pin commit 3aa21f2)
---    重編: ~/.local/src/hyprland-plugins/rebuild-hyprbars.sh
+--    patch + 重編腳本納入 dotfiles: ~/.config/hypr/hyprbars-patch/
+--    重編: ~/.config/hypr/hyprbars-patch/rebuild-hyprbars.sh
 -- ** Hyprland 升級後 .so 會 ABI 不符 → 必須重跑 rebuild 腳本(不是 hyprpm update) **
 -- ============================================================
 hl.plugin.load((os.getenv("HOME") or "") .. "/.local/share/hyprbars/hyprbars.so")
