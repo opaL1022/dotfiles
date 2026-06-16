@@ -45,6 +45,10 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("fcitx5 & /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1")
     hl.exec_cmd("nm-applet --indicator")
     hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=Hyprland")
+    -- 拉起 graphical-session.target,否則 xdg-desktop-portal(Requisite=graphical-session.target)
+    -- 起不來 → Vesktop/螢幕分享(ScreenCast portal)無反應。target 定義在
+    -- ~/.config/systemd/user/hyprland-session.target(BindsTo graphical-session.target)
+    hl.exec_cmd("systemctl --user start hyprland-session.target")
     hl.exec_cmd("gnome-keyring-daemon --start --components=secrets")
 end)
 
