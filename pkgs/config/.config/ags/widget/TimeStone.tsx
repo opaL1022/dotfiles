@@ -1,20 +1,34 @@
-// 時間主物件 —「空 / The Empty Sky」的招牌懸空石
-// 一顆漂在天空左上、偏側不置中的石/月,上面刻著時間(尺度悖論:它是畫面最大的物件)。
-// layer BOTTOM = 坐在桌布之上、一般視窗之下;Exclusivity.IGNORE = 不佔版面、純漂浮。
+// 時間主物件(月亮)—「空 / The Empty Sky」的招牌懸空石。
+// 顯示時間 + 日期 + 電量(月=能量/夜);點擊 → 電源選單(關機/重啟/登出/鎖定)。
 import app from "ags/gtk4/app"
 import { Astal, Gtk, Gdk } from "ags/gtk4"
 import { createPoll } from "ags/time"
 import GLib from "gi://GLib"
 import { idle } from "../lib/hypr"
+import { batLabel } from "../lib/services"
 
 export default function TimeStone(gdkmonitor: Gdk.Monitor) {
   const { TOP, LEFT } = Astal.WindowAnchor
 
-  // 用 GLib 格式化,避免把格式字串丟給 shell 拆字(空格 / · 會爆)
   const clock = createPoll("", 1000, () =>
     GLib.DateTime.new_now_local().format("%H:%M") ?? "")
   const date = createPoll("", 30_000, () =>
     GLib.DateTime.new_now_local().format("%a · %d %b") ?? "")
+
+  const content = (
+    <centerbox class="stone" orientation={Gtk.Orientation.VERTICAL}>
+      <box $type="center" orientation={Gtk.Orientation.VERTICAL} halign={Gtk.Align.CENTER}>
+        <label class="clock" label={clock} halign={Gtk.Align.CENTER} />
+        <label class="date" label={date} halign={Gtk.Align.CENTER} />
+        <label class="moon-bat" label={batLabel} halign={Gtk.Align.CENTER} />
+      </box>
+    </centerbox>
+  ) as unknown as Gtk.Widget
+
+  // 點擊月亮 → 電源選單
+  const click = new Gtk.GestureClick()
+  click.connect("pressed", () => app.toggle_window("powermenu"))
+  content.add_controller(click)
 
   return (
     <window
@@ -30,16 +44,7 @@ export default function TimeStone(gdkmonitor: Gdk.Monitor) {
       marginLeft={340}
       application={app}
     >
-      <centerbox class="stone" orientation={Gtk.Orientation.VERTICAL}>
-        <box
-          $type="center"
-          orientation={Gtk.Orientation.VERTICAL}
-          halign={Gtk.Align.CENTER}
-        >
-          <label class="clock" label={clock} halign={Gtk.Align.CENTER} />
-          <label class="date" label={date} halign={Gtk.Align.CENTER} />
-        </box>
-      </centerbox>
+      {content}
     </window>
   )
 }

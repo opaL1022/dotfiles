@@ -166,3 +166,40 @@ window.Launcher .launcher-item:hover {
 window.Launcher .launcher-item label {
   font-size: 15px;
 }
+
+/* 月亮上的電量小字 */
+window.TimeStone .moon-bat {
+  font-family: "Iowan Old Style", "Palatino", "Symbols Nerd Font", serif;
+  font-size: 14px;
+  color: @ink;
+  opacity: 0.7;
+  margin-top: 8px;
+}
+
+/* ── PowerMenu:電源選單(置中夜卡) ── */
+window.PowerMenu .power-box {
+  padding: 22px;
+  border-radius: 20px;
+  background-color: rgba(20, 28, 40, 0.94);
+  border: 1px solid rgba(127, 176, 216, 0.28);
+}
+window.PowerMenu .power-btn {
+  min-width: 96px;
+  min-height: 96px;
+  border-radius: 14px;
+  background-color: rgba(255, 255, 255, 0.04);
+  border: none;
+  color: #d7dfe6;
+}
+window.PowerMenu .power-btn:hover {
+  background-color: rgba(127, 176, 216, 0.18);
+  color: #f2f5f7;
+}
+window.PowerMenu .power-icon {
+  font-family: "Symbols Nerd Font", "JetBrainsMono Nerd Font", sans-serif;
+  font-size: 34px;
+}
+window.PowerMenu .power-label {
+  font-size: 13px;
+  letter-spacing: 1px;
+}
