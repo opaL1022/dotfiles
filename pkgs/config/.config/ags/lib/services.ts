@@ -1,5 +1,6 @@
-// 共用 Astal 服務層:電量 / 網路 / 媒體。給系統浮石、媒體掛畫、SkyBar 一起用。
-// 較 fiddly 的 network/mpris 用 poll 包住(對物件身分變動較穩),battery 用 binding。
+// 共用 Astal 服務層:電量 / 網路 / 媒體 / 音量 / CPU / RAM。
+// 較 fiddly 的 network/mpris/volume 用 poll 包住(對物件身分變動較穩),battery 用 binding。
+// 百分比前綴 Nerd Font 圖示(系統已裝 Symbols Nerd Font,靠 Pango fallback 渲染)。
 import { createBinding, createComputed } from "ags"
 import { createPoll } from "ags/time"
 import AstalBattery from "gi://AstalBattery"
@@ -13,17 +14,26 @@ const net = AstalNetwork.get_default()!
 const mpris = AstalMpris.get_default()!
 const wp = AstalWp.get_default()!
 
+// Nerd Font 圖示(用 \u escape,原始碼不放實體字元)
+const IC = {
+  bat: "",   // 電量  nf-fa-battery_full
+  wifi: "",  // 網路  nf-fa-wifi
+  vol: "",   // 音量  nf-fa-volume_up
+  mute: "",  // 靜音  nf-fa-volume_off
+  cpu: "",   // CPU   nf-fa-microchip
+  ram: "",   // 記憶體 nf-fa-memory
+}
+
 // ── 電量 ──
 export const batPct = createBinding(bat, "percentage")
 export const batCharging = createBinding(bat, "charging")
-export const batLabel = createComputed([batPct], (p) => `${Math.round((p ?? 0) * 100)}%`)
+export const batLabel = createComputed([batPct], (p) => `${IC.bat} ${Math.round((p ?? 0) * 100)}%`)
 
 // ── 網路(poll,防 wifi 為 null) ──
-export const netLabel = createPoll("—", 3000, () => {
+export const netLabel = createPoll(`${IC.wifi} —`, 3000, () => {
   const w = net.wifi
-  if (w && w.ssid) return w.ssid
-  if (net.wired) return "eth"
-  return "—"
+  const name = w && w.ssid ? w.ssid : (net.wired ? "eth" : "—")
+  return `${IC.wifi} ${name}`
 })
 
 // ── 媒體(mpris,poll 第一個 player) ──
@@ -34,10 +44,10 @@ export const mediaCover = createPoll("", 2000, () =>
   (mpris.players[0]?.coverArt ?? "").replace("file://", ""))
 
 // ── 音量(AstalWp 預設揚聲器,poll 防 speaker 為 null) ──
-export const volumeLabel = createPoll("—", 500, () => {
+export const volumeLabel = createPoll(`${IC.vol} —`, 500, () => {
   const s = wp.defaultSpeaker
-  if (!s) return "—"
-  return s.mute ? "靜音" : `${Math.round(s.volume * 100)}%`
+  if (!s) return `${IC.vol} —`
+  return s.mute ? `${IC.mute} 靜音` : `${IC.vol} ${Math.round(s.volume * 100)}%`
 })
 
 // ── CPU / RAM(讀 /proc) ──
@@ -62,5 +72,5 @@ function ramUsage(): number {
   const avail = Number(t.match(/MemAvailable:\s+(\d+)/)?.[1] ?? 0)
   return total ? Math.round((1 - avail / total) * 100) : 0
 }
-export const cpuLabel = createPoll("0%", 2000, () => `${cpuUsage()}%`)
-export const ramLabel = createPoll("RAM 0%", 5000, () => `RAM ${ramUsage()}%`)
+export const cpuLabel = createPoll(`${IC.cpu} 0%`, 2000, () => `${IC.cpu} ${cpuUsage()}%`)
+export const ramLabel = createPoll(`${IC.ram} 0%`, 5000, () => `${IC.ram} ${ramUsage()}%`)

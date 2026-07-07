@@ -29,16 +29,17 @@ window.TimeStone .stone {
 }
 
 window.TimeStone .clock {
-  font-family: "Iowan Old Style", "Palatino", "Noto Serif CJK TC", serif;
+  font-family: "Iowan Old Style", "Palatino", "Noto Serif CJK TC", "Symbols Nerd Font", serif;
   font-size: 80px;
   font-weight: 500;
 }
 
 window.TimeStone .date {
-  font-size: 15px;
-  letter-spacing: 4px;
-  margin-top: 10px;
-  opacity: 0.72;
+  font-family: "Iowan Old Style", "Palatino", "Noto Serif CJK TC", serif;
+  font-size: 19px;
+  letter-spacing: 3px;
+  margin-top: 12px;
+  opacity: 0.75;
 }
 
 /* ── SkyBar:有視窗時的細長資訊條(雲白半透,像一縷薄雲) ── */
@@ -51,7 +52,7 @@ window.SkyBar .bar {
 window.SkyBar .cluster { margin: 0; }
 
 window.SkyBar .bar-time {
-  font-family: "Iowan Old Style", "Palatino", "Noto Serif CJK TC", serif;
+  font-family: "Iowan Old Style", "Palatino", "Noto Serif CJK TC", "Symbols Nerd Font", serif;
   font-size: 14px;
   font-weight: 500;
   color: @ink;
@@ -60,6 +61,7 @@ window.SkyBar .bar-time {
 window.SkyBar .bar-net,
 window.SkyBar .bar-bat,
 window.SkyBar .bar-media {
+  font-family: "Noto Sans CJK TC", "Symbols Nerd Font", sans-serif;
   font-size: 13px;
   color: @ink;
   opacity: 0.82;
@@ -79,11 +81,12 @@ window.SystemPebble .pebble {
     radial-gradient(circle at 40% 34%, @stone, @stoneSh 82%);
 }
 window.SystemPebble .peb-bat {
-  font-family: "Iowan Old Style", "Palatino", "Noto Serif CJK TC", serif;
+  font-family: "Iowan Old Style", "Palatino", "Noto Serif CJK TC", "Symbols Nerd Font", serif;
   font-size: 22px;
   font-weight: 500;
 }
 window.SystemPebble .peb-net {
+  font-family: "Noto Sans CJK TC", "Symbols Nerd Font", sans-serif;
   font-size: 10px;
   letter-spacing: 1px;
   opacity: 0.7;
@@ -99,12 +102,13 @@ window.DecoStone .deco-stone {
     radial-gradient(circle at 40% 34%, @stone, @stoneSh 82%);
 }
 window.DecoStone .deco-main {
-  font-family: "Iowan Old Style", "Palatino", "Noto Serif CJK TC", serif;
+  font-family: "Iowan Old Style", "Palatino", "Noto Serif CJK TC", "Symbols Nerd Font", serif;
   font-size: 26px;
   font-weight: 500;
   color: @ink;
 }
 window.DecoStone .deco-sub {
+  font-family: "Iowan Old Style", "Palatino", "Symbols Nerd Font", serif;
   font-size: 11px;
   letter-spacing: 1px;
   opacity: 0.7;
@@ -123,7 +127,7 @@ window.MediaPainting .art {
   min-height: 128px;
 }
 window.MediaPainting .paint-title {
-  font-family: "Iowan Old Style", "Palatino", "Noto Serif CJK TC", serif;
+  font-family: "Iowan Old Style", "Palatino", "Noto Serif CJK TC", "Symbols Nerd Font", serif;
   font-style: italic;
   font-size: 13px;
   color: @ink;
