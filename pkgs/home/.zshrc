@@ -247,7 +247,7 @@ theme-switch() {
     # surrealism:AGS(程序化天空 + 環境物件)+ waybar(功能 bar);不用 hyprpaper
     command -v ags >/dev/null 2>&1 && (ags run >/dev/null 2>&1 &!)
     (waybar >/dev/null 2>&1 &!)
-    eval "$_gs icon-theme 'Papirus-Dark'"; eval "$_gs gtk-theme 'Adwaita'"; eval "$_gs color-scheme 'prefer-dark'"
+    eval "$_gs icon-theme 'SurrealMagritte'"; eval "$_gs gtk-theme 'Adwaita'"; eval "$_gs color-scheme 'prefer-dark'"
   else
     # retroism / daybreak / ...:waybar + hyprpaper + retro-wall
     (waybar >/dev/null 2>&1 &!)
