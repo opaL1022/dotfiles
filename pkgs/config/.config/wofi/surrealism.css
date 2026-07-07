@@ -19,6 +19,7 @@ window {
 #input image { color: #7fb0d8; }
 #scroll { margin: 4px 6px; }
 #inner-box { margin: 2px; }
+#img { margin-right: 10px; }              /* drun app 圖示 */
 #text { color: #d7dfe6; padding: 2px; }
 #entry {
     padding: 9px 12px;
