@@ -1,11 +1,13 @@
-// 系統浮石 —— 電量 + 網路(SSID),小霧面石,懸在右下角。只在空桌面(idle)出現。
+// 系統浮石 —— 電量 + 網路(SSID),小霧面石。只在空桌面(idle)出現。
+// 位置來自當前桌布(lib/wallpaper 的 wifi)。
 import app from "ags/gtk4/app"
 import { Astal, Gtk, Gdk } from "ags/gtk4"
 import { idle } from "../lib/hypr"
 import { batLabel, netLabel } from "../lib/services"
+import { current } from "../lib/wallpaper"
 
 export default function SystemPebble(gdkmonitor: Gdk.Monitor) {
-  const { BOTTOM, RIGHT } = Astal.WindowAnchor
+  const w = current.wifi
 
   return (
     <window
@@ -16,9 +18,11 @@ export default function SystemPebble(gdkmonitor: Gdk.Monitor) {
       gdkmonitor={gdkmonitor}
       layer={Astal.Layer.BOTTOM}
       exclusivity={Astal.Exclusivity.IGNORE}
-      anchor={BOTTOM | RIGHT}
-      marginBottom={150}
-      marginRight={230}
+      anchor={w.anchor}
+      marginTop={w.top ?? 0}
+      marginBottom={w.bottom ?? 0}
+      marginLeft={w.left ?? 0}
+      marginRight={w.right ?? 0}
       application={app}
     >
       <centerbox class="pebble" orientation={Gtk.Orientation.VERTICAL}>

@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# 循環切換 surrealism 桌布(球體位置跟著換)。寫 index 到 cache + 重啟 AGS 套用。
+# index 由 AGS(lib/wallpaper readIdx)自動對 WALLPAPERS 長度取模,所以這裡不用知道總數。
+# 用法:sky-wall [next|prev|<數字>]
+CACHE="$HOME/.cache/sky-wallpaper-idx"
+cur=$(cat "$CACHE" 2>/dev/null || echo 0)
+case "${1:-next}" in
+  prev)   nxt=$((cur - 1)) ;;
+  [0-9]*) nxt="$1" ;;
+  *)      nxt=$((cur + 1)) ;;
+esac
+echo "$nxt" > "$CACHE"
+
+# 重啟 AGS(啟動時讀 cache 決定桌布 + 各球體位置)
+ags quit 2>/dev/null
+sleep 0.4
+setsid ags run >/dev/null 2>&1 < /dev/null &

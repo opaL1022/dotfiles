@@ -12,10 +12,11 @@ import app from "ags/gtk4/app"
 import { Astal, Gdk } from "ags/gtk4"
 import { createPoll } from "ags/time"
 import GLib from "gi://GLib"
+import { current } from "../lib/wallpaper"
 
-// 桌布圖(留空 = 程序化天空);WALLPAPER_TINT=true 會在圖上疊半透明時段色調(晝夜漂移),
-// 對本身已有強烈天空/光線的圖建議關掉,乾淨顯示原圖。
-const WALLPAPER = GLib.get_home_dir() + "/Pictures/wallpapers/surrealism/moonlit-courtyard.png"
+// 桌布圖來自當前桌布(lib/wallpaper);空字串 = 程序化天空。
+// WALLPAPER_TINT=true 會在圖上疊半透明時段色調(晝夜漂移),對本身已有強烈天空的圖建議關掉。
+const WALLPAPER = current.image
 const WALLPAPER_TINT = false
 
 type RGB = [number, number, number]

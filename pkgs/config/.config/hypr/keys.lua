@@ -17,9 +17,9 @@ hl.bind(mainMod .. " + M",      hl.dsp.exit())
 hl.bind(mainMod .. " + E",      hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + F",      hl.dsp.window.float())
 hl.bind(mainMod .. " + D",      hl.dsp.exec_cmd(menu))
--- surrealism: 桌布改程序化天空(AGS),停用 retro-wall 綁定
--- hl.bind(mainMod .. " + W",         hl.dsp.exec_cmd(wall .. " next"))
--- hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd(wall .. " menu"))
+-- surrealism: 切換桌布(球體位置跟著換,重啟 AGS 套用)
+hl.bind(mainMod .. " + W",         hl.dsp.exec_cmd((os.getenv("HOME") or "") .. "/.config/hypr/scripts/sky-wall next"))
+hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd((os.getenv("HOME") or "") .. "/.config/hypr/scripts/sky-wall prev"))
 hl.bind(mainMod .. " + Z",      hl.dsp.window.fullscreen())
 -- hl.bind(mainMod .. " + L",   hl.dsp.exec_cmd("hyprlock"))
 
