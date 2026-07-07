@@ -16,7 +16,7 @@ hl.bind(mainMod .. " + C",      hl.dsp.window.close())
 hl.bind(mainMod .. " + M",      hl.dsp.exit())
 hl.bind(mainMod .. " + E",      hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + F",      hl.dsp.window.float())
-hl.bind(mainMod .. " + D",      hl.dsp.exec_cmd(menu))
+hl.bind(mainMod .. " + D",      hl.dsp.exec_cmd("ags toggle launcher"))
 -- surrealism: 桌布改程序化天空(AGS),停用 retro-wall 綁定
 -- hl.bind(mainMod .. " + W",         hl.dsp.exec_cmd(wall .. " next"))
 -- hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd(wall .. " menu"))

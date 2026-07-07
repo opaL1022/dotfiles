@@ -133,3 +133,36 @@ window.MediaPainting .paint-title {
   color: @ink;
   margin-top: 8px;
 }
+
+/* ── Launcher:從天空降下的 app 啟動器(夜色浮動卡 + 天藍 accent) ── */
+window.Launcher .launcher-box {
+  min-width: 480px;
+  padding: 14px;
+  border-radius: 18px;
+  background-color: rgba(20, 28, 40, 0.94);
+  border: 1px solid rgba(127, 176, 216, 0.28);
+}
+window.Launcher .launcher-entry {
+  font-family: "Iowan Old Style", "Palatino", "Noto Serif CJK TC", serif;
+  font-size: 20px;
+  color: #e6ecf3;
+  background-color: rgba(255, 255, 255, 0.06);
+  border: none;
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-bottom: 8px;
+}
+window.Launcher .launcher-item {
+  background-color: transparent;
+  border: none;
+  border-radius: 10px;
+  padding: 8px 12px;
+  color: #d7dfe6;
+}
+window.Launcher .launcher-item:hover {
+  background-color: rgba(127, 176, 216, 0.18);
+  color: #f2f5f7;
+}
+window.Launcher .launcher-item label {
+  font-size: 15px;
+}
