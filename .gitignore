@@ -21,6 +21,9 @@
 
 # package manager產物
 node_modules/
+# AGS(aylurs-gtk-shell)自動生成的型別(僅 surrealism 分支有 ags/,但切到別的分支
+# 時這些會變 untracked 而擋住 theme-switch,故全域忽略)
+@girs/
 
 # 大檔（若要放壁紙/截圖，移除下列副檔名或改用 Git LFS）
 *.png
