@@ -20,13 +20,12 @@ window.TimeStone .stone {
   padding: 30px;
   border-radius: 999px;                  /* 圓 = 石/月 */
   color: @ink;
-  /* 霧面石:左上受光高光 + 右下陰面 + 主體漸層 → 有重量的實體 */
+  /* 霧面石:立體感全靠球體「自身」的漸層明暗(受光/陰面),
+     不畫任何球外 box-shadow —— 球外陰影會被 layer-shell 視窗邊界截成矩形。 */
   background-image:
     radial-gradient(circle at 36% 30%, rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0) 42%),
-    radial-gradient(circle at 68% 74%, rgba(27, 35, 48, 0.30), rgba(27, 35, 48, 0) 46%),
+    radial-gradient(circle at 70% 76%, rgba(27, 35, 48, 0.34), rgba(27, 35, 48, 0) 48%),
     radial-gradient(circle at 40% 34%, @stone, @stoneSh 82%);
-  /* 懸浮陰影:大 offset 往下 + 柔化 → levitation(巨石浮空) */
-  box-shadow: 0 52px 66px -22px rgba(27, 35, 48, 0.55);
 }
 
 window.TimeStone .clock {
@@ -40,4 +39,20 @@ window.TimeStone .date {
   letter-spacing: 4px;
   margin-top: 10px;
   opacity: 0.72;
+}
+
+/* ── SkyBar:有視窗時的細長資訊條(雲白半透,像一縷薄雲) ── */
+window.SkyBar .bar {
+  min-height: 30px;
+  padding: 0 18px;
+  background-color: rgba(244, 247, 248, 0.55);
+}
+
+window.SkyBar .cluster { margin: 0; }
+
+window.SkyBar .bar-time {
+  font-family: "Iowan Old Style", "Palatino", "Noto Serif CJK TC", serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: @ink;
 }

@@ -5,6 +5,7 @@ import app from "ags/gtk4/app"
 import { Astal, Gtk, Gdk } from "ags/gtk4"
 import { createPoll } from "ags/time"
 import GLib from "gi://GLib"
+import { idle } from "../lib/hypr"
 
 export default function TimeStone(gdkmonitor: Gdk.Monitor) {
   const { TOP, LEFT } = Astal.WindowAnchor
@@ -17,7 +18,7 @@ export default function TimeStone(gdkmonitor: Gdk.Monitor) {
 
   return (
     <window
-      visible
+      visible={idle}
       name="time-stone"
       class="TimeStone"
       namespace="empty-sky-time"
@@ -25,8 +26,8 @@ export default function TimeStone(gdkmonitor: Gdk.Monitor) {
       layer={Astal.Layer.BOTTOM}
       exclusivity={Astal.Exclusivity.IGNORE}
       anchor={TOP | LEFT}
-      marginTop={90}
-      marginLeft={130}
+      marginTop={150}
+      marginLeft={340}
       application={app}
     >
       <box

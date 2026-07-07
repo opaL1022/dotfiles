@@ -1,6 +1,8 @@
 // 程序化天空 —「空 / The Empty Sky」的底層天空(取代桌布)
-// 全螢幕 layer BACKGROUND(在一般視窗之下),漸層色依「真實時間」平滑內插:
+// 全螢幕,放到真正的 BACKGROUND 層(在一般視窗之下),漸層色依「真實時間」平滑內插:
 //   夜 → 晨 → 午 → 暮 → 夜。所有工作區同一片天空;天色隨時鐘走(《光之帝國》命題)。
+// ⚠ 宣告式 layer={} prop 在此版被無視(gtk4-layer-shell 預設 TOP → 蓋住視窗);
+//   也沒有 setup prop。作法:接住 JSX 回傳的 AstalWindow 實例,呼叫 set_layer()。
 import app from "ags/gtk4/app"
 import { Astal, Gdk } from "ags/gtk4"
 import { createPoll } from "ags/time"
@@ -39,19 +41,23 @@ export default function SkyBackground(gdkmonitor: Gdk.Monitor) {
   const { TOP, BOTTOM, LEFT, RIGHT } = Astal.WindowAnchor
   const css = createPoll(skyGradient(), 60_000, () => skyGradient())
 
-  return (
+  // 先建成隱藏 → 設 layer(必須在 map 之前)→ 再 show,否則 gtk4-layer-shell 已 map 就改不動
+  const win = (
     <window
-      visible
+      visible={false}
       name="sky"
       class="Sky"
       namespace="empty-sky-bg"
       gdkmonitor={gdkmonitor}
-      layer={Astal.Layer.BACKGROUND}
       exclusivity={Astal.Exclusivity.IGNORE}
       anchor={TOP | BOTTOM | LEFT | RIGHT}
       application={app}
     >
       <box class="sky-fill" hexpand vexpand css={css} />
     </window>
-  )
+  ) as Astal.Window
+
+  win.set_layer(Astal.Layer.BACKGROUND)   // 墊到桌布層(在所有視窗之下)
+  win.set_visible(true)
+  return win
 }
