@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# 生成當前時段的天空漸層,當 hyprlock 鎖屏背景(對應 AGS SkyBackground 的時段色)。
+# surrealism 沒有 retro-wall,鎖屏背景改用這張程序化天空。輸出到 ~/.cache(gitignored)。
+set -euo pipefail
+OUT="${HOME}/.cache/sky-lock.png"
+SIZE="${1:-1920x1200}"
+mkdir -p "${HOME}/.cache"
+
+# 依真實時間內插天頂/地平兩色(錨點與 SkyBackground.tsx 相同,取 top 與 bottom)
+read -r TOP BOT < <(awk -v h="$(date +%-H)" -v m="$(date +%-M)" 'BEGIN{
+  hh = h + m/60; n = 5
+  H[0]=0;  Tr[0]=18; Tg[0]=26; Tb[0]=40;  Br[0]=40;  Bg[0]=52;  Bb[0]=66
+  H[1]=6;  Tr[1]=92; Tg[1]=110;Tb[1]=150; Br[1]=232; Bg[1]=220; Bb[1]=200
+  H[2]=12; Tr[2]=110;Tg[2]=160;Tb[2]=205; Br[2]=214; Bg[2]=225; Bb[2]=220
+  H[3]=18; Tr[3]=60; Tg[3]=70; Tb[3]=110; Br[3]=232; Bg[3]=150; Bb[3]=110
+  H[4]=24; Tr[4]=18; Tg[4]=26; Tb[4]=40;  Br[4]=40;  Bg[4]=52;  Bb[4]=66
+  i=0; while (i<n-1 && hh>=H[i+1]) i++
+  t=(hh-H[i])/(H[i+1]-H[i])
+  printf "rgb(%d,%d,%d) rgb(%d,%d,%d)\n",
+    Tr[i]+(Tr[i+1]-Tr[i])*t, Tg[i]+(Tg[i+1]-Tg[i])*t, Tb[i]+(Tb[i+1]-Tb[i])*t,
+    Br[i]+(Br[i+1]-Br[i])*t, Bg[i]+(Bg[i+1]-Bg[i])*t, Bb[i]+(Bb[i+1]-Bb[i])*t
+}')
+
+magick -size "$SIZE" "gradient:${TOP}-${BOT}" "$OUT"

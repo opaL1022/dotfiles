@@ -42,7 +42,8 @@ hl.env("MOZ_ENABLE_WAYLAND", "1")
 
 hl.on("hyprland.start", function()
     -- surrealism: AGS 取代 waybar;AGS 程序化天空取代 hyprpaper/retro-wall
-    hl.exec_cmd("hyprlock & blueman-applet & hypridle & ags run")
+    -- 開機先生成當前時段的天空鎖屏圖,再 hyprlock
+    hl.exec_cmd("(" .. os.getenv("HOME") .. "/.config/hypr/scripts/sky-lock-bg; hyprlock) & blueman-applet & hypridle & ags run")
     hl.exec_cmd("fcitx5 & /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1")
     hl.exec_cmd("nm-applet --indicator")
     hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=Hyprland")
