@@ -48,7 +48,7 @@ hl.on("hyprland.start", function()
     -- 開機先生成當前時段的天空鎖屏圖,再 hyprlock
     hl.exec_cmd("(" .. os.getenv("HOME") .. "/.config/hypr/scripts/sky-lock-bg; hyprlock) & blueman-applet & hypridle & ags run & waybar")
     -- surrealism 的 GTK/icon:dconf 會蓋過 settings.ini,開機設對(theme-switch 也會設)
-    hl.exec_cmd("gsettings set org.gnome.desktop.interface icon-theme Papirus-Dark; gsettings set org.gnome.desktop.interface gtk-theme Adwaita; gsettings set org.gnome.desktop.interface color-scheme prefer-dark")
+    hl.exec_cmd("gsettings set org.gnome.desktop.interface icon-theme SurrealMagritte; gsettings set org.gnome.desktop.interface gtk-theme Adwaita; gsettings set org.gnome.desktop.interface color-scheme prefer-dark")
     hl.exec_cmd("fcitx5 & /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1")
     hl.exec_cmd("nm-applet --indicator")
     hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=Hyprland")
