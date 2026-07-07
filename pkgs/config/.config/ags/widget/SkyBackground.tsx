@@ -1,12 +1,20 @@
 // 程序化天空 —「空 / The Empty Sky」的底層天空(取代桌布)
-// 全螢幕,放到真正的 BACKGROUND 層(在一般視窗之下),漸層色依「真實時間」平滑內插:
-//   夜 → 晨 → 午 → 暮 → 夜。所有工作區同一片天空;天色隨時鐘走(《光之帝國》命題)。
-// ⚠ 宣告式 layer={} prop 在此版被無視(gtk4-layer-shell 預設 TOP → 蓋住視窗);
-//   也沒有 setup prop。作法:接住 JSX 回傳的 AstalWindow 實例,呼叫 set_layer()。
+// 全螢幕,放到真正的 BACKGROUND 層(在一般視窗之下)。
+//
+// ★ 兩種模式(改 WALLPAPER 一行即可):
+//   WALLPAPER = ""            → 程序化天空:漸層色隨真實時間內插(夜/晨/午/暮)
+//   WALLPAPER = "/path/x.jpg" → 用你的桌布圖,並在上面疊一層半透明時段色調
+//                               (照片也會隨白天/夜晚偏暖偏冷,保留《光之帝國》概念)
+//
+// ⚠ 宣告式 layer={} / setup prop 在此版無效,且 set_layer 必須在 map 之前呼叫。
+//   作法:visible={false} 建立 → set_layer(BACKGROUND) → set_visible(true)。
 import app from "ags/gtk4/app"
 import { Astal, Gdk } from "ags/gtk4"
 import { createPoll } from "ags/time"
 import GLib from "gi://GLib"
+
+// ← 之後把找到的桌布「絕對路徑」填這(留空 = 程序化天空)
+const WALLPAPER = ""
 
 type RGB = [number, number, number]
 
@@ -23,25 +31,39 @@ const lerp = (a: number, b: number, t: number) => a + (b - a) * t
 const lerpRGB = (a: RGB, b: RGB, t: number): RGB =>
   [Math.round(lerp(a[0], b[0], t)), Math.round(lerp(a[1], b[1], t)), Math.round(lerp(a[2], b[2], t))]
 const rgb = ([r, g, b]: RGB) => `rgb(${r},${g},${b})`
+const rgba = ([r, g, b]: RGB, a: number) => `rgba(${r},${g},${b},${a})`
 
-function skyGradient(): string {
+// 當前時刻的三段天色
+function timeColors(): [RGB, RGB, RGB] {
   const now = GLib.DateTime.new_now_local()
   const h = now.get_hour() + now.get_minute() / 60
   let i = 0
   while (i < ANCHORS.length - 1 && h >= ANCHORS[i + 1].h) i++
   const a = ANCHORS[i], b = ANCHORS[Math.min(i + 1, ANCHORS.length - 1)]
   const t = (h - a.h) / ((b.h - a.h) || 1)
-  const top = lerpRGB(a.sky[0], b.sky[0], t)
-  const mid = lerpRGB(a.sky[1], b.sky[1], t)
-  const bot = lerpRGB(a.sky[2], b.sky[2], t)
+  return [
+    lerpRGB(a.sky[0], b.sky[0], t),
+    lerpRGB(a.sky[1], b.sky[1], t),
+    lerpRGB(a.sky[2], b.sky[2], t),
+  ]
+}
+
+function skyCss(): string {
+  const [top, mid, bot] = timeColors()
+  if (WALLPAPER) {
+    // 照片 + 半透明時段色調(照片仍隨晝夜漂移)
+    const tint = `linear-gradient(to bottom, ${rgba(top, 0.28)} 0%, ${rgba(mid, 0.12)} 55%, ${rgba(bot, 0.30)} 100%)`
+    return `background-image: ${tint}, url("file://${WALLPAPER}"); background-size: cover; background-position: center;`
+  }
+  // 程序化天空(不透明漸層)
   return `background-image: linear-gradient(to bottom, ${rgb(top)} 0%, ${rgb(mid)} 55%, ${rgb(bot)} 100%);`
 }
 
 export default function SkyBackground(gdkmonitor: Gdk.Monitor) {
   const { TOP, BOTTOM, LEFT, RIGHT } = Astal.WindowAnchor
-  const css = createPoll(skyGradient(), 60_000, () => skyGradient())
+  const css = createPoll(skyCss(), 60_000, () => skyCss())
 
-  // 先建成隱藏 → 設 layer(必須在 map 之前)→ 再 show,否則 gtk4-layer-shell 已 map 就改不動
+  // 先建成隱藏 → 設 layer(必須在 map 之前)→ 再 show
   const win = (
     <window
       visible={false}

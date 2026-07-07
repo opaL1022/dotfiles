@@ -41,7 +41,8 @@ hl.env("MOZ_ENABLE_WAYLAND", "1")
 -----------------
 
 hl.on("hyprland.start", function()
-    hl.exec_cmd("hyprlock & waybar & hyprpaper & blueman-applet & hypridle & " .. os.getenv("HOME") .. "/.config/hypr/scripts/retro-wall restore")
+    -- surrealism: AGS 取代 waybar;AGS 程序化天空取代 hyprpaper/retro-wall
+    hl.exec_cmd("hyprlock & blueman-applet & hypridle & ags run")
     hl.exec_cmd("fcitx5 & /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1")
     hl.exec_cmd("nm-applet --indicator")
     hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=Hyprland")
