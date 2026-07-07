@@ -1,6 +1,9 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
+# path 自動去重(避免 .zprofile 載入 .zshrc + 互動 shell 再載入時 PATH 疊加重複)
+typeset -U path PATH
+
 # Path to your Oh My Zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
@@ -229,9 +232,27 @@ theme-switch() {
     fi
   fi
 
-  # reload 執行中的 app
-  command -v hyprctl    >/dev/null 2>&1 && hyprctl reload >/dev/null 2>&1
-  pgrep -x waybar       >/dev/null 2>&1 && killall -SIGUSR2 waybar 2>/dev/null
+  # reload Hyprland 設定(套用新分支的 style/keys;注意 reload 不會重跑 exec-once)
+  command -v hyprctl >/dev/null 2>&1 && hyprctl reload >/dev/null 2>&1
+
+  # ── daemon-aware shell 切換 ──
+  # 先停掉所有已知 shell daemon(避免兩套並存 / 殘留)
+  pkill -x waybar 2>/dev/null
+  pkill -x hyprpaper 2>/dev/null
+  command -v ags >/dev/null 2>&1 && ags quit 2>/dev/null
+
+  # 依目標主題啟動對應 shell
+  if [[ "$target" == "surrealism" ]]; then
+    # surrealism:AGS(程序化天空 + 環境物件),取代 waybar/hyprpaper
+    command -v ags >/dev/null 2>&1 && (ags run >/dev/null 2>&1 &!)
+  else
+    # retroism / daybreak / ...:waybar + hyprpaper + retro-wall
+    (waybar >/dev/null 2>&1 &!)
+    (hyprpaper >/dev/null 2>&1 &!)
+    [[ -x "$HOME/.config/hypr/scripts/retro-wall" ]] && ("$HOME/.config/hypr/scripts/retro-wall" restore >/dev/null 2>&1 &!)
+  fi
+
+  # 跨主題通用的 app reload(swaync 兩邊都留著當通知後援)
   pgrep -x xsettingsd   >/dev/null 2>&1 && killall -HUP xsettingsd 2>/dev/null
   command -v swaync-client >/dev/null 2>&1 && pgrep -x swaync >/dev/null 2>&1 && swaync-client -rs 2>/dev/null
   command -v xrdb       >/dev/null 2>&1 && xrdb -merge "$HOME/.Xresources" 2>/dev/null
