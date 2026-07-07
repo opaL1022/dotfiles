@@ -15,13 +15,17 @@ export default function TimeStone(gdkmonitor: Gdk.Monitor) {
   const date = createPoll("", 30_000, () =>
     GLib.DateTime.new_now_local().format("%a · %d %b") ?? "")
 
-  const sizeCss = m.size ? `min-width:${m.size}px; min-height:${m.size}px;` : ""
+  const sz = m.size ?? 340
+  const sizeCss = `min-width:${sz}px; min-height:${sz}px;`
+  // 字級跟著球大小縮放 → 縮小 size 時文字不會撐爆變橢圓
+  const fClock = Math.round(sz * 0.235)
+  const fDate = Math.round(sz * 0.055)
 
   const content = (
     <centerbox class="stone" orientation={Gtk.Orientation.VERTICAL} css={sizeCss}>
       <box $type="center" orientation={Gtk.Orientation.VERTICAL} halign={Gtk.Align.CENTER}>
-        <label class="clock" label={clock} halign={Gtk.Align.CENTER} />
-        <label class="date" label={date} halign={Gtk.Align.CENTER} />
+        <label class="clock" label={clock} halign={Gtk.Align.CENTER} css={`font-size:${fClock}px;`} />
+        <label class="date" label={date} halign={Gtk.Align.CENTER} css={`font-size:${fDate}px; margin-top:${Math.round(sz * 0.03)}px;`} />
       </box>
     </centerbox>
   ) as unknown as Gtk.Widget

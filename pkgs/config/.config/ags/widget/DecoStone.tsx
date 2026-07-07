@@ -20,13 +20,16 @@ export type DecoOpts = {
 
 export default function DecoStone(gdkmonitor: Gdk.Monitor, o: DecoOpts) {
   const sizeCss = `min-width:${o.size}px; min-height:${o.size}px;`
+  // 字級跟球大小縮放 → 縮小時文字不撐爆變橢圓
+  const fMain = `font-size:${Math.round(o.size * 0.17)}px;`
+  const fSub = `font-size:${Math.round(o.size * 0.075)}px;`
 
   const content = (o.label ? (
     <centerbox class="deco-stone" orientation={Gtk.Orientation.VERTICAL} css={sizeCss}>
       <box $type="center" orientation={Gtk.Orientation.VERTICAL} halign={Gtk.Align.CENTER}>
-        <label class="deco-main" label={o.label as any} halign={Gtk.Align.CENTER} />
+        <label class="deco-main" label={o.label as any} halign={Gtk.Align.CENTER} css={fMain} />
         {o.sublabel ? (
-          <label class="deco-sub" label={o.sublabel as any} halign={Gtk.Align.CENTER} />
+          <label class="deco-sub" label={o.sublabel as any} halign={Gtk.Align.CENTER} css={fSub} />
         ) : (
           <box />
         )}

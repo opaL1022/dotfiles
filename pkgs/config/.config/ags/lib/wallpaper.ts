@@ -34,18 +34,18 @@ export const WALLPAPERS: Wallpaper[] = [
   {
     name: "pavilion",
     image: WP + "pavilion.png",
-    moon:   { anchor: A.TOP | A.LEFT,     top: 130, left: 150, size: 320 },    // 左上開闊夜空
-    cpu:    { anchor: A.TOP | A.LEFT,     top: 430, left: 1090, size: 140 },   // 柱子旁
-    volume: { anchor: A.BOTTOM | A.LEFT,  bottom: 264, left: 419, size: 130 }, // 涼亭下陰影地面
-    wifi:   { anchor: A.BOTTOM | A.RIGHT, bottom: 124, right: 420 },           // 右下亮面地板
+    moon:   { anchor: A.TOP | A.LEFT,     top: 460, left: 550, size: 400 },    // 左上開闊夜空
+    cpu:    { anchor: A.TOP | A.RIGHT,     top: 500, right: 250, size: 200 },   // 柱子旁
+    volume: { anchor: A.BOTTOM | A.LEFT,  bottom: 64, left: 150, size: 160 }, // 涼亭下陰影地面
+    wifi:   { anchor: A.BOTTOM | A.RIGHT, bottom: 75, right: 150 },           // 右下亮面地板
   },
   {
     name: "oculus",
     image: WP + "oculus-pool.png",
-    moon:   { anchor: A.TOP | A.LEFT,     top: 454, left: 833, size: 230 },    // 圓洞內(月亮框在圓窗)
-    cpu:    { anchor: A.TOP | A.RIGHT,    top: 170, right: 260, size: 130 },   // 右上夜空
-    volume: { anchor: A.BOTTOM | A.LEFT,  bottom: 191, left: 883, size: 130 }, // 反射池末端
-    wifi:   { anchor: A.BOTTOM | A.LEFT,  bottom: 220, left: 200 },            // 左下
+    moon:   { anchor: A.BOTTOM | A.LEFT,     bottom: 100, left: 823, size: 230 },    // 圓洞內(月亮框在圓窗)
+    cpu:    { anchor: A.TOP | A.LEFT,    top: 515, left: 898, size: 130 },   // 右上夜空
+    volume: { anchor: A.BOTTOM | A.RIGHT,  bottom: 250, right: 100, size: 130 }, // 反射池末端
+    wifi:   { anchor: A.BOTTOM | A.LEFT,  bottom: 250, left: 100, size: 130 },            // 左下
   },
 ]
 
