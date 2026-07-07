@@ -21,15 +21,12 @@ export default function SystemPebble(gdkmonitor: Gdk.Monitor) {
       marginRight={230}
       application={app}
     >
-      <box
-        class="pebble"
-        orientation={Gtk.Orientation.VERTICAL}
-        halign={Gtk.Align.CENTER}
-        valign={Gtk.Align.CENTER}
-      >
-        <label class="peb-bat" label={batLabel} />
-        <label class="peb-net" label={netLabel} />
-      </box>
+      <centerbox class="pebble" orientation={Gtk.Orientation.VERTICAL}>
+        <box $type="center" orientation={Gtk.Orientation.VERTICAL} halign={Gtk.Align.CENTER}>
+          <label class="peb-bat" label={batLabel} halign={Gtk.Align.CENTER} />
+          <label class="peb-net" label={netLabel} halign={Gtk.Align.CENTER} />
+        </box>
+      </centerbox>
     </window>
   )
 }

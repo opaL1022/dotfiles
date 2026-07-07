@@ -30,15 +30,16 @@ export default function TimeStone(gdkmonitor: Gdk.Monitor) {
       marginLeft={340}
       application={app}
     >
-      <box
-        class="stone"
-        orientation={Gtk.Orientation.VERTICAL}
-        halign={Gtk.Align.CENTER}
-        valign={Gtk.Align.CENTER}
-      >
-        <label class="clock" label={clock} />
-        <label class="date" label={date} />
-      </box>
+      <centerbox class="stone" orientation={Gtk.Orientation.VERTICAL}>
+        <box
+          $type="center"
+          orientation={Gtk.Orientation.VERTICAL}
+          halign={Gtk.Align.CENTER}
+        >
+          <label class="clock" label={clock} halign={Gtk.Align.CENTER} />
+          <label class="date" label={date} halign={Gtk.Align.CENTER} />
+        </box>
+      </centerbox>
     </window>
   )
 }

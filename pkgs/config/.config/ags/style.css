@@ -90,6 +90,15 @@ window.SystemPebble .peb-net {
   margin-top: 2px;
 }
 
+/* ── 裝飾球體:純霧面石(無文字),擺在桌布拱門/圓池上 ── */
+window.DecoStone .deco-stone {
+  border-radius: 999px;
+  background-image:
+    radial-gradient(circle at 36% 30%, rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0) 42%),
+    radial-gradient(circle at 70% 76%, rgba(27, 35, 48, 0.34), rgba(27, 35, 48, 0) 48%),
+    radial-gradient(circle at 40% 34%, @stone, @stoneSh 82%);
+}
+
 /* ── 媒體掛畫:裱框 + 封面(右中,放歌才降下) ── */
 window.MediaPainting .frame {
   padding: 7px;
