@@ -8,6 +8,7 @@ size = 18
 # ===== Retroism · yorha 配色（移植自 retroism kitty yorha_theme）=====
 [window]
 padding = { x = 8, y = 6 }
+dynamic_padding = false  # 內容左上對齊,改字級時零頭固定丟到右下,不要置中上下跳
 opacity = 1.0            # retro: 不透明、無模糊
 
 [colors.primary]

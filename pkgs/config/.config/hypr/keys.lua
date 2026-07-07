@@ -25,6 +25,20 @@ hl.bind(mainMod .. " + Z",      hl.dsp.window.fullscreen())
 -- hl.bind(mainMod .. " + L",   hl.dsp.exec_cmd("hyprlock"))
 hl.bind(mainMod .. " + R",      hl.dsp.layout("swapsplit"))
 
+-- Screen magnifier (Hyprland 內建縮放,跟著游標放大 cursor:zoom_factor)
+-- 用 Lua callback 直接呼叫 in-compositor 的 hl.config / hl.get_config —
+-- 外部 `hyprctl keyword` 在非 legacy(Lua)parser 下被擋,只有 VM 內 eval 有效。
+local zoom_step, zoom_min, zoom_max = 0.5, 1.0, 5.0
+local function set_zoom(f)
+    if f < zoom_min then f = zoom_min end
+    if f > zoom_max then f = zoom_max end
+    hl.config({ cursor = { zoom_factor = f } })
+end
+local function zoom_by(d) set_zoom((hl.get_config("cursor.zoom_factor") or 1.0) + d) end
+hl.bind(mainMod .. " + equal",     function() zoom_by(zoom_step) end,  { repeating = true })  -- Super + = 放大
+hl.bind(mainMod .. " + minus",     function() zoom_by(-zoom_step) end, { repeating = true })  -- Super + - 縮小
+hl.bind(mainMod .. " + BackSpace", function() set_zoom(zoom_min) end)                         -- Super + Backspace 還原
+
 -- Move focus
 hl.bind(mainMod .. " + H", hl.dsp.focus({ direction = "l" }))
 hl.bind(mainMod .. " + L", hl.dsp.focus({ direction = "r" }))
