@@ -8,6 +8,10 @@ import { current } from "../lib/wallpaper"
 
 export default function SystemPebble(gdkmonitor: Gdk.Monitor) {
   const w = current.wifi
+  const sz = w.size ?? 96
+  const sizeCss = `min-width:${sz}px; min-height:${sz}px;`
+  const fBat = `font-size:${Math.round(sz * 0.23)}px;`   // 字級跟球大小縮放
+  const fNet = `font-size:${Math.round(sz * 0.105)}px;`
 
   return (
     <window
@@ -25,10 +29,10 @@ export default function SystemPebble(gdkmonitor: Gdk.Monitor) {
       marginRight={w.right ?? 0}
       application={app}
     >
-      <centerbox class="pebble" orientation={Gtk.Orientation.VERTICAL}>
+      <centerbox class="pebble" orientation={Gtk.Orientation.VERTICAL} css={sizeCss}>
         <box $type="center" orientation={Gtk.Orientation.VERTICAL} halign={Gtk.Align.CENTER}>
-          <label class="peb-bat" label={batLabel} halign={Gtk.Align.CENTER} />
-          <label class="peb-net" label={netLabel} halign={Gtk.Align.CENTER} maxWidthChars={9} ellipsize={3} />
+          <label class="peb-bat" label={batLabel} halign={Gtk.Align.CENTER} css={fBat} />
+          <label class="peb-net" label={netLabel} halign={Gtk.Align.CENTER} maxWidthChars={9} ellipsize={3} css={fNet} />
         </box>
       </centerbox>
     </window>
