@@ -1,111 +1,83 @@
-/* ========= Retroism · yorha (Platinum bevel taskbar) ========= */
+/* ========= surrealism · Magritte night(扁平夜色 bar) ========= */
 * {
-  /* Monaco/Charcoal 在 Phase 7 安裝；現在先 fallback 到 monospace，圖示用 FontAwesome */
-  font-family: "Monaco", "Charcoal", monospace, FontAwesome;
+  font-family: "JetBrainsMono Nerd Font", "Noto Sans CJK TC", sans-serif;
   font-size: 14px;
-  border-radius: 0;          /* 復古直角 */
+  border-radius: 0;
   min-height: 0;
 }
 
-/* ---- yorha palette ---- */
-@define-color base      #d9caba;
-@define-color highlight #f0e2d3;  /* 斜角亮面（上/左） */
-@define-color shadow    #baafa1;  /* 斜角暗面（下/右） */
-@define-color bevel     #8a7c66;  /* 更深的斜角暗面（加強立體感） */
-@define-color outline   #3d3d39;  /* 硬外框 */
-@define-color text      #3e3d38;
-@define-color accent    #626335;
-@define-color urgent    #ff854c;
+/* Magritte night palette */
+@define-color night   #141c28;
+@define-color panel   #1b2330;
+@define-color cloud   #e6ecf3;
+@define-color sky     #7fb0d8;
+@define-color skybg   #3d5a72;
+@define-color dim     #8b97a5;
+@define-color warm    #e6b24e;
 
-/* ---- Bar：實心白金，底部一條硬線 ---- */
+/* Bar:深夜藍半透,底一條天藍細線 */
 window#waybar {
-  background: @base;
-  color: @text;
-  border-bottom: 1px solid @outline;
+  background: rgba(20, 28, 40, 0.72);
+  color: @cloud;
+  border-bottom: 1px solid rgba(127, 176, 216, 0.22);
 }
 window#waybar.hidden { opacity: .2; }
 
-/* ---- 模組 = 凸起的白金按鈕（outset bevel）---- */
-#clock,
-#battery,
-#network,
-#pulseaudio,
-#mpd,
-#custom-media,
-#tray,
-#custom-swaync,
-#custom-power {
-  margin: 3px 2px;
-  padding: 9px;        /* 上下左右一致 */
-  color: @text;
-  background: @base;
-  border: 1px solid @outline;                                            /* 硬深色外框 */
-  box-shadow: inset 1px 1px 0 @highlight, inset -1px -1px 0 @bevel;       /* 內凸斜角 */
-}
-
-/* hover：輕微下沉 */
-#clock:hover,
-#battery:hover,
-#network:hover,
-#pulseaudio:hover,
-#mpd:hover,
-#custom-media:hover,
-#custom-swaync:hover,
-#custom-power:hover {
-  background: @highlight;
-}
-
-/* ---- Workspaces：容器平貼，按鈕各自凸起 ---- */
-#workspaces {
-  margin: 3px 2px;
-  padding: 0;
+/* 模組:扁平、圓角、hover 天藍 */
+#clock, #battery, #network, #pulseaudio, #mpd,
+#custom-media, #tray, #custom-swaync, #custom-power {
+  margin: 6px 3px;
+  padding: 4px 12px;
+  color: @cloud;
   background: transparent;
+  border-radius: 10px;
 }
+#clock:hover, #battery:hover, #network:hover, #pulseaudio:hover, #mpd:hover,
+#custom-media:hover, #custom-swaync:hover, #custom-power:hover {
+  background: rgba(127, 176, 216, 0.16);
+}
+
+#clock { font-weight: 600; }
+
+/* Workspaces:扁平圓角,active 天藍 */
+#workspaces { margin: 6px 3px; padding: 0; background: transparent; }
 #workspaces button {
-  margin: 0 1px;
-  padding: 9px 9px;
-  color: @text;
-  background: @base;
-  border: 1px solid @outline;
-  box-shadow: inset 1px 1px 0 @highlight, inset -1px -1px 0 @bevel;
+  margin: 0 2px;
+  padding: 4px 12px;
+  color: @dim;
+  background: transparent;
+  border-radius: 10px;
 }
-/* active = 按下/凹陷（斜角反轉）+ accent 文字 */
 #workspaces button.active {
-  background: @shadow;
-  color: @outline;
-  font-weight: bold;
-  border: 1px solid @outline;
-  box-shadow: inset 1px 1px 0 @bevel, inset -1px -1px 0 @highlight;       /* 凹陷(按下) */
+  background: @skybg;
+  color: @cloud;
+  font-weight: 600;
 }
 #workspaces button.urgent {
-  background: @urgent;
-  color: @outline;
+  background: @warm;
+  color: @night;
 }
 #workspaces button:hover {
-  background: @highlight;
+  background: rgba(127, 176, 216, 0.16);
+  color: @cloud;
 }
 
-/* ---- Power 按鈕：醒目一點 ---- */
-#custom-power {
-  font-size: 14px;
-  font-weight: bold;
-  color: @outline;
-}
-#custom-power:hover {
-  background: @urgent;
-  color: @outline;
-}
+/* battery 警示 */
+#battery.warning  { color: @warm; }
+#battery.critical { color: #cc7f74; }
 
-/* ---- Tray（圖示改由 Gruvbox-Plus-Light 提供深色圖示，落在白金底上可見）---- */
-#tray > .needs-attention {
-  -gtk-icon-effect: highlight;
-  background: @urgent;
-}
+/* Power:醒目暖金 */
+#custom-power { color: @warm; padding: 4px 14px; }
+#custom-power:hover { background: rgba(230, 178, 78, 0.18); }
 
-/* ---- Tooltip：白金小視窗 ---- */
+/* Tray */
+#tray > .needs-attention { background: @warm; }
+
+/* Tooltip */
 tooltip {
-  background: @base;
-  color: @text;
-  border: 1px solid @outline;
-  padding: 4px 8px;
+  background: @panel;
+  color: @cloud;
+  border: 1px solid rgba(127, 176, 216, 0.22);
+  border-radius: 10px;
+  padding: 6px 10px;
 }

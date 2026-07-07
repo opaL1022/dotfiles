@@ -46,7 +46,7 @@ hl.env("GTK_THEME", "Adwaita:dark")
 hl.on("hyprland.start", function()
     -- surrealism: AGS 取代 waybar;AGS 程序化天空取代 hyprpaper/retro-wall
     -- 開機先生成當前時段的天空鎖屏圖,再 hyprlock
-    hl.exec_cmd("(" .. os.getenv("HOME") .. "/.config/hypr/scripts/sky-lock-bg; hyprlock) & blueman-applet & hypridle & ags run")
+    hl.exec_cmd("(" .. os.getenv("HOME") .. "/.config/hypr/scripts/sky-lock-bg; hyprlock) & blueman-applet & hypridle & ags run & waybar")
     -- surrealism 的 GTK/icon:dconf 會蓋過 settings.ini,開機設對(theme-switch 也會設)
     hl.exec_cmd("gsettings set org.gnome.desktop.interface icon-theme Papirus-Dark; gsettings set org.gnome.desktop.interface gtk-theme Adwaita; gsettings set org.gnome.desktop.interface color-scheme prefer-dark")
     hl.exec_cmd("fcitx5 & /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1")

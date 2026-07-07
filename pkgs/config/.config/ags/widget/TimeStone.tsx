@@ -5,7 +5,6 @@ import { Astal, Gtk, Gdk } from "ags/gtk4"
 import { createPoll } from "ags/time"
 import GLib from "gi://GLib"
 import { idle } from "../lib/hypr"
-import { batLabel } from "../lib/services"
 
 export default function TimeStone(gdkmonitor: Gdk.Monitor) {
   const { TOP, LEFT } = Astal.WindowAnchor
@@ -20,7 +19,6 @@ export default function TimeStone(gdkmonitor: Gdk.Monitor) {
       <box $type="center" orientation={Gtk.Orientation.VERTICAL} halign={Gtk.Align.CENTER}>
         <label class="clock" label={clock} halign={Gtk.Align.CENTER} />
         <label class="date" label={date} halign={Gtk.Align.CENTER} />
-        <label class="moon-bat" label={batLabel} halign={Gtk.Align.CENTER} />
       </box>
     </centerbox>
   ) as unknown as Gtk.Widget
