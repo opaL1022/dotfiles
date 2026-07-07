@@ -22,7 +22,7 @@ app.start({
     monitors.map(MediaPainting)    // idle+播放:媒體掛畫(右中)
     // idle:對齊桌布建築的資訊球體(拱門=CPU/RAM、圓池=音量)
     monitors.map((m) => DecoStone(m, { key: "arch", anchor: A.TOP | A.RIGHT, marginTop: 597, marginRight: 454, size: 150, label: cpuLabel, sublabel: ramLabel }))
-    monitors.map((m) => DecoStone(m, { key: "pool", anchor: A.BOTTOM | A.LEFT, marginBottom: 235, marginLeft: 630, size: 130, label: volumeLabel }))
+    monitors.map((m) => DecoStone(m, { key: "pool", anchor: A.BOTTOM | A.LEFT, marginBottom: 235, marginLeft: 575, size: 130, label: volumeLabel }))
     monitors.map(SkyBar)           // busy:細長資訊條
   },
 })
