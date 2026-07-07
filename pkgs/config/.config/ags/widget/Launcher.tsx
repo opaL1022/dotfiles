@@ -24,7 +24,7 @@ export default function Launcher(gdkmonitor: Gdk.Monitor) {
   const entry = (
     <entry
       class="launcher-entry"
-      placeholderText="召喚…"
+      placeholderText="Summon…"
       primaryIconName="system-search-symbolic"
       onNotifyText={(self: Gtk.Entry) => setSearch(self.text)}
       onActivate={() => {
