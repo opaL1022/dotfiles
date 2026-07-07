@@ -13,8 +13,10 @@ import { Astal, Gdk } from "ags/gtk4"
 import { createPoll } from "ags/time"
 import GLib from "gi://GLib"
 
-// ← 之後把找到的桌布「絕對路徑」填這(留空 = 程序化天空)
-const WALLPAPER = ""
+// 桌布圖(留空 = 程序化天空);WALLPAPER_TINT=true 會在圖上疊半透明時段色調(晝夜漂移),
+// 對本身已有強烈天空/光線的圖建議關掉,乾淨顯示原圖。
+const WALLPAPER = GLib.get_home_dir() + "/Pictures/wallpapers/surrealism/moonlit-courtyard.png"
+const WALLPAPER_TINT = false
 
 type RGB = [number, number, number]
 
@@ -50,10 +52,15 @@ function timeColors(): [RGB, RGB, RGB] {
 
 function skyCss(): string {
   const [top, mid, bot] = timeColors()
-  if (WALLPAPER) {
-    // 照片 + 半透明時段色調(照片仍隨晝夜漂移)
-    const tint = `linear-gradient(to bottom, ${rgba(top, 0.28)} 0%, ${rgba(mid, 0.12)} 55%, ${rgba(bot, 0.30)} 100%)`
-    return `background-image: ${tint}, url("file://${WALLPAPER}"); background-size: cover; background-position: center;`
+  // 桌布圖存在才用(圖在 repo 外 ~/Pictures,缺檔就 fallback 程序化天空,不會變黑)
+  if (WALLPAPER && GLib.file_test(WALLPAPER, GLib.FileTest.EXISTS)) {
+    const img = `url("file://${WALLPAPER}")`
+    if (WALLPAPER_TINT) {
+      // 照片 + 半透明時段色調(照片隨晝夜漂移)
+      const tint = `linear-gradient(to bottom, ${rgba(top, 0.28)} 0%, ${rgba(mid, 0.12)} 55%, ${rgba(bot, 0.30)} 100%)`
+      return `background-image: ${tint}, ${img}; background-size: cover; background-position: center;`
+    }
+    return `background-image: ${img}; background-size: cover; background-position: center;`
   }
   // 程序化天空(不透明漸層)
   return `background-image: linear-gradient(to bottom, ${rgb(top)} 0%, ${rgb(mid)} 55%, ${rgb(bot)} 100%);`
