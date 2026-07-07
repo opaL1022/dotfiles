@@ -45,7 +45,7 @@ export const WALLPAPERS: Wallpaper[] = [
     moon:   { anchor: A.BOTTOM | A.LEFT,     bottom: 100, left: 823, size: 230 },    // 圓洞內(月亮框在圓窗)
     cpu:    { anchor: A.TOP | A.LEFT,    top: 515, left: 898, size: 130 },   // 右上夜空
     volume: { anchor: A.BOTTOM | A.RIGHT,  bottom: 250, right: 100, size: 130 }, // 反射池末端
-    wifi:   { anchor: A.BOTTOM | A.LEFT,  bottom: 250, left: 100, size: 130 },            // 左下
+    wifi:   { anchor: A.BOTTOM | A.LEFT,  bottom: 250, left: 100, size: 96 },            // 左下
   },
 ]
 
