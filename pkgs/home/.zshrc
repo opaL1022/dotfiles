@@ -241,15 +241,18 @@ theme-switch() {
   pkill -x hyprpaper 2>/dev/null
   command -v ags >/dev/null 2>&1 && ags quit 2>/dev/null
 
-  # 依目標主題啟動對應 shell
+  # 依目標主題啟動對應 shell + 設 gsettings(dconf 會蓋過 settings.ini,必須每主題設)
+  local _gs='gsettings set org.gnome.desktop.interface'
   if [[ "$target" == "surrealism" ]]; then
     # surrealism:AGS(程序化天空 + 環境物件),取代 waybar/hyprpaper
     command -v ags >/dev/null 2>&1 && (ags run >/dev/null 2>&1 &!)
+    eval "$_gs icon-theme 'breeze-dark'"; eval "$_gs gtk-theme 'Adwaita'"; eval "$_gs color-scheme 'prefer-dark'"
   else
     # retroism / daybreak / ...:waybar + hyprpaper + retro-wall
     (waybar >/dev/null 2>&1 &!)
     (hyprpaper >/dev/null 2>&1 &!)
     [[ -x "$HOME/.config/hypr/scripts/retro-wall" ]] && ("$HOME/.config/hypr/scripts/retro-wall" restore >/dev/null 2>&1 &!)
+    eval "$_gs icon-theme 'RetroismIcons'"; eval "$_gs gtk-theme 'ClassicPlatinumStreamlined'"; eval "$_gs color-scheme 'prefer-light'"
   fi
 
   # 跨主題通用的 app reload(swaync 兩邊都留著當通知後援)
