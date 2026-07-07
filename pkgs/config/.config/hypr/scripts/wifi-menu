@@ -4,8 +4,9 @@ set -uo pipefail
 STYLE="$HOME/.config/wofi/surrealism.css"
 menu() { wofi --dmenu --conf /dev/null --width 460 --height 440 --style "$STYLE" "$@"; }
 
-# 掃描 + 列出(去重、● 已連 / ○ 未連、含訊號強度)
-list=$(nmcli --get-values ACTIVE,SSID,SIGNAL,SECURITY dev wifi list --rescan yes 2>/dev/null \
+# 用快取秒開;背景觸發一次掃描,讓下次開更新(避免每次卡 2~4 秒)
+nmcli device wifi rescan >/dev/null 2>&1 &
+list=$(nmcli --get-values ACTIVE,SSID,SIGNAL,SECURITY dev wifi list --rescan no 2>/dev/null \
   | awk -F: '$2!="" && !seen[$2]++ {
       printf "%s %s  (%s%%)\n", ($1=="yes" ? "●" : "○"), $2, $3
     }')
