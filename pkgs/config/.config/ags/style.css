@@ -1,37 +1,43 @@
 /* surrealism「空」— AGS 樣式(純 CSS,免 sass)。配色暫定 Magritte sky,Phase 5 再細修。
-   GTK4 CSS 子集:border-radius / radial-gradient / box-shadow 支援;不支援的屬性被忽略、不 crash。
-   palette 用 GTK 原生 @define-color。 */
+   GTK4 CSS 子集:border-radius / radial-gradient / linear-gradient / box-shadow 支援;
+   不支援的屬性被忽略、不 crash。palette 用 GTK 原生 @define-color。 */
 
 @define-color stone   #c3bdb0;
 @define-color stoneSh #9a9284;
 @define-color ink     #22262e;
 @define-color night   #1b2330;
 
-/* 環境物件視窗一律透明:只有物件本身可見,四周是天空/桌布 */
+/* 環境物件視窗一律透明:只有物件本身可見,四周是天空 */
 window { background: transparent; }
 
-/* ── 時間主物件:懸空石 ── */
+/* ── 底層天空(漸層由 SkyBackground 的 inline css 動態注入) ── */
+window.Sky .sky-fill { }
+
+/* ── 時間主物件:巨大懸空霧面石(尺度悖論) ── */
 window.TimeStone .stone {
-  min-width: 190px;
-  min-height: 190px;
-  padding: 20px;
+  min-width: 340px;
+  min-height: 340px;
+  padding: 30px;
   border-radius: 999px;                  /* 圓 = 石/月 */
   color: @ink;
+  /* 霧面石:左上受光高光 + 右下陰面 + 主體漸層 → 有重量的實體 */
   background-image:
-    radial-gradient(circle at 34% 28%, rgba(255,255,255,0.36), rgba(255,255,255,0) 55%),
-    radial-gradient(circle at 30% 24%, @stone, @stoneSh);
-  box-shadow: 0 32px 40px -16px rgba(27,35,48,0.5);   /* 懸浮柔影 */
+    radial-gradient(circle at 36% 30%, rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0) 42%),
+    radial-gradient(circle at 68% 74%, rgba(27, 35, 48, 0.30), rgba(27, 35, 48, 0) 46%),
+    radial-gradient(circle at 40% 34%, @stone, @stoneSh 82%);
+  /* 懸浮陰影:大 offset 往下 + 柔化 → levitation(巨石浮空) */
+  box-shadow: 0 52px 66px -22px rgba(27, 35, 48, 0.55);
 }
 
 window.TimeStone .clock {
   font-family: "Iowan Old Style", "Palatino", "Noto Serif CJK TC", serif;
-  font-size: 46px;
+  font-size: 80px;
   font-weight: 500;
 }
 
 window.TimeStone .date {
-  font-size: 12px;
-  letter-spacing: 3px;
-  margin-top: 6px;
+  font-size: 15px;
+  letter-spacing: 4px;
+  margin-top: 10px;
   opacity: 0.72;
 }

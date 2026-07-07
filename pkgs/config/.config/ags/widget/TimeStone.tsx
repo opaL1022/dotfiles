@@ -25,8 +25,8 @@ export default function TimeStone(gdkmonitor: Gdk.Monitor) {
       layer={Astal.Layer.BOTTOM}
       exclusivity={Astal.Exclusivity.IGNORE}
       anchor={TOP | LEFT}
-      marginTop={110}
-      marginLeft={150}
+      marginTop={90}
+      marginLeft={130}
       application={app}
     >
       <box
