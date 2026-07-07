@@ -75,7 +75,7 @@ hl.config({
     -- ★ scrolling layout 調校:column_width 半寬 + 置中 → 聚焦窗兩側自動留天空
     scrolling = {
         column_width             = 0.6,   -- 半寬偏多,浮物泡在天空裡(可再調)
-        fullscreen_on_one_column = true,
+        fullscreen_on_one_column = false,  -- 單一視窗也維持 column_width、兩側留天空(浮石概念)
         focus_fit_method         = 1,     -- 置中聚焦
         follow_focus             = true,
         follow_min_visible       = 0.4,
