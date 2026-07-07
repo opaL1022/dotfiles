@@ -17,13 +17,23 @@ hl.bind(mainMod .. " + M",      hl.dsp.exit())
 hl.bind(mainMod .. " + E",      hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + F",      hl.dsp.window.float())
 hl.bind(mainMod .. " + D",      hl.dsp.exec_cmd(menu))
-hl.bind(mainMod .. " + W",         hl.dsp.exec_cmd(wall .. " next"))   -- 下一張桌布
-hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd(wall .. " menu"))   -- 桌布選單
-hl.bind(mainMod .. " + P",      hl.dsp.window.pseudo())
-hl.bind(mainMod .. " + S",      hl.dsp.layout("togglesplit"))
+-- surrealism: 桌布改程序化天空(AGS),停用 retro-wall 綁定
+-- hl.bind(mainMod .. " + W",         hl.dsp.exec_cmd(wall .. " next"))
+-- hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd(wall .. " menu"))
 hl.bind(mainMod .. " + Z",      hl.dsp.window.fullscreen())
 -- hl.bind(mainMod .. " + L",   hl.dsp.exec_cmd("hyprlock"))
-hl.bind(mainMod .. " + R",      hl.dsp.layout("swapsplit"))
+
+-- Scrolling layout 導航(取代 dwindle 的 pseudo/togglesplit/swapsplit)
+hl.bind(mainMod .. " + S",              hl.dsp.layout("fit expand"))             -- 展開填滿剩餘天空
+hl.bind(mainMod .. " + R",              hl.dsp.layout("promote"))                -- 視窗獨立成一 column
+hl.bind(mainMod .. " + SHIFT + H",      hl.dsp.layout("swapcol l"))              -- 移動 column 往左
+hl.bind(mainMod .. " + SHIFT + L",      hl.dsp.layout("swapcol r"))              -- 移動 column 往右
+hl.bind(mainMod .. " + comma",          hl.dsp.layout("move -col"))              -- 平移天空(tape)往左
+hl.bind(mainMod .. " + period",         hl.dsp.layout("move +col"))              -- 平移天空(tape)往右
+hl.bind(mainMod .. " + bracketleft",    hl.dsp.layout("colresize -conf"))        -- column 變窄(循環預設)
+hl.bind(mainMod .. " + bracketright",   hl.dsp.layout("colresize +conf"))        -- column 變寬(循環預設)
+hl.bind(mainMod .. " + SHIFT + comma",  hl.dsp.layout("consume_or_expel prev"))  -- 併入/逐出 column(左)
+hl.bind(mainMod .. " + SHIFT + period", hl.dsp.layout("consume_or_expel next"))  -- 併入/逐出 column(右)
 
 -- Screen magnifier (Hyprland 內建縮放,跟著游標放大 cursor:zoom_factor)
 -- 用 Lua callback 直接呼叫 in-compositor 的 hl.config / hl.get_config —

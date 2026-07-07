@@ -96,8 +96,11 @@ hl.config({
 --  切回 retroism 分支才會重新載入。)
 -- ============================================================
 
--- Window rules — route A 一律不透明(浮石);route B 天空之窗留待 Phase 4
+-- Window rules
+-- route A 浮石:瀏覽器/Discord 一律不透明
 hl.window_rule({ match = { class = "firefox" },       opacity = "1" })
 hl.window_rule({ match = { class = "discord" },       opacity = "1" })
 hl.window_rule({ match = { class = "Brave-browser" }, opacity = "1" })
 hl.window_rule({ match = { class = "librewolf" },     opacity = "1" })
+-- route B 天空之窗:終端半透明 + blur(style blur 已開)→ 背後天空穿透(Human Condition 錯視)
+hl.window_rule({ match = { class = "Alacritty" }, opacity = "0.85 0.80" })
