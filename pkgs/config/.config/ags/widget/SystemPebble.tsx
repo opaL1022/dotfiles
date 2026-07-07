@@ -24,7 +24,7 @@ export default function SystemPebble(gdkmonitor: Gdk.Monitor) {
   ) as unknown as Gtk.Widget
 
   const click = new Gtk.GestureClick()
-  click.connect("pressed", () => execAsync("nm-connection-editor"))
+  click.connect("pressed", () => execAsync(["bash", "-c", "$HOME/.config/hypr/scripts/wifi-menu"]))
   content.add_controller(click)
 
   return (

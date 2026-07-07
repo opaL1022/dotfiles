@@ -30,7 +30,7 @@ export default function PowerMenu(gdkmonitor: Gdk.Monitor) {
       <box class="power-box" orientation={Gtk.Orientation.HORIZONTAL} spacing={14}>
         {ACTIONS.map((a) => (
           <button class="power-btn" onClicked={() => { execAsync(a.cmd); hide() }}>
-            <box orientation={Gtk.Orientation.VERTICAL} spacing={8} halign={Gtk.Align.CENTER}>
+            <box orientation={Gtk.Orientation.VERTICAL} spacing={8} halign={Gtk.Align.CENTER} valign={Gtk.Align.CENTER} vexpand>
               <label class="power-icon" label={a.icon} />
               <label class="power-label" label={a.label} />
             </box>

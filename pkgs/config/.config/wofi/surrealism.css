@@ -1,0 +1,31 @@
+/* wofi style — surrealism · Magritte night(給 wifi-menu 等 dmenu 用) */
+window {
+    background-color: rgba(20, 28, 40, 0.96);
+    border: 1px solid rgba(127, 176, 216, 0.30);
+    border-radius: 16px;
+    margin: 0;
+    font-family: "Noto Sans CJK TC", "Symbols Nerd Font", sans-serif;
+}
+#outer-box { margin: 0; padding: 8px; }
+#input {
+    margin: 8px;
+    padding: 10px 14px;
+    border: none;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.06);
+    color: #e6ecf3;
+    font-size: 16px;
+}
+#input image { color: #7fb0d8; }
+#scroll { margin: 4px 6px; }
+#inner-box { margin: 2px; }
+#text { color: #d7dfe6; padding: 2px; }
+#entry {
+    padding: 9px 12px;
+    border-radius: 10px;
+    margin: 2px 4px;
+}
+#entry:selected {
+    background-color: rgba(127, 176, 216, 0.22);
+}
+#entry:selected #text { color: #f2f5f7; }
