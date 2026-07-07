@@ -121,9 +121,9 @@ zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*' menu select
 
 # 保存你原本的 prompt
-# retroism/yorha 調：壓深以配淺色終端底
-typeset -g DAYBREAK_OK='#5e6e2f'
-typeset -g DAYBREAK_ERR='#9e3b2e'
+# surrealism/Magritte 調:提亮以配深夜色終端底
+typeset -g DAYBREAK_OK='#7ba46f'
+typeset -g DAYBREAK_ERR='#cc7f74'
 ORIGINAL_PROMPT=$PROMPT
 
 autoload -Uz add-zsh-hook

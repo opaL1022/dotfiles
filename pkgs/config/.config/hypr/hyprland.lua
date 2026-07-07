@@ -34,6 +34,9 @@ hl.env("QT_QPA_PLATFORM", "wayland;xcb")
 hl.env("SDL_VIDEODRIVER", "wayland")
 hl.env("CLUTTER_BACKEND", "wayland")
 hl.env("MOZ_ENABLE_WAYLAND", "1")
+-- surrealism: 強制 GTK app 走深色(prefer-dark 設定在 Wayland/XWayland 不可靠)
+-- 搭配 ~/.config/gtk-3.0|4.0/gtk.css 的 Magritte 夜藍 tint
+hl.env("GTK_THEME", "Adwaita:dark")
 
 
 -----------------

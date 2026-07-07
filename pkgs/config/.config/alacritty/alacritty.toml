@@ -5,44 +5,44 @@ italic = { family = "Dank Mono", style = "Italic" }
 
 size = 18
 
-# ===== Retroism · yorha 配色（移植自 retroism kitty yorha_theme）=====
+# ===== surrealism · Magritte night 配色(天空之窗:暗底,Hyprland window_rule 讓夜空透出) =====
 [window]
-padding = { x = 8, y = 6 }
+padding = { x = 10, y = 8 }
 dynamic_padding = false  # 內容左上對齊,改字級時零頭固定丟到右下,不要置中上下跳
-opacity = 1.0            # retro: 不透明、無模糊
+opacity = 1.0            # 透明度交給 Hyprland window_rule(0.85)→ 夜空穿透
 
 [colors.primary]
-background = "#baafa1"   # yorha 淺暖底
-foreground = "#1e1d1b"   # 近黑前景
+background = "#141c28"   # night 深藍底(0.85 半透 → 夜空透出)
+foreground = "#e6ecf3"   # cloud 雲白前景
 
 [colors.cursor]
-text   = "#d9caba"
-cursor = "#626335"       # olive 游標
+text   = "#141c28"
+cursor = "#e6b24e"       # lamp 街燈金游標
 
 [colors.selection]
-background = "#1e1d1b"
-text       = "#d9caba"
+background = "#3d5a72"    # sky-dusk
+text       = "#f2f5f7"
 
-# 收斂暖色組（霧面大地色，全部夠深、在 #baafa1 淺底上可讀）
+# Magritte 夜空色組(夠亮,在深藍底上可讀;唯一暖色=lamp 金)
 [colors.normal]
-black   = "#2b2a26"
-red     = "#9e3b2e"
-green   = "#5e6e2f"
-yellow  = "#a8782a"
-blue    = "#3d5a72"
-magenta = "#7c4a60"
-cyan    = "#3f7068"
-white   = "#4a463e"
+black   = "#20293a"
+red     = "#b5645a"      # 赭紅/肉色
+green   = "#6f9160"      # 蘋果綠(muted)
+yellow  = "#e6b24e"      # 街燈金
+blue    = "#6f9fca"      # 天藍
+magenta = "#8f7194"      # 暮紫
+cyan    = "#6fa6b2"      # 淡天青
+white   = "#c4cdd8"      # 雲灰
 
 [colors.bright]
-black   = "#6b655a"
-red     = "#c0492f"
-green   = "#76883a"
-yellow  = "#c08f33"
-blue    = "#4f7390"
-magenta = "#98607b"
-cyan    = "#4f8a7e"
-white   = "#2b2a26"
+black   = "#46536a"
+red     = "#cc7f74"
+green   = "#88a878"
+yellow  = "#f0c268"
+blue    = "#93b8da"
+magenta = "#ab8fae"
+cyan    = "#8dbcc7"
+white   = "#f2f5f7"      # 雲白
 
 [[keyboard.bindings]]
 key = "Return"

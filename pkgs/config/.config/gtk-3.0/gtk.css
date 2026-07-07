@@ -1,72 +1,25 @@
-/* ===== Retroism · yorha override (套在 ClassicPlatinum 之上) ===== */
+/* ===== surrealism · Magritte night(套在 Adwaita-dark 之上) =====
+   夜色底 + 天藍 accent。GTK3 用 @theme_* 具名色覆蓋 Adwaita。 */
 
-@define-color yo_base    #d9caba;   /* 主背景/chrome */
-@define-color yo_view    #f0e2d3;   /* 檔案區淺面(像紙) */
-@define-color yo_fg      #3e3d38;   /* 字色 */
-@define-color yo_sel_bg  #626335;   /* 選取背景 olive */
-@define-color yo_sel_fg  #f0e2d3;   /* 選取字色 */
+@define-color theme_bg_color          #1b2330;
+@define-color theme_base_color        #141c28;
+@define-color theme_fg_color          #e6ecf3;
+@define-color theme_text_color        #e6ecf3;
+@define-color theme_selected_bg_color #3d5a72;
+@define-color theme_selected_fg_color #f2f5f7;
+@define-color theme_unfocused_selected_bg_color #2d4256;
 
-/* 主要容器 (檔案區 / sidebar) */
-.view, .sidebar {
-    background-color: @yo_view;
-    color: @yo_fg;
-}
+@define-color accent_color            #7fb0d8;
+@define-color accent_bg_color         #3d5a72;
+@define-color accent_fg_color         #f2f5f7;
 
-.window:not(.swaync-window) {
-    background-color: @yo_base;
-    color: @yo_fg;
-}
+@define-color insensitive_bg_color    #20293a;
+@define-color borders                 #2b3648;
 
-/* 選取狀態 */
+/* 選取狀態:天藍 */
 .view:selected,
 .sidebar:selected,
 .sidebar row:selected {
-    background-color: @yo_sel_bg;
-    color: @yo_sel_fg;
+    background-color: @theme_selected_bg_color;
+    color: @theme_selected_fg_color;
 }
-
-/* 工具列 / 標頭列 */
-toolbar {
-    background-color: @yo_base;
-    color: @yo_fg;
-}
-
-headerbar,
-.header-bar {
-    background-color: @yo_base;
-    color: @yo_fg;
-}
-
-headerbar button {
-    background-color: @yo_base;
-    color: @yo_fg;
-}
-
-/* 功能表 */
-menubar,
-menubar menuitem,
-menu,
-menu menuitem {
-    background-color: @yo_base;
-    color: @yo_fg;
-}
-
-/* 復古粗捲軸：永遠顯示、方角、yorha 立體拖動塊 */
-scrollbar { background-color: #d9caba; }
-scrollbar trough {
-    background-color: #f0e2d3;
-    border: 1px solid #8a7c66;
-    border-radius: 0;
-    margin: 0;
-}
-scrollbar slider {
-    min-width: 13px;
-    min-height: 13px;
-    border-radius: 0;
-    background-color: #baafa1;
-    border-top: 1px solid #f0e2d3;
-    border-left: 1px solid #f0e2d3;
-    border-bottom: 1px solid #8a7c66;
-    border-right: 1px solid #8a7c66;
-}
-scrollbar slider:hover { background-color: #626335; }
