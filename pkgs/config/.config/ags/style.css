@@ -56,3 +56,54 @@ window.SkyBar .bar-time {
   font-weight: 500;
   color: @ink;
 }
+
+window.SkyBar .bar-net,
+window.SkyBar .bar-bat,
+window.SkyBar .bar-media {
+  font-size: 13px;
+  color: @ink;
+  opacity: 0.82;
+}
+window.SkyBar .bar-media { font-style: italic; }
+
+/* ── 系統浮石:小霧面石(右下) ── */
+window.SystemPebble .pebble {
+  min-width: 96px;
+  min-height: 96px;
+  padding: 14px;
+  border-radius: 999px;
+  color: @ink;
+  background-image:
+    radial-gradient(circle at 36% 30%, rgba(255, 255, 255, 0.40), rgba(255, 255, 255, 0) 44%),
+    radial-gradient(circle at 70% 76%, rgba(27, 35, 48, 0.32), rgba(27, 35, 48, 0) 48%),
+    radial-gradient(circle at 40% 34%, @stone, @stoneSh 82%);
+}
+window.SystemPebble .peb-bat {
+  font-family: "Iowan Old Style", "Palatino", "Noto Serif CJK TC", serif;
+  font-size: 22px;
+  font-weight: 500;
+}
+window.SystemPebble .peb-net {
+  font-size: 10px;
+  letter-spacing: 1px;
+  opacity: 0.7;
+  margin-top: 2px;
+}
+
+/* ── 媒體掛畫:裱框 + 封面(右中,放歌才降下) ── */
+window.MediaPainting .frame {
+  padding: 7px;
+  background-color: @stone;
+  border: 3px solid @ink;
+}
+window.MediaPainting .art {
+  min-width: 128px;
+  min-height: 128px;
+}
+window.MediaPainting .paint-title {
+  font-family: "Iowan Old Style", "Palatino", "Noto Serif CJK TC", serif;
+  font-style: italic;
+  font-size: 13px;
+  color: @ink;
+  margin-top: 8px;
+}
