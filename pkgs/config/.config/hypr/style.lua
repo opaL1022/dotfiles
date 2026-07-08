@@ -30,9 +30,9 @@ hl.config({
         -- 圓角物件感(石頭/蘋果),反轉 retroism 的方角
         rounding = 14,
 
-        -- route A 浮石:預設不透明;route B 天空之窗(終端半透)之後 Phase 4 用 window_rule 開
+        -- ★《人的境況 La condition humaine》:聚焦=在場(不透明)、失焦=溶回天空(半透+blur 穿透)
         active_opacity   = 1.0,
-        inactive_opacity = 1.0,
+        inactive_opacity = 0.82,
 
         -- ★ 懸浮陰影(招牌):大 offset 往下 + 柔化 range → 視窗像懸空的浮石,影子落在下方
         shadow = {
@@ -97,10 +97,10 @@ hl.config({
 -- ============================================================
 
 -- Window rules
--- route A 浮石:瀏覽器/Discord 一律不透明
-hl.window_rule({ match = { class = "firefox" },       opacity = "1" })
-hl.window_rule({ match = { class = "discord" },       opacity = "1" })
-hl.window_rule({ match = { class = "Brave-browser" }, opacity = "1" })
-hl.window_rule({ match = { class = "librewolf" },     opacity = "1" })
+-- route A 浮石:瀏覽器/Discord 聚焦時全實(可讀),失焦才溶回天空(比全域 0.82 溫和些)
+hl.window_rule({ match = { class = "firefox" },       opacity = "1 0.88" })
+hl.window_rule({ match = { class = "discord" },       opacity = "1 0.88" })
+hl.window_rule({ match = { class = "Brave-browser" }, opacity = "1 0.88" })
+hl.window_rule({ match = { class = "librewolf" },     opacity = "1 0.88" })
 -- route B 天空之窗:終端半透明 + blur(style blur 已開)→ 背後天空穿透(Human Condition 錯視)
 hl.window_rule({ match = { class = "Alacritty" }, opacity = "0.85 0.80" })
