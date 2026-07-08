@@ -1,18 +1,19 @@
 /* ===== Retroism · yorha palette ===== */
-@define-color cc-bg rgba(217, 202, 186, 0.96);          /* base #d9caba */
-@define-color noti-border-color rgba(61, 61, 57, 0.5);  /* outline #3d3d39 */
-@define-color noti-bg rgba(240, 226, 211, 0.97);        /* highlight #f0e2d3 */
-@define-color noti-bg-opaque rgb(240, 226, 211);
-@define-color noti-bg-alt rgb(217, 202, 186);
-@define-color noti-bg-darker rgb(217, 202, 186);        /* base */
-@define-color noti-bg-hover rgb(186, 175, 161);         /* shadow #baafa1 */
-@define-color noti-bg-hover-opaque rgb(186, 175, 161);
-@define-color noti-bg-focus rgba(186, 175, 161, 0.6);
-@define-color noti-close-bg rgba(61, 61, 57, 0.12);
-@define-color noti-close-bg-hover rgba(61, 61, 57, 0.22);
-@define-color text-color rgb(62, 61, 56);               /* #3e3d38 */
-@define-color text-color-disabled rgb(138, 124, 102);   /* bevel #8a7c66 */
-@define-color bg-selected rgb(98, 99, 53);              /* olive #626335 */
+/* ===== surrealism · Magritte night(remap:夜空深藍 + 雲白 + 街燈金) ===== */
+@define-color cc-bg rgba(20, 27, 40, 0.96);             /* night #141b28 */
+@define-color noti-border-color rgba(127, 176, 216, 0.28); /* sky 細邊 */
+@define-color noti-bg rgba(29, 39, 57, 0.97);           /* panel #1d2739 */
+@define-color noti-bg-opaque rgb(29, 39, 57);
+@define-color noti-bg-alt rgb(21, 29, 51);              /* #151d33 */
+@define-color noti-bg-darker rgb(18, 24, 36);
+@define-color noti-bg-hover rgb(45, 58, 82);            /* hover 提亮 */
+@define-color noti-bg-hover-opaque rgb(45, 58, 82);
+@define-color noti-bg-focus rgba(51, 80, 106, 0.6);     /* sky-dusk #33506a */
+@define-color noti-close-bg rgba(230, 236, 243, 0.10);  /* 淺色關閉鈕(壓在夜色上) */
+@define-color noti-close-bg-hover rgba(230, 236, 243, 0.20);
+@define-color text-color rgb(230, 236, 243);            /* cloud #e6ecf3 */
+@define-color text-color-disabled rgb(130, 144, 168);   /* muted #8290a8 */
+@define-color bg-selected rgb(230, 178, 78);            /* lamp 街燈金 #e6b24e */
 .notification-row {
   outline: none;
 }
