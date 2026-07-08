@@ -261,7 +261,10 @@ theme-switch() {
   command -v swaync-client >/dev/null 2>&1 && pgrep -x swaync >/dev/null 2>&1 && swaync-client -rs 2>/dev/null
   command -v xrdb       >/dev/null 2>&1 && xrdb -merge "$HOME/.Xresources" 2>/dev/null
 
-  print -P "%F{$DAYBREAK_OK}已切換到主題：$target%f（nvim 與終端機請重開以套用）"
+  # Emacs:若 daemon 在跑,熱套用對應外觀(不重啟、不丟 buffer);沒跑則無害,下次啟動 init.el 自動偵測
+  command -v emacsclient >/dev/null 2>&1 && emacsclient -e '(my-apply-desktop-look)' >/dev/null 2>&1
+
+  print -P "%F{$DAYBREAK_OK}已切換到主題：$target%f（nvim 請重開;終端與 Emacs 已自動套用）"
 }
 
 # tab 補全：補上本地與 origin 的主題分支
