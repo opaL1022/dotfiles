@@ -32,7 +32,7 @@ hl.config({
 
         -- ★《人的境況 La condition humaine》:聚焦=在場(不透明)、失焦=溶回天空(半透+blur 穿透)
         active_opacity   = 1.0,
-        inactive_opacity = 0.82,
+        inactive_opacity = 1.0,
 
         -- ★ 懸浮陰影(招牌):大 offset 往下 + 柔化 range → 視窗像懸空的浮石,影子落在下方
         shadow = {
@@ -46,8 +46,10 @@ hl.config({
         },
 
         blur = {
-            -- route B 天空之窗會用到;先開好、size 保守(終端可讀性)
-            enabled  = true,
+            -- 關閉:Hyprland 的 blur 是全域、無法只在 active 時套用。
+            -- 關掉 → inactive 半透視窗背後的天空清晰穿透(不毛玻璃);
+            -- 代價:active 的 Alacritty 天空之窗背後也變清晰(可接受,更「真天空」)。
+            enabled  = false,
             size     = 4,
             passes   = 2,
             vibrancy = 0.1696,
@@ -102,5 +104,7 @@ hl.window_rule({ match = { class = "firefox" },       opacity = "1 0.88" })
 hl.window_rule({ match = { class = "discord" },       opacity = "1 0.88" })
 hl.window_rule({ match = { class = "Brave-browser" }, opacity = "1 0.88" })
 hl.window_rule({ match = { class = "librewolf" },     opacity = "1 0.88" })
--- route B 天空之窗:終端半透明 + blur(style blur 已開)→ 背後天空穿透(Human Condition 錯視)
-hl.window_rule({ match = { class = "Alacritty" }, opacity = "0.85 0.80" })
+-- route B 天空之窗:終端「只有文字懸浮在空中」
+--   Alacritty 自身 opacity=0(背景全透)+ 此窗 Hyprland opacity=1(文字回清晰,不被拉透)
+--   + 無邊框 + 無圓角 + 無陰影(否則透明背景仍會有矩形框/影浮在空中)
+hl.window_rule({ match = { class = "Alacritty" }, opacity = "1", border_size = 0, rounding = 0, no_shadow = true })

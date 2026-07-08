@@ -9,11 +9,11 @@ size = 18
 [window]
 padding = { x = 10, y = 8 }
 dynamic_padding = false  # 內容左上對齊,改字級時零頭固定丟到右下,不要置中上下跳
-opacity = 1.0            # 透明度交給 Hyprland window_rule(0.85)→ 夜空穿透
+opacity = 0            # 背景全透明 → 只有文字懸浮在天空(Hyprland 該窗 opacity=1、無框無影)
 
 [colors.primary]
-background = "#141c28"   # night 深藍底(0.85 半透 → 夜空透出)
-foreground = "#e6ecf3"   # cloud 雲白前景
+background = "#141c28"   # 背景 opacity=0 全透明(此色不顯);文字直接壓在桌布夜空上
+foreground = "#eef2f9"   # cloud 亮雲白(壓在深藍夜空上高對比)
 
 [colors.cursor]
 text   = "#141c28"
@@ -23,26 +23,27 @@ cursor = "#e6b24e"       # lamp 街燈金游標
 background = "#3d5a72"    # sky-dusk
 text       = "#f2f5f7"
 
-# Magritte 夜空色組(夠亮,在深藍底上可讀;唯一暖色=lamp 金)
+# Magritte 夜空色組 —— 背景全透版:整體提亮+加飽和,壓在深藍夜空桌布上都夠亮可讀
+# (暗色會沒入夜空,故 black 也拉高;藍/紫拉亮避免跟夜空撞色;唯一暖色=lamp 金)
 [colors.normal]
-black   = "#20293a"
-red     = "#b5645a"      # 赭紅/肉色
-green   = "#6f9160"      # 蘋果綠(muted)
-yellow  = "#e6b24e"      # 街燈金
-blue    = "#6f9fca"      # 天藍
-magenta = "#8f7194"      # 暮紫
-cyan    = "#6fa6b2"      # 淡天青
-white   = "#c4cdd8"      # 雲灰
+black   = "#54607a"      # 提亮(全透下不能太暗,否則沒入夜空)
+red     = "#d47b6d"      # 赭紅/肉色(提亮)
+green   = "#9fd487"      # 蘋果綠(再拉亮,別沒入夜空)
+yellow  = "#eab74f"      # 街燈金
+blue    = "#8fc8f2"      # 天藍(再拉亮+微偏青,跟深藍夜空拉開)
+magenta = "#ad8cc4"      # 暮紫(提亮)
+cyan    = "#82bfcd"      # 淡天青(提亮)
+white   = "#d6dfea"      # 雲灰
 
 [colors.bright]
-black   = "#46536a"
-red     = "#cc7f74"
-green   = "#88a878"
-yellow  = "#f0c268"
-blue    = "#93b8da"
-magenta = "#ab8fae"
-cyan    = "#8dbcc7"
-white   = "#f2f5f7"      # 雲白
+black   = "#8290a8"      # ★ 註解/次要文字:大幅提亮,夜空上清楚可見
+red     = "#e6968a"
+green   = "#bce4a4"
+yellow  = "#f6cd72"
+blue    = "#b8dcf8"
+magenta = "#c6aada"
+cyan    = "#a0d3df"
+white   = "#f5f8fc"      # 雲白
 
 [[keyboard.bindings]]
 key = "Return"
