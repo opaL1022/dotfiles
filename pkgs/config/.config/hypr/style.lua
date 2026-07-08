@@ -10,13 +10,13 @@ hl.config({
         gaps_in  = 6,
         gaps_out = 18,
 
-        -- near-frameless:視窗是「物件」不是「面板」→ 細邊,不再是 retroism 的厚框
-        border_size = 1,
+        -- ★ W②「掛在天空的畫」:厚實鍍金畫框(視窗=裱框的畫)
+        border_size = 10,
 
         col = {
-            -- 暫定 Magritte cloud 色:作用窗雲白邊(低調襯出物件),非作用窗更透
-            active_border   = "rgba(f2f5f7cc)",
-            inactive_border = "rgba(d7dfe655)",
+            -- 鍍金畫框:亮金→暗銅 45° 漸層(立體鑲邊);失焦更暗
+            active_border   = { colors = { "rgba(e0c286ff)", "rgba(96703cff)" }, angle = 45 },
+            inactive_border = { colors = { "rgba(9c855aaa)", "rgba(5c4830aa)" }, angle = 45 },
         },
 
         resize_on_border = true,
@@ -27,8 +27,8 @@ hl.config({
     },
 
     decoration = {
-        -- 圓角物件感(石頭/蘋果),反轉 retroism 的方角
-        rounding = 14,
+        -- W②:方角(畫作是方的),圓角浮石讓位給裱框的畫
+        rounding = 0,
 
         -- ★《人的境況 La condition humaine》:聚焦=在場(不透明)、失焦=溶回天空(半透+blur 穿透)
         active_opacity   = 1.0,
@@ -104,7 +104,5 @@ hl.window_rule({ match = { class = "firefox" },       opacity = "1 0.88" })
 hl.window_rule({ match = { class = "discord" },       opacity = "1 0.88" })
 hl.window_rule({ match = { class = "Brave-browser" }, opacity = "1 0.88" })
 hl.window_rule({ match = { class = "librewolf" },     opacity = "1 0.88" })
--- route B 天空之窗:終端「只有文字懸浮在空中」
---   Alacritty 自身 opacity=0(背景全透)+ 此窗 Hyprland opacity=1(文字回清晰,不被拉透)
---   + 無邊框 + 無圓角 + 無陰影(否則透明背景仍會有矩形框/影浮在空中)
-hl.window_rule({ match = { class = "Alacritty" }, opacity = "1", border_size = 0, rounding = 0, no_shadow = true })
+-- W②:終端 = 掛在天空的畫。實心夜空藍畫布(alacritty opacity=0.96)+ 鍍金畫框 + 懸浮陰影(吃全域)
+hl.window_rule({ match = { class = "Alacritty" }, opacity = "1" })

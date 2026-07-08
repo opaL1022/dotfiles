@@ -9,10 +9,10 @@ size = 18
 [window]
 padding = { x = 10, y = 8 }
 dynamic_padding = false  # 內容左上對齊,改字級時零頭固定丟到右下,不要置中上下跳
-opacity = 0            # 背景全透明 → 只有文字懸浮在天空(Hyprland 該窗 opacity=1、無框無影)
+opacity = 0.96         # W②「畫」:實心夜空藍畫布(留一絲透讓邊緣有呼吸,非全透)
 
 [colors.primary]
-background = "#141c28"   # 背景 opacity=0 全透明(此色不顯);文字直接壓在桌布夜空上
+background = "#151d33"   # 夜空藍畫布:深夜靛藍(金框內的畫布)
 foreground = "#eef2f9"   # cloud 亮雲白(壓在深藍夜空上高對比)
 
 [colors.cursor]
