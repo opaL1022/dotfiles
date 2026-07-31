@@ -79,7 +79,6 @@
 }
 
 .notification-row .notification-background .notification .notification-action:hover, .notification-row .notification-background .notification .notification-default-action:hover {
-  -gtk-icon-effect: none;
   background: @noti-bg-hover;
 }
 
@@ -102,7 +101,6 @@
 
 .notification-row .notification-background .notification .notification-default-action .notification-content .image {
   /* Notification Primary Image */
-  -gtk-icon-effect: none;
   border-radius: 0;
   /* Size in px */
   margin: 4px;
@@ -110,7 +108,6 @@
 
 .notification-row .notification-background .notification .notification-default-action .notification-content .app-icon {
   /* Notification app icon (only visible when the primary image is set) */
-  -gtk-icon-effect: none;
   -gtk-icon-shadow: 0 1px 4px black;
   margin: 6px;
 }
@@ -152,7 +149,6 @@
   margin-top: 4px;
   background-color: white;
   border-radius: 0;
-  -gtk-icon-effect: none;
 }
 
 .notification-row .notification-background .notification .notification-default-action .notification-content .inline-reply {
