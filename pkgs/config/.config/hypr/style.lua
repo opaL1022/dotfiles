@@ -105,6 +105,11 @@ hl.config({
 -- without this optional title-bar decoration.
 -- hl.plugin.load((os.getenv("HOME") or "") .. "/.local/share/hyprbars/hyprbars.so")
 
+-- Keep the plugin settings disabled together with `hl.plugin.load' above.
+-- Hyprland reports every `plugin.hyprbars' key as unknown when the ABI-matched
+-- shared object is not loaded.  Re-enable this block only after rebuilding the
+-- plugin for the current Hyprland version.
+--[[
 hl.config({
     plugin = {
         hyprbars = {
@@ -114,12 +119,11 @@ hl.config({
             bar_text_size              = 14,
             bar_text_align             = "center",       -- pinstripe 對稱所需
             bar_part_of_window         = true,
-            -- true：邊框繞在 bar 外側(上方)。因邊框=bar 同色 #d9caba,上方邊框會跟 bar
-            -- 融成一片(看不出線),且邊框不在 bar 與內容之間 → 下方不會有橫線。
             bar_precedence_over_border = true,
         },
     },
 })
+]]
 
 -- Window rules
 hl.window_rule({ match = { class = "firefox" },       opacity = "1" })
