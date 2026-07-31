@@ -253,7 +253,9 @@ theme-switch() {
     (waybar >/dev/null 2>&1 &!)
     (hyprpaper >/dev/null 2>&1 &!)
     [[ -x "$HOME/.config/hypr/scripts/retro-wall" ]] && ("$HOME/.config/hypr/scripts/retro-wall" restore >/dev/null 2>&1 &!)
-    eval "$_gs icon-theme 'RetroismIcons'"; eval "$_gs gtk-theme 'ClassicPlatinumStreamlined'"; eval "$_gs color-scheme 'prefer-light'"
+    # Gruvbox-Plus-Light supplies dark symbolic Wi-Fi/Bluetooth tray icons;
+    # RetroismIcons lacks those assets and falls back to invisible white ones.
+    eval "$_gs icon-theme 'Gruvbox-Plus-Light'"; eval "$_gs gtk-theme 'ClassicPlatinumStreamlined'"; eval "$_gs color-scheme 'prefer-light'"
   fi
 
   # 跨主題通用的 app reload(swaync 兩邊都留著當通知後援)
