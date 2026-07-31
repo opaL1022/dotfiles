@@ -99,7 +99,11 @@ hl.config({
 --    重編: ~/.config/hypr/hyprbars-patch/rebuild-hyprbars.sh
 -- ** Hyprland 升級後 .so 會 ABI 不符 → 必須重跑 rebuild 腳本(不是 hyprpm update) **
 -- ============================================================
-hl.plugin.load((os.getenv("HOME") or "") .. "/.local/share/hyprbars/hyprbars.so")
+-- Disabled until the local pinstripe build is rebuilt for the installed
+-- Hyprland ABI.  Loading a stale .so aborts Hyprland during startup, which
+-- makes the whole desktop unusable.  The rest of the retroism look works
+-- without this optional title-bar decoration.
+-- hl.plugin.load((os.getenv("HOME") or "") .. "/.local/share/hyprbars/hyprbars.so")
 
 hl.config({
     plugin = {
