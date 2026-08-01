@@ -41,6 +41,10 @@ hl.env("MOZ_ENABLE_WAYLAND", "1")
 -----------------
 
 hl.on("hyprland.start", function()
+    -- hyprpm's enabled state is persistent but plugins are not loaded until
+    -- explicitly restored in a Lua-config session.  Reload config after the
+    -- ABI-matched hyprbars is present so its plugin keys never stay unknown.
+    hl.exec_cmd("hyprpm reload && hyprctl reload")
     hl.exec_cmd("hyprlock & " .. os.getenv("HOME") .. "/.local/bin/waybar & hyprpaper & blueman-applet & hypridle & " .. os.getenv("HOME") .. "/.config/hypr/scripts/retro-wall restore")
     hl.exec_cmd("fcitx5 & /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1")
     hl.exec_cmd("nm-applet --indicator")
