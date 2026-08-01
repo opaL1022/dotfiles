@@ -90,6 +90,7 @@ class RetroMediaIpad(Gtk.Window):
         self.set_position(Gtk.WindowPosition.CENTER)
         self.set_type_hint(Gdk.WindowTypeHint.DIALOG)
         self.connect("destroy", self.quit)
+        self.connect("key-press-event", self.handle_key_press)
         self.track_key = None
         self.player_status = "Stopped"
         self.last_reported_position = None
@@ -178,6 +179,12 @@ class RetroMediaIpad(Gtk.Window):
         button = Gtk.Button(label=label)
         button.connect("clicked", lambda _button: self.command(command))
         return button
+
+    def handle_key_press(self, _window, event):
+        if event.keyval == Gdk.KEY_Escape:
+            self.destroy()
+            return True
+        return False
 
     def command(self, command):
         playerctl(command)
