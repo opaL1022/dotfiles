@@ -39,9 +39,31 @@ hl.bind(mainMod .. " + equal",     function() zoom_by(zoom_step) end,  { repeati
 hl.bind(mainMod .. " + minus",     function() zoom_by(-zoom_step) end, { repeating = true })  -- Super + - 縮小
 hl.bind(mainMod .. " + BackSpace", function() set_zoom(zoom_min) end)                         -- Super + Backspace 還原
 
+-- Move focus without wrapping across the horizontal edge.  The directional
+-- dispatcher may select the opposite edge in some layouts; only dispatch it
+-- when this workspace actually contains a window on the requested side.
+local function focus_horizontally_without_wrap(direction)
+    local active = hl.get_active_window()
+    if not active or not active.workspace or not active.at then
+        return
+    end
+
+    local activeX = active.at.x
+    for _, candidate in ipairs(hl.get_workspace_windows(active.workspace)) do
+        if candidate ~= active and candidate.mapped and candidate.visible and candidate.at then
+            local existsInDirection = direction == "l" and candidate.at.x < activeX
+                or direction == "r" and candidate.at.x > activeX
+            if existsInDirection then
+                hl.dispatch(hl.dsp.focus({ direction = direction }))
+                return
+            end
+        end
+    end
+end
+
 -- Move focus
-hl.bind(mainMod .. " + H", hl.dsp.focus({ direction = "l" }))
-hl.bind(mainMod .. " + L", hl.dsp.focus({ direction = "r" }))
+hl.bind(mainMod .. " + H", function() focus_horizontally_without_wrap("l") end)
+hl.bind(mainMod .. " + L", function() focus_horizontally_without_wrap("r") end)
 hl.bind(mainMod .. " + K", hl.dsp.focus({ direction = "u" }))
 hl.bind(mainMod .. " + J", hl.dsp.focus({ direction = "d" }))
 

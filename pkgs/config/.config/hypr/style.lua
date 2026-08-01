@@ -75,6 +75,10 @@ hl.config({
         follow_focus             = true,
         follow_min_visible       = 0.4,
         direction                = "right",
+        -- Never wrap a directional focus from the last column to the first.
+        -- This also applies if a workspace is switched to the scrolling layout.
+        wrap_focus               = false,
+        wrap_swapcol             = false,
     },
 
     dwindle = {
@@ -105,11 +109,8 @@ hl.config({
 -- without this optional title-bar decoration.
 -- hl.plugin.load((os.getenv("HOME") or "") .. "/.local/share/hyprbars/hyprbars.so")
 
--- Keep the plugin settings disabled together with `hl.plugin.load' above.
--- Hyprland reports every `plugin.hyprbars' key as unknown when the ABI-matched
--- shared object is not loaded.  Re-enable this block only after rebuilding the
--- plugin for the current Hyprland version.
---[[
+-- hyprpm rebuilt and loaded an ABI-matched standard hyprbars for Hyprland
+-- 0.56.1.  Keep this block enabled only while `hyprpm list' shows hyprbars on.
 hl.config({
     plugin = {
         hyprbars = {
@@ -123,7 +124,6 @@ hl.config({
         },
     },
 })
-]]
 
 -- Window rules
 hl.window_rule({ match = { class = "firefox" },       opacity = "1" })
