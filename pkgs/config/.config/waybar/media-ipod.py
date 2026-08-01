@@ -6,6 +6,7 @@ import os
 import signal
 import subprocess
 import sys
+import time
 
 import gi
 
@@ -77,11 +78,18 @@ class RetroMediaIpad(Gtk.Window):
         self.set_position(Gtk.WindowPosition.CENTER)
         self.set_type_hint(Gdk.WindowTypeHint.DIALOG)
         self.connect("destroy", self.quit)
+        self.track_key = None
+        self.player_status = "Stopped"
+        self.last_reported_position = None
+        self.position_anchor = 0.0
+        self.position_anchor_at = time.monotonic()
+        self.duration = 0.0
 
         self.install_css()
         self.build_ui()
         self.refresh()
         GLib.timeout_add_seconds(1, self.refresh)
+        GLib.timeout_add(250, self.tick_progress)
 
     def install_css(self):
         css = b'''
@@ -172,6 +180,18 @@ class RetroMediaIpad(Gtk.Window):
             return
         playerctl("volume", f"{slider.get_value() / 100:.2f}")
 
+    def displayed_position(self):
+        if self.player_status == "Playing":
+            elapsed = time.monotonic() - self.position_anchor_at
+            return min(self.position_anchor + elapsed, self.duration)
+        return self.position_anchor
+
+    def tick_progress(self):
+        position = self.displayed_position()
+        self.progress.set_fraction(min(position / self.duration, 1) if self.duration else 0)
+        self.time.set_text(f"{self.format_time(position)} / {self.format_time(self.duration)}")
+        return True
+
     def refresh(self):
         metadata = playerctl(
             "metadata",
@@ -185,20 +205,47 @@ class RetroMediaIpad(Gtk.Window):
             self.progress.set_fraction(0)
             self.time.set_text("--:-- / --:--")
             self.play_button.set_label("PLAY")
+            self.track_key = None
+            self.player_status = "Stopped"
+            self.last_reported_position = None
+            self.position_anchor = 0.0
+            self.duration = 0.0
             return True
 
         status, artist, title, album, length = (metadata.split(SEPARATOR) + [""] * 5)[:5]
         position_text = playerctl("position")
         try:
-            position = float(position_text)
+            reported_position = float(position_text)
+            position = reported_position
             duration = float(length) / 1_000_000
         except ValueError:
+            reported_position = None
             position, duration = 0, 0
+        track_key = (artist, title, album, length)
+        now = time.monotonic()
+        unchanged_report = (
+            track_key == self.track_key
+            and status == "Playing"
+            and self.player_status == "Playing"
+            and self.last_reported_position is not None
+            and abs(position - self.last_reported_position) < 0.25
+        )
+        # Some players (notably browser MPRIS integrations) only publish a new
+        # Position when playback state changes.  Keep time moving locally while
+        # their reported position is unchanged; a real seek or fresh position
+        # update resets this anchor on the next poll.
+        if unchanged_report:
+            position = self.displayed_position()
+        self.track_key = track_key
+        self.player_status = status
+        self.last_reported_position = reported_position
+        self.position_anchor = position
+        self.position_anchor_at = now
+        self.duration = duration
         self.status.set_text(title or "UNTITLED")
         self.artist.set_text(artist or "UNKNOWN ARTIST")
         self.album.set_text(album or "")
-        self.progress.set_fraction(min(position / duration, 1) if duration else 0)
-        self.time.set_text(f"{self.format_time(position)} / {self.format_time(duration)}")
+        self.tick_progress()
         self.play_button.set_label("PAUSE" if status == "Playing" else "PLAY")
 
         volume = playerctl("volume")
