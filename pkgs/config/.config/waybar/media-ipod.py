@@ -6,6 +6,7 @@ import os
 import signal
 import subprocess
 import sys
+import threading
 import time
 
 import gi
@@ -84,9 +85,12 @@ class RetroMediaIpad(Gtk.Window):
         self.position_anchor = 0.0
         self.position_anchor_at = time.monotonic()
         self.duration = 0.0
+        self.duration_cache = {}
+        self.follow_process = None
 
         self.install_css()
         self.build_ui()
+        self.start_metadata_watcher()
         self.refresh()
         GLib.timeout_add_seconds(1, self.refresh)
         GLib.timeout_add(250, self.tick_progress)
@@ -180,6 +184,34 @@ class RetroMediaIpad(Gtk.Window):
             return
         playerctl("volume", f"{slider.get_value() / 100:.2f}")
 
+    def start_metadata_watcher(self):
+        """Cache transient MPRIS lengths which Firefox clears after switching media."""
+        def watch():
+            try:
+                self.follow_process = subprocess.Popen(
+                    (
+                        "playerctl", *PLAYER, "metadata", "--follow", "--format",
+                        "{{artist}}\x1f{{title}}\x1f{{album}}\x1f{{mpris:length}}",
+                    ),
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.DEVNULL,
+                    text=True,
+                    bufsize=1,
+                )
+                assert self.follow_process.stdout is not None
+                for line in self.follow_process.stdout:
+                    artist, title, album, length = (line.strip().split(SEPARATOR) + [""] * 4)[:4]
+                    try:
+                        duration = float(length) / 1_000_000
+                    except ValueError:
+                        continue
+                    if duration > 0:
+                        self.duration_cache[(artist, title, album)] = duration
+            except OSError:
+                pass
+
+        threading.Thread(target=watch, name="retro-media-metadata", daemon=True).start()
+
     def displayed_position(self):
         if self.player_status == "Playing":
             elapsed = time.monotonic() - self.position_anchor_at
@@ -188,7 +220,12 @@ class RetroMediaIpad(Gtk.Window):
 
     def tick_progress(self):
         position = self.displayed_position()
-        self.progress.set_fraction(min(position / self.duration, 1) if self.duration else 0)
+        if self.duration:
+            self.progress.set_fraction(min(position / self.duration, 1))
+        elif self.player_status == "Playing":
+            self.progress.pulse()
+        else:
+            self.progress.set_fraction(0)
         self.time.set_text(f"{self.format_time(position)} / {self.format_time(self.duration)}")
         return True
 
@@ -213,15 +250,21 @@ class RetroMediaIpad(Gtk.Window):
             return True
 
         status, artist, title, album, length = (metadata.split(SEPARATOR) + [""] * 5)[:5]
+        track_key = (artist, title, album)
         position_text = playerctl("position")
         try:
             reported_position = float(position_text)
             position = reported_position
-            duration = float(length) / 1_000_000
         except ValueError:
             reported_position = None
-            position, duration = 0, 0
-        track_key = (artist, title, album, length)
+            position = 0
+        try:
+            reported_duration = float(length) / 1_000_000
+        except ValueError:
+            reported_duration = 0
+        if reported_duration > 0:
+            self.duration_cache[track_key] = reported_duration
+        duration = self.duration_cache.get(track_key, 0.0)
         now = time.monotonic()
         unchanged_report = (
             track_key == self.track_key
@@ -260,6 +303,10 @@ class RetroMediaIpad(Gtk.Window):
 
     @staticmethod
     def quit(*_args):
+        window = _args[0] if _args else None
+        process = getattr(window, "follow_process", None)
+        if process and process.poll() is None:
+            process.terminate()
         try:
             os.unlink(PIDFILE)
         except FileNotFoundError:
