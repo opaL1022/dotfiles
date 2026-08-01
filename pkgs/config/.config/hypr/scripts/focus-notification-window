@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+# Focus an already-open window only after SwayNC reports a user-invoked action.
+# SwayNC supplies the notification metadata as environment variables.
+set -euo pipefail
+
+app_name=${SWAYNC_APP_NAME:-}
+desktop_entry=${SWAYNC_DESKTOP_ENTRY:-}
+
+[[ -n $app_name || -n $desktop_entry ]] || exit 0
+
+address=$(hyprctl clients -j | jq -r --arg app "$app_name" --arg desktop "$desktop_entry" '
+  def normalized: ascii_downcase | gsub("[^a-z0-9]"; "");
+  def score($value; $targets):
+    if $value == "" then 0
+    elif ($targets | index($value)) != null then 100
+    elif any($targets[]; endswith($value)) then 80
+    elif any($targets[]; . as $target | $value | endswith($target)) then 60
+    else 0
+    end;
+
+  . as $clients
+  | ([$app, $desktop]
+     | map(normalized | sub("desktop$"; "") | select(length > 0))
+     | unique) as $targets
+  | [ $clients[]
+      | ((.class // "") | normalized) as $class
+      | ((.initialClass // "") | normalized) as $initial_class
+      | {
+          address,
+          score: ([score($class; $targets), score($initial_class; $targets)] | max)
+        }
+    ]
+  | map(select(.score > 0))
+  | sort_by(.score)
+  | last.address // empty
+')
+
+[[ -n $address ]] || exit 0
+# Lua-config Hyprland requires a Lua dispatcher expression; the legacy
+# `hyprctl dispatch focuswindow address:...` form is parsed as invalid Lua.
+hyprctl --quiet eval "hl.dispatch(hl.dsp.focus({ window = \"address:$address\" }))"
