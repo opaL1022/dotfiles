@@ -1,5 +1,31 @@
 #!/usr/bin/env python3
-import argparse, json, shutil, subprocess, sys, time
+import argparse, json, os, shutil, subprocess, sys, time
+
+SEPARATOR = "\x1f"
+DURATION_CACHE = os.path.join(os.environ.get("XDG_RUNTIME_DIR", "/tmp"), "retro-media-durations.json")
+
+def cache_duration(artist, title, album, length):
+    """Persist a valid MPRIS duration before browser integrations clear it."""
+    try:
+        duration = float(length) / 1_000_000
+    except ValueError:
+        return
+    if duration <= 0:
+        return
+    key = SEPARATOR.join((artist, title, album))
+    try:
+        with open(DURATION_CACHE, encoding="utf-8") as handle:
+            durations = json.load(handle)
+    except (FileNotFoundError, json.JSONDecodeError):
+        durations = {}
+    durations[key] = duration
+    # A media-session cache should remain small even after a long browser session.
+    while len(durations) > 128:
+        durations.pop(next(iter(durations)))
+    temporary = DURATION_CACHE + ".new"
+    with open(temporary, "w", encoding="utf-8") as handle:
+        json.dump(durations, handle, ensure_ascii=False)
+    os.replace(temporary, DURATION_CACHE)
 
 def sh(*args, text=True, timeout=2):
     try:
@@ -58,12 +84,13 @@ def get_shuffle(player):
     return sh("playerctl", *get_player_arg(player), "shuffle")
 
 def current_snapshot(player, max_len):
-    fmt = "{{status}}|{{playerName}}|{{artist}}|{{title}}|{{album}}"
+    fmt = SEPARATOR.join(("{{status}}", "{{playerName}}", "{{artist}}", "{{title}}", "{{album}}", "{{mpris:length}}"))
     meta = sh("playerctl", *get_player_arg(player), "metadata", "--format", fmt)
     if not meta:
         return None
 
-    status, pname, artist, title, album = (meta.split("|") + ["", "", "", "", ""])[:5]
+    status, pname, artist, title, album, length = (meta.split(SEPARATOR) + ["", "", "", "", "", ""])[:6]
+    cache_duration(artist, title, album, length)
     vol = get_volume(player)
     lp = get_loop(player)
     shuf = get_shuffle(player)
@@ -89,7 +116,7 @@ def current_snapshot(player, max_len):
 
 def follow_stream(player, max_len):
     # 監聽 metadata 變更；format 內含 status/player/artist/title/album
-    fmt = "{{status}}|{{playerName}}|{{artist}}|{{title}}|{{album}}"
+    fmt = SEPARATOR.join(("{{status}}", "{{playerName}}", "{{artist}}", "{{title}}", "{{album}}", "{{mpris:length}}"))
     proc = subprocess.Popen(
         ["playerctl", *get_player_arg(player), "metadata", "--format", fmt, "--follow"],
         stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True, bufsize=1
@@ -126,9 +153,10 @@ def main():
                 if not line:
                     continue
                 try:
-                    status, pname, artist, title, album = (line.split("|") + ["", "", "", "", ""])[:5]
+                    status, pname, artist, title, album, length = (line.split(SEPARATOR) + ["", "", "", "", "", ""])[:6]
                 except ValueError:
                     continue
+                cache_duration(artist, title, album, length)
 
                 vol = get_volume(args.player) if args.poll_volume else ""
                 lp  = get_loop(args.player)   if args.poll_volume else ""
@@ -163,4 +191,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

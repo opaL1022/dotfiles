@@ -2,6 +2,7 @@
 """A small retro iPod-like MPRIS controller for the Waybar media module."""
 
 import argparse
+import json
 import os
 import signal
 import subprocess
@@ -18,6 +19,7 @@ from gi.repository import Gdk, GLib, Gtk  # noqa: E402
 
 PLAYER = ("-p", "spotify,mpd,%any")
 PIDFILE = os.path.join(os.environ.get("XDG_RUNTIME_DIR", "/tmp"), "retro-media-ipod.pid")
+DURATION_CACHE_FILE = os.path.join(os.environ.get("XDG_RUNTIME_DIR", "/tmp"), "retro-media-durations.json")
 SEPARATOR = "\x1f"
 
 
@@ -30,6 +32,15 @@ def playerctl(*arguments):
         text=True,
     )
     return result.stdout.strip() if result.returncode == 0 else ""
+
+
+def shared_duration(track_key):
+    try:
+        with open(DURATION_CACHE_FILE, encoding="utf-8") as handle:
+            durations = json.load(handle)
+        return float(durations.get(SEPARATOR.join(track_key), 0))
+    except (FileNotFoundError, json.JSONDecodeError, TypeError, ValueError):
+        return 0.0
 
 
 def active_pid():
@@ -215,7 +226,8 @@ class RetroMediaIpad(Gtk.Window):
     def displayed_position(self):
         if self.player_status == "Playing":
             elapsed = time.monotonic() - self.position_anchor_at
-            return min(self.position_anchor + elapsed, self.duration)
+            position = self.position_anchor + elapsed
+            return min(position, self.duration) if self.duration else position
         return self.position_anchor
 
     def tick_progress(self):
@@ -264,7 +276,7 @@ class RetroMediaIpad(Gtk.Window):
             reported_duration = 0
         if reported_duration > 0:
             self.duration_cache[track_key] = reported_duration
-        duration = self.duration_cache.get(track_key, 0.0)
+        duration = self.duration_cache.get(track_key, shared_duration(track_key))
         now = time.monotonic()
         unchanged_report = (
             track_key == self.track_key
