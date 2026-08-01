@@ -91,6 +91,23 @@ hl.window_rule({
     no_focus = true,
 })
 
+-- Keep background applications from stealing the current workspace.  Hyprland
+-- marks every activation request as urgent before it considers focusing it, so
+-- the global default must remain off: a completed background job can still
+-- light Waybar's workspace indicator without moving us away.
+--
+-- Zen is the intentional exception.  Its activation usually comes from a
+-- manually clicked link or Zen notification, so only those workflows may
+-- bring an existing browser workspace forward.  Hyprland does not expose the
+-- original input event here, thus this is deliberately app-scoped rather than
+-- claiming to distinguish clicks from every possible background activation.
+hl.window_rule({
+    name  = "focus-zen-on-user-activation",
+    match = { class = "^zen$" },
+
+    focus_on_activate = true,
+})
+
 
 -------------
 -- SOURCES --
