@@ -172,7 +172,7 @@
       "escape": true,
       "tail": true,
       "exec": "$HOME/.config/waybar/mediaplayer.py --player spotify,mpd,%any --max-length 30",
-      "on-click": "playerctl -p spotify,mpd,%any play-pause",
+      "on-click": "$HOME/.config/waybar/media-ipod.py --toggle",
       "on-click-right": "playerctl -p spotify,mpd,%any next",
       "on-click-middle": "playerctl -p spotify,mpd,%any previous",
       "on-scroll-up": "playerctl -p spotify,mpd,%any volume 0.02+",

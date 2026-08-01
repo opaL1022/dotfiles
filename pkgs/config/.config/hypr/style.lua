@@ -131,3 +131,12 @@ hl.window_rule({ match = { class = "discord" },       opacity = "1" })
 hl.window_rule({ match = { class = "Brave-browser" }, opacity = "1" })
 hl.window_rule({ match = { class = "librewolf" },     opacity = "1" })
 hl.window_rule({ match = { class = "rofi" },          animation = "slide" })
+-- The Waybar media click target opens a small GTK iPod-style controller.
+-- Make its fixed-size dialog float instead of consuming a tiling column.
+hl.window_rule({
+    name = "retro-media-ipod",
+    match = { class = "media-ipod.py" },
+    float = true,
+    size = { 390, 486 },
+    center = true,
+})
