@@ -3,6 +3,7 @@ import argparse, json, os, shutil, subprocess, sys, time
 
 SEPARATOR = "\x1f"
 DURATION_CACHE = os.path.join(os.environ.get("XDG_RUNTIME_DIR", "/tmp"), "retro-media-durations.json")
+TRACK_STATE = os.path.join(os.environ.get("XDG_RUNTIME_DIR", "/tmp"), "retro-media-track-state.json")
 
 def cache_duration(artist, title, album, length):
     """Persist a valid MPRIS duration before browser integrations clear it."""
@@ -26,6 +27,47 @@ def cache_duration(artist, title, album, length):
     with open(temporary, "w", encoding="utf-8") as handle:
         json.dump(durations, handle, ensure_ascii=False)
     os.replace(temporary, DURATION_CACHE)
+
+def record_track_state(status, artist, title, album):
+    """Maintain a local playback clock for players that report Position as zero."""
+    key = [artist, title, album]
+    now = time.time()
+    try:
+        with open(TRACK_STATE, encoding="utf-8") as handle:
+            previous = json.load(handle)
+    except (FileNotFoundError, json.JSONDecodeError):
+        previous = {}
+
+    same_track = previous.get("track") == key
+    previous_status = previous.get("status")
+    known_position = float(previous.get("position", 0))
+    if previous_status == "Playing" and same_track:
+        known_position = max(0, now - float(previous.get("anchor_at", now)))
+
+    if status == "Playing":
+        # Keep an existing anchor; a new track or a resume starts from its
+        # saved position.  Firefox often only sends these metadata events.
+        position = known_position if same_track else 0
+        state = {
+            "track": key,
+            "status": "Playing",
+            "position": position,
+            "anchor_at": now - position,
+        }
+    elif status == "Paused":
+        state = {
+            "track": key,
+            "status": "Paused",
+            "position": known_position if same_track else 0,
+            "anchor_at": now,
+        }
+    else:
+        return
+
+    temporary = TRACK_STATE + ".new"
+    with open(temporary, "w", encoding="utf-8") as handle:
+        json.dump(state, handle, ensure_ascii=False)
+    os.replace(temporary, TRACK_STATE)
 
 def sh(*args, text=True, timeout=2):
     try:
@@ -142,6 +184,9 @@ def main():
         print(json.dumps({"text":"No player","class":"media idle"}), flush=True)
 
     # 進入跟隨模式
+    # playerctl --follow immediately repeats the snapshot.  It has no reliable
+    # start time, so only subsequent events are allowed to create an anchor.
+    skip_initial_state_event = snap is not None
     while True:
         proc = follow_stream(args.player, args.max_length)
         if not proc or not proc.stdout:
@@ -157,6 +202,10 @@ def main():
                 except ValueError:
                     continue
                 cache_duration(artist, title, album, length)
+                if skip_initial_state_event:
+                    skip_initial_state_event = False
+                else:
+                    record_track_state(status, artist, title, album)
 
                 vol = get_volume(args.player) if args.poll_volume else ""
                 lp  = get_loop(args.player)   if args.poll_volume else ""

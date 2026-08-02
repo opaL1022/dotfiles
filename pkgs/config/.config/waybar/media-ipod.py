@@ -20,6 +20,7 @@ from gi.repository import Gdk, GLib, Gtk  # noqa: E402
 PLAYER = ("-p", "spotify,mpd,%any")
 PIDFILE = os.path.join(os.environ.get("XDG_RUNTIME_DIR", "/tmp"), "retro-media-ipod.pid")
 DURATION_CACHE_FILE = os.path.join(os.environ.get("XDG_RUNTIME_DIR", "/tmp"), "retro-media-durations.json")
+TRACK_STATE_FILE = os.path.join(os.environ.get("XDG_RUNTIME_DIR", "/tmp"), "retro-media-track-state.json")
 SEPARATOR = "\x1f"
 
 
@@ -39,6 +40,21 @@ def shared_duration(track_key):
         with open(DURATION_CACHE_FILE, encoding="utf-8") as handle:
             durations = json.load(handle)
         return float(durations.get(SEPARATOR.join(track_key), 0))
+    except (FileNotFoundError, json.JSONDecodeError, TypeError, ValueError):
+        return 0.0
+
+
+def shared_position(track_key):
+    """Return the Waybar follower's local position estimate for this track."""
+    try:
+        with open(TRACK_STATE_FILE, encoding="utf-8") as handle:
+            state = json.load(handle)
+        if state.get("track") != list(track_key):
+            return 0.0
+        position = float(state.get("position", 0))
+        if state.get("status") == "Playing":
+            position += max(0, time.time() - float(state.get("anchor_at", time.time())))
+        return position
     except (FileNotFoundError, json.JSONDecodeError, TypeError, ValueError):
         return 0.0
 
@@ -284,6 +300,12 @@ class RetroMediaIpad(Gtk.Window):
         if reported_duration > 0:
             self.duration_cache[track_key] = reported_duration
         duration = self.duration_cache.get(track_key, shared_duration(track_key))
+        cached_position = shared_position(track_key)
+        # Firefox can leave Position at 0 for a whole video.  Prefer the
+        # Waybar follower's clock only when MPRIS has clearly provided no
+        # usable position; a real player-reported seek still wins.
+        if (reported_position is None or reported_position < 0.25) and cached_position >= 0.25:
+            position = cached_position
         now = time.monotonic()
         unchanged_report = (
             track_key == self.track_key
